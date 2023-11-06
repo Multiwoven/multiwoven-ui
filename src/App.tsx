@@ -17,6 +17,7 @@ import { Settings } from './components/settings';
 import { SourceShow } from './components/sources/show';
 import { DestinationShow } from './components/destination/show';
 import { Models } from './components/models';
+import { ModelShow } from './components/models/show';
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/destinations/show/:id" element={<DestinationShow />} />
 
           <Route path="/models" element={<Models />} />
+          <Route path="/models/show/:id" element={<ModelShow />} />
 
           <Route path="/settings" element={<Settings />} />
           {/* 

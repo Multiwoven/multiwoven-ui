@@ -6,7 +6,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Breadcrumb } from '../common/breadcrumb'
 
 export const Models = () => {
-
     const models = [
         {
             model_name: 'Contacts',
