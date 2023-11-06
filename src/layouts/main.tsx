@@ -34,7 +34,7 @@ export const Layout =()=> {
   
   const secondaryNavigation = [
     { name: 'Settings', to: '/settings', new: false, icon: CogIcon, current: location.pathname === '/settings'  },
-    { name: 'Documentation', to: 'https://multiwoven.readme.io/reference/getting-started-with-your-api', new: true, icon: BookOpenIcon, current: false  },
+    { name: 'Documentation', to: 'https://www.docs.multiwoven.com/', new: true, icon: BookOpenIcon, current: false  },
     { name: 'Privacy', to: '#', new: false, icon: ShieldCheckIcon, current: location.pathname === '/privacy'  },
   ]
   
