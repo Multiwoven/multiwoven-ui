@@ -115,8 +115,8 @@ export const Models = () => {
                         <tbody className="divide-y divide-gray-200 bg-white">
                             {models.map((model) => (
                             <tr key={model.model_name} onClick={() => handleModelOpen(model.uuid)} className='cursor-pointer'>
-                                <td className="whitespace-nowrap px- py-5 text-sm text-gray-700 text-left">
-                                    <p className='font-bold'>{model.model_name}</p>
+                                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                                    {model.model_name}
                                 </td>
                                 <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                                     <div className="flex items-center">
@@ -129,7 +129,7 @@ export const Models = () => {
                                     </div>
                                 </td>
                                 <td className="whitespace-nowrap px-1 py-5 text-sm text-gray-500 text-left">
-                                    <p className='font-semibold'>11/03/23</p>
+                                    11/03/23
                                 </td>
                                     <td className="whitespace-nowrap px-1 py-5 text-sm text-gray-500 text-left">
                                         {model.tags.map((tag) => (

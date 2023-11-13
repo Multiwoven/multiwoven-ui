@@ -90,13 +90,13 @@ export const ModelDefine = () => {
                                 <div className="ml-4 mt-4 flex flex-shrink-0">
                                 <button
                                     type="button"
-                                    className="relative inline-flex items-center rounded-md mr-2 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                    className="relative inline-flex items-center rounded-md mr-2 bg-white px-3 py-2 text-sm font-medium text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                                 >
                                     <span>Run Query</span>
                                 </button>
                                 <button
                                     type="button"
-                                    className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                                    className="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                                 >
                                     <span>Beautify</span>
                                 </button>
@@ -125,12 +125,12 @@ export const ModelDefine = () => {
                                 }}/>
                         </div>
                         <div className="border-b border-r border-l border-t h-64 mt-3 border-gray-200 bg-white px-1 py-2 sm:px-3">
-                            <h1>Run your query to see the results</h1>
+                            <h1 className="text-sm">Run your query to see the results</h1>
                         </div>
                     </div>
                     <div className="w-full md:w-1/3 p-4 relative">
                         <div className="px-4 sm:px-0">
-                            <h3 className="text-base font-semibold leading-7 text-gray-900 mb-3">Primary Key</h3>
+                        <h3 className="text-sm font-medium text-gray-900">Primary Key</h3>
                             <div className="flex flex-row justify-around">
                                 { showPK ?
                                     <select
@@ -160,23 +160,23 @@ export const ModelDefine = () => {
                                 className="relative rounded-md ml-2 mt-2 h-fit p-2 bg-white text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100"
                                 onClick={getPrimaryKeys}
                                 >
-                                <ArrowPathIcon className="h-6" />
+                                <ArrowPathIcon className="h-5" />
                                 </div>
                             </div>
                         </div>
                         <div className="px-4 sm:px-0 mt-3">
-                        <h3 className="text-base font-semibold leading-7 text-gray-900 mb-3">Model Name</h3>
+                        <h3 className="text-sm font-medium text-gray-900">Model Name</h3>
                             <input
                                 type="name"
                                 name="modelName"
                                 id="modelName"
-                                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                                 placeholder="Model Name"
                             />
                         </div>
                         <button
                             type="button"
-                            className="w-full rounded-md px-3 py-2 mt-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 bg-orange-500 hover:bg-orange-600"
+                            className="w-full rounded-md px-3 py-2 mt-4 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 bg-orange-500 hover:bg-orange-600"
                             disabled={!showPK}
                             onClick={handleNewModel}
                         >
