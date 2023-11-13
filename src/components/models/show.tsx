@@ -200,7 +200,7 @@ export const ModelShow = () => {
                     </div>
                     <div className="w-full md:w-1/3 p-4 relative">
                         <div className="px-4 sm:px-0">
-                                    <h3 className="text-base font-semibold leading-7 text-gray-900 mb-3">Primary Key</h3>
+                            <h3 className="text-sm font-medium text-gray-900">Primary Key</h3>
                                 <select
                                     title="Primary Key"
                                     id="location"
