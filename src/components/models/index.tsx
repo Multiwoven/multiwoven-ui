@@ -114,9 +114,9 @@ export const Models = () => {
                         </thead>
                         <tbody className="divide-y divide-gray-200 bg-white">
                             {models.map((model) => (
-                            <tr key={model.model_name} onClick={() => handleModelOpen(model.uuid)} className='hover:bg-stone-100 cursor-pointer'>
+                            <tr key={model.model_name} onClick={() => handleModelOpen(model.uuid)} className='cursor-pointer'>
                                 <td className="whitespace-nowrap px- py-5 text-sm text-gray-700 text-left">
-                                    <p className='font-medium'>{model.model_name}</p>
+                                    <p className='font-bold'>{model.model_name}</p>
                                 </td>
                                 <td className="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                                     <div className="flex items-center">
