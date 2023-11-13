@@ -87,7 +87,8 @@ export const Models = () => {
                         type="button"
                         className="inline-flex items-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
-                        Add Model
+                            <PlusIcon className="h-5 w-5 mr-1" aria-hidden="true" />
+                            Model
                         </button>
                         </Link>
                     </div>
@@ -98,17 +99,17 @@ export const Models = () => {
                     <table className="min-w-full divide-y divide-gray-300">
                         <thead>
                             <tr>
-                                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold uppercase text-gray-900 sm:pl-0">
+                                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
                                     Name
                                 </th>
-                                <th scope="col" className="px-1 py-3.5 text-left text-sm font-semibold uppercase text-gray-900">
+                                <th scope="col" className="px-1 py-3.5 text-left text-sm font-semibold text-gray-900">
                                     Type
                                 </th>
-                                <th scope="col" className="px-1 py-3.5 text-left text-sm font-semibold uppercase text-gray-900">
+                                <th scope="col" className="px-1 py-3.5 text-left text-sm font-semibold text-gray-900">
                                     Last Updated
                                 </th>
-                                <th scope="col" className="px-1 w-1/5 py-3.5 text-left text-sm font-semibold uppercase text-gray-900">
-                                    Tags
+                                <th scope="col" className="px-1 w-1/5 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                    Status
                                 </th>
                             </tr>
                         </thead>

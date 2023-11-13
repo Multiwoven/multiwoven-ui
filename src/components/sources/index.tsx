@@ -62,7 +62,8 @@ export const Sources = () => {
                             type="button"
                             className="inline-flex items-center rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
-                            Add Source
+                                <PlusIcon className="h-5 w-5 mr-1" aria-hidden="true" />
+                                Source
                             </button>
                             </Link>
                         </div>
@@ -71,22 +72,22 @@ export const Sources = () => {
                         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                                 <table className="min-w-full divide-y divide-gray-300">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold uppercase text-gray-900 sm:pl-0">
-                                                Name
-                                            </th>
-                                            <th scope="col" className="px-1 py-3.5 text-left text-sm font-semibold uppercase text-gray-900">
-                                                Database
-                                            </th>
-                                            <th scope="col" className="px-1 py-3.5 text-left text-sm font-semibold uppercase text-gray-900">
-                                                Last Updated
-                                            </th>
-                                            <th scope="col" className="px-1 py-3.5 text-right text-sm font-semibold uppercase text-gray-900">
-                                                Status
-                                            </th>
-                                        </tr>
-                                    </thead>
+                                <thead>
+                                    <tr>
+                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                                            Name
+                                        </th>
+                                        <th scope="col" className="px-1 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                            Database
+                                        </th>
+                                        <th scope="col" className="px-1 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                            Last Updated
+                                        </th>
+                                        <th scope="col" className="px-1 py-3.5 text-right text-sm font-semibold text-gray-900">
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
                                     <tbody className="divide-y divide-gray-200 bg-white">
                                         {sources.map((source) => (
                                         <tr key={source.name} onClick={() => handleSourceOpen(source.uuid)} className='hover:bg-stone-100 cursor-pointer'>
@@ -105,7 +106,7 @@ export const Sources = () => {
                                                 <div className="mt-1 text-gray-500">Connected {source.connected} ago</div>
                                             </td>
                                             <td className="whitespace-nowrap px-1 py-5 text-sm text-gray-500 text-left">
-                                                <p className='font-semibold'>11/03/23</p>
+                                                11/03/23
                                             </td>
                                             <td className="whitespace-nowrap px-1 py-5 text-sm text-gray-500 text-right">
                                                 <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
