@@ -14,17 +14,14 @@ const LoginSchema = Yup.object().shape({
 });
 
 function Login() {
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate();
 
     const handleSubmit = async (values:any, actions:any) => {
         try {
-            await login(values.email, values.password);
-            console.log('Login successful');
-            navigate('/'); // Redirect to home page
-        } catch (error) {
-            console.error('Login failed:', error);
-            // Handle login error in the UI
-        }
+            const token =  await login(values.email, values.password);
+            sessionStorage.setItem("token",token);
+            navigate('/');
+        } catch (error) { }
         actions.setSubmitting(false);
     };
     return (
