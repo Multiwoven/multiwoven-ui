@@ -1,7 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import MultiwovenLogo from '../../assets/images/multiwoven-logo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import login from '@/services/login';
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -13,6 +14,19 @@ const LoginSchema = Yup.object().shape({
 });
 
 function Login() {
+    const navigate = useNavigate(); // Hook for navigation
+
+    const handleSubmit = async (values:any, actions:any) => {
+        try {
+            await login(values.email, values.password);
+            console.log('Login successful');
+            navigate('/'); // Redirect to home page
+        } catch (error) {
+            console.error('Login failed:', error);
+            // Handle login error in the UI
+        }
+        actions.setSubmitting(false);
+    };
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -32,11 +46,7 @@ function Login() {
                     <Formik
                         initialValues={{ email: '', password: '' }}
                         validationSchema={LoginSchema}
-                        onSubmit={(values, actions) => {
-                            
-                            console.log(values);
-                            actions.setSubmitting(false);
-                        }}
+                        onSubmit={handleSubmit}
                     >
                         <Form className="space-y-6">
                             <div>
