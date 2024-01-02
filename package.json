@@ -2,7 +2,6 @@
   "name": "vite-project",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -28,6 +27,7 @@
     "yup": "^1.3.3"
   },
   "devDependencies": {
+    "@testing-library/react": "^14.1.2",
     "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
@@ -44,9 +44,5 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "wait-on": "^7.2.0"
-  },
-  "jest": {
-    "collectCoverage": true,
-    "coverageReporters": ["lcov", "text"]
   }
 }
