@@ -1,8 +1,8 @@
 import { extendTheme } from "@chakra-ui/react"
 
-export const theme = extendTheme({
+export const themePro = extendTheme({
     colors: {
-      mw_orange: "#E63D2D",
+      mw_orange: "#F54C3D",
       secondary: "#731447",
       nav_bg: "#2d3748",
       nav_text:"#a0aec0",
