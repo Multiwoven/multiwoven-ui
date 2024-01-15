@@ -1,6 +1,6 @@
 import TopBar from './topBar';
 import { topBarConfigType } from "../../services/common";
-import { Container, Box, Center, Image, Flex, Text } from "@chakra-ui/react";
+import { Container, Box, Image, Flex, Text } from "@chakra-ui/react";
 import SQL from '../../assets/images/sql.svg';
 import Table from '../../assets/images/table.svg';
 import DBT from '../../assets/images/dbt.svg';
@@ -39,7 +39,7 @@ const Method = (): JSX.Element => {
                     borderRadius={{ base: 'none', md: 'lg' }}
                 >
                     {methods.map((item) => (
-                        <Box cursor={'pointer'} borderRadius={'5px'} borderColor={'#EAECF0'} p="5" maxW="310px" borderWidth="1px">
+                        <Box key={item.heading} cursor={'pointer'} borderRadius={'5px'} borderColor={'#EAECF0'} p="5" maxW="310px" borderWidth="1px">
                             <Image borderRadius="md" src={item.image} />
                             <Text color={'dark_gray'} mt={2} fontSize="18px" fontWeight="semibold" lineHeight="short">
                                 {item.heading}
