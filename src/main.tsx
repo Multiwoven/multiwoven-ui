@@ -6,8 +6,6 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { theme } from './theme'
 import "./assets/styles/common_styles.scss"
 import { themePro } from "./chakra.config";
-//import { ChakraProvider } from "@chakra-ui/provider";
-// const proTheme = extendTheme(theme)
 const extenstion = {
   colors: {
     ...themePro.colors,
