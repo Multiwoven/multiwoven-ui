@@ -5,6 +5,12 @@ interface ApiResponse {
     response?: any;
 }
 
+export interface topBarConfigType {
+    heading: string,
+    button_text: string,
+    Step: number,
+}
+
 const apiRequest = async (url: string, values: any): Promise<ApiResponse> => {
     let data = JSON.stringify(values);
     let response;
@@ -35,4 +41,8 @@ export const accountVerify = async (values: any): Promise<ApiResponse> => {
 
 export const getAllModels = async (): Promise<ApiResponse> => {
     return apiRequest('/models', null);
+};
+
+export const getAllConnectors = async (): Promise<ApiResponse> => {
+    return apiRequest('/connectors', null);
 };

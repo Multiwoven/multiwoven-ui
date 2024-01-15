@@ -5,12 +5,19 @@ import {
 } from '@chakra-ui/react'
 import ModdelTable from "./table";
 import TopBar from './topBar';
+import { topBarConfigType } from "../../services/common";
 
+
+const topBarConfig: topBarConfigType = {
+    heading: 'Model',
+    button_text: 'Add Model',
+    Step: 0,
+}
 const Models = (): JSX.Element => {
 
     return (
         <Container minW={'100%'}>
-            <TopBar />
+            <TopBar topBarConfig={topBarConfig} />
             <Box
                 bg="bg.surface"
                 boxShadow={{ base: 'none', md: 'sm' }}
@@ -18,11 +25,11 @@ const Models = (): JSX.Element => {
             >
                 <Stack spacing="5">
                     <Box overflowX="auto">
-                        <ModdelTable />
+                        <ModdelTable mode_screen_type='models' />
                     </Box>
                 </Stack>
             </Box>
-           
+
         </Container>
     )
 }

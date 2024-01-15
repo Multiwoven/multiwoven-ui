@@ -1,17 +1,15 @@
 import {
     Avatar,
-    HStack,
     Table,
     Tbody,
     Td,
     Th,
     Thead,
     Tr,
-    Box,
     Text
 } from '@chakra-ui/react'
 import { useEffect } from 'react'
-import { getAllModels } from '@/services/common';
+import { getAllConnectors, getAllModels } from '@/services/common';
 const members = [
     {
         id: '1',
@@ -21,14 +19,25 @@ const members = [
         avatarUrl: 'https://bit.ly/code-beast',
     },
 ]
-const ModdelTable = (): JSX.Element => {
+const ModdelTable = (props: any): JSX.Element => {
 
     useEffect(() => {
-        fetchModels();
+        console.log("yes", props.mode_screen_type);
+        if (props.mode_screen_type === 'models') {
+            fetchModels();
+        } else if (props.mode_screen_type === 'sources') {
+            fetchConnectors();
+        }
+
     }, [])
 
     const fetchModels = async () => {
         const result = await getAllModels();
+        if (result.success) {
+        }
+    };
+    const fetchConnectors = async () => {
+        const result = await getAllConnectors();
         if (result.success) {
         }
     };
@@ -40,6 +49,7 @@ const ModdelTable = (): JSX.Element => {
                     <Th>Name</Th>
                     <Th>Method</Th>
                     <Th>Last Updated</Th>
+                    {props.mode_screen_type === 'sources' && <Th>Status</Th>}
                 </Tr>
             </Thead>
             <Tbody>
@@ -51,6 +61,7 @@ const ModdelTable = (): JSX.Element => {
                         </Td>
                         <Td><Text color="fg.muted">{member.method}</Text></Td>
                         <Td><Text color="fg.muted">{member.update_date}</Text></Td>
+                        {props.mode_screen_type === 'sources' && <Td><Text color="fg.muted">Active</Text></Td>}
                     </Tr>
                 ))}
             </Tbody>
