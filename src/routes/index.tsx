@@ -8,6 +8,7 @@ const SignUp = lazy(() => import("@/views/SignUp"));
 const AccountVerify = lazy(() => import("@/views/AccountVerify"));
 const Models = lazy(() => import("@/views/Models"));
 const ModelNew = lazy(() => import("@/views/Models/new"));
+const Method = lazy(() => import("@/views/Models/method"));
 
 import Cookies from 'js-cookie';
 
@@ -108,6 +109,15 @@ export const MAIN_PAGE_ROUTES: MAIN_PAGE_ROUTES_ITEM[] = [
     component: (
       <SuspenseWithLoader redirectRoute="/models/new">
         <ModelNew />
+      </SuspenseWithLoader>
+    ),
+  },
+  {
+    name: 'Methods',
+    url: '/models/new/:id/method',
+    component: (
+      <SuspenseWithLoader redirectRoute="/models/new/:id/method">
+        <Method />
       </SuspenseWithLoader>
     ),
   },

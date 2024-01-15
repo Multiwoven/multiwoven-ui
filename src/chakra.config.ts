@@ -9,7 +9,7 @@ export const themePro = extendTheme({
       primary:"#EB524C",
       hyperlink:"#5383EC",
       black:"#171923",
-      dark_gray:"#4b5563",
+      dark_gray:"#101828",
       border:"#E2E8F0"
     },
   })
