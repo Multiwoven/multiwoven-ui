@@ -10,12 +10,14 @@ import { topBarConfigType, emptyUIConfig } from "../../services/common";
 import { useEffect, useState } from 'react';
 import { getAllConnectors } from '@/services/common';
 import { Empty } from './empty';
+import emptIcon from '../../assets/images/empty.svg';
 
 const emptyUI: emptyUIConfig = {
     heading: 'No source added',
     description: 'Before you add a model, you need to first configure a data source',
     type: 'source',
-    button_text: 'Add Source'
+    button_text: 'Add Source',
+    image: emptIcon
 }
 
 const topBarConfig: topBarConfigType = {
@@ -38,8 +40,8 @@ const ModelNew = (): JSX.Element => {
     };
     return (
         <>
-            {connectorList.length > 0 ? (
-                <Container className='custom_main_model_form' minW={'100%'}>
+            <Container className='custom_main_model_form' minW={'100%'}>
+                {connectorList.length > 0 ? (
                     <Flex width={'100%'} maxW={'75%'} flexDirection={'column'}>
                         <TopBar topBarConfig={topBarConfig} />
                         <Box
@@ -53,9 +55,9 @@ const ModelNew = (): JSX.Element => {
                                 </Box>
                             </Stack>
                         </Box>
-                    </Flex>
-
-                </Container>) : <Empty emptyUI={emptyUI} />}
+                    </Flex>)
+                    : <Empty emptyUI={emptyUI} cancelPop={null} />}
+            </Container>
         </>
     )
 }

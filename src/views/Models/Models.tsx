@@ -9,6 +9,7 @@ import { topBarConfigType, emptyUIConfig } from "../../services/common";
 import { useEffect, useState } from 'react';
 import { getAllModels } from '@/services/common';
 import { Empty } from './empty';
+import emptIcon from '../../assets/images/empty.svg';
 const topBarConfig: topBarConfigType = {
     heading: 'Model',
     button_text: 'Add Model',
@@ -19,7 +20,8 @@ const emptyUI: emptyUIConfig = {
     heading: 'No models added',
     description: 'Add a model to describe how your data source will be queried',
     type: 'model',
-    button_text: 'Add Model'
+    button_text: 'Add Model',
+    image: emptIcon
 }
 
 const Models = (): JSX.Element => {
@@ -52,7 +54,7 @@ const Models = (): JSX.Element => {
                         </Stack>
                     </Box>
                 </Container>
-            ) : <Empty emptyUI={emptyUI} />}
+            ) : <Empty emptyUI={emptyUI} cancelPop={null} />}
         </>
     );
 }

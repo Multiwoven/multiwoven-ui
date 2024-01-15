@@ -15,6 +15,7 @@ export interface emptyUIConfig {
     description: string,
     type: string
     button_text: string
+    image: string
 }
 
 const apiRequest = async (url: string, values: any): Promise<ApiResponse> => {
