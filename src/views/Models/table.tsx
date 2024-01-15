@@ -8,40 +8,12 @@ import {
     Tr,
     Text
 } from '@chakra-ui/react'
-import { useEffect } from 'react'
-import { getAllConnectors, getAllModels } from '@/services/common';
-const members = [
-    {
-        id: '1',
-        method: 'SQL Query',
-        name: 'Model 1',
-        update_date: '11/08/2024',
-        avatarUrl: 'https://bit.ly/code-beast',
-    },
-]
+import { useEffect, useState } from 'react'
 const ModdelTable = (props: any): JSX.Element => {
-
+    const [list, setList] = useState<any>([])
     useEffect(() => {
-        console.log("yes", props.mode_screen_type);
-        if (props.mode_screen_type === 'models') {
-            fetchModels();
-        } else if (props.mode_screen_type === 'sources') {
-            fetchConnectors();
-        }
-
-    }, [])
-
-    const fetchModels = async () => {
-        const result = await getAllModels();
-        if (result.success) {
-        }
-    };
-    const fetchConnectors = async () => {
-        const result = await getAllConnectors();
-        if (result.success) {
-        }
-    };
-
+        setList(props?.modelList);
+    }, [props])
     return (
         <Table>
             <Thead>
@@ -53,7 +25,7 @@ const ModdelTable = (props: any): JSX.Element => {
                 </Tr>
             </Thead>
             <Tbody>
-                {members.map((member) => (
+                {list?.map((member: any) => (
                     <Tr key={member.id}>
                         <Td display={'flex'} alignItems={'center'}>
                             <Avatar mr={2} name={member.name} src={member.avatarUrl} boxSize="10" />

@@ -6,7 +6,6 @@ const TopBar = (props: any): JSX.Element => {
     const [barConfig, setBarConfig] = useState<any>({});
     const navigate = useNavigate()
     useEffect(() => {
-        console.log('props', props);
         setBarConfig(props.topBarConfig);
     }, [props]); // Add props as a dependency to useEffect
 

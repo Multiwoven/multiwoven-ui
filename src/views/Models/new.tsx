@@ -7,6 +7,8 @@ import {
 import ModdelTable from "./table";
 import TopBar from './topBar';
 import { topBarConfigType } from "../../services/common";
+import { useEffect, useState } from 'react';
+import { getAllConnectors } from '@/services/common';
 
 
 const topBarConfig: topBarConfigType = {
@@ -16,7 +18,17 @@ const topBarConfig: topBarConfigType = {
 }
 
 const ModelNew = (): JSX.Element => {
+    const [connectorList, setConnectorList] = useState<any>([]);
+    useEffect(() => {
+        fetchConnectors();
+    }, [])
 
+    const fetchConnectors = async () => {
+        const result = await getAllConnectors();
+        if (result.success) {
+            setConnectorList(result?.response?.data);
+        }
+    };
     return (
         <Container className='custom_main_model_form' minW={'100%'}>
             <Flex width={'100%'} maxW={'75%'} flexDirection={'column'}>
@@ -28,7 +40,7 @@ const ModelNew = (): JSX.Element => {
                 >
                     <Stack spacing="5">
                         <Box overflowX="auto">
-                            <ModdelTable mode_screen_type='sources' />
+                            <ModdelTable modelList={connectorList} mode_screen_type='sources' />
                         </Box>
                     </Stack>
                 </Box>
