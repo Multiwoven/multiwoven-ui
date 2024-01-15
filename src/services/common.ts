@@ -10,6 +10,12 @@ export interface topBarConfigType {
     button_text: string,
     Step: number,
 }
+export interface emptyUIConfig {
+    heading: string,
+    description: string,
+    type: string
+    button_text: string
+}
 
 const apiRequest = async (url: string, values: any): Promise<ApiResponse> => {
     let data = JSON.stringify(values);

@@ -1,8 +1,9 @@
+import { topBarConfigType } from '@/services/common';
 import { Box, Button, Stack, Heading, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-const TopBar = (props: any): JSX.Element => {
+const TopBar = (props: {topBarConfig:topBarConfigType}): JSX.Element => {
     const [barConfig, setBarConfig] = useState<any>({});
     const navigate = useNavigate()
     useEffect(() => {
