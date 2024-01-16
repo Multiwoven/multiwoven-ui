@@ -53,7 +53,7 @@ const TopBar = (props: { topBarConfig: topBarConfigType }): JSX.Element => {
                     </Stack>
                 </Stack>
             </Box>
-            {exitPop && <Container className='custom_main_model_form' minW={'100%'}><Empty emptyUI={emptyUI} cancelPop={()=>handleCancel()} /></Container>}
+            {exitPop && <Container className='custom_main_model_form exit' minW={'100%'}><Empty emptyUI={emptyUI} cancelPop={()=>handleCancel()} /></Container>}
         </>
     );
 };

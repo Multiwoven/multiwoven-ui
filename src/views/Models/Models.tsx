@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { getAllModels } from '@/services/common';
 import { Empty } from './empty';
 import emptIcon from '../../assets/images/empty.svg';
+
 const topBarConfig: topBarConfigType = {
     heading: 'Model',
     button_text: 'Add Model',
@@ -36,6 +37,7 @@ const Models = (): JSX.Element => {
             setModelsList(result?.response?.data);
         }
     };
+
 
     return (
         <>

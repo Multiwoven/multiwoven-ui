@@ -11,6 +11,7 @@ const ModelNew = lazy(() => import("@/views/Models/new"));
 const Method = lazy(() => import("@/views/Models/method"));
 
 import Cookies from 'js-cookie';
+import Define from "@/views/Models/define";
 
 type MAIN_PAGE_ROUTES_ITEM = {
   name: string;
@@ -118,6 +119,15 @@ export const MAIN_PAGE_ROUTES: MAIN_PAGE_ROUTES_ITEM[] = [
     component: (
       <SuspenseWithLoader redirectRoute="/models/new/:id/method">
         <Method />
+      </SuspenseWithLoader>
+    ),
+  },
+  {
+    name: 'Methods',
+    url: '/models/new/:id/define',
+    component: (
+      <SuspenseWithLoader redirectRoute="/models/new/:id/define">
+        <Define />
       </SuspenseWithLoader>
     ),
   },

@@ -13,6 +13,12 @@
 	height: 100%;
 	display: flex;
 	justify-content: center;
+	&.exit{
+		z-index: 999;
+	}
+}
+.editor_model{
+	position: relative;
 }
 
 //// TOAST CSS
