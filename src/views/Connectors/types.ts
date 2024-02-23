@@ -3,6 +3,7 @@ export type ConnectorTypes = "source" | "destination" | "model";
 export type DatasourceType = {
   icon: string;
   name: string;
+  connector_spec: Record<string, unknown>;
 };
 
 export type ApiResponse<T> = {
