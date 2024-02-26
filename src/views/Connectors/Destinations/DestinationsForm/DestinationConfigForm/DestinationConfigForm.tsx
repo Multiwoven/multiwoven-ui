@@ -79,7 +79,7 @@ const DestinationConfigForm = (): JSX.Element | null => {
               isBackRequired
               isDocumentsSectionRequired
               isContinueCtaRequired
-              documentationLink={data?.data?.documentation_url}
+              documentationLink={data?.data?.connector_spec?.documentation_url}
             />
           </Form>
         </Box>

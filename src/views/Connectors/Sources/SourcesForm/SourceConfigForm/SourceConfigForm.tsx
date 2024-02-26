@@ -78,7 +78,7 @@ const SourceConfigForm = (): JSX.Element | null => {
               isContinueCtaRequired
               isDocumentsSectionRequired
               isBackRequired
-              documentationLink={data?.data?.documentation_url}
+              documentationLink={data?.data?.connector_spec.documentation_url}
             />
           </Form>
         </Box>

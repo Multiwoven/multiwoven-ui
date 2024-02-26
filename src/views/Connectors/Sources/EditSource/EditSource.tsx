@@ -3,31 +3,31 @@ import {
   getConnectorDefinition,
   getConnectorInfo,
   updateConnector,
-} from '@/services/connectors';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+} from "@/services/connectors";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
 
-import validator from '@rjsf/validator-ajv8';
-import { Form } from '@rjsf/chakra-ui';
-import { Box, Button, useToast, Divider, Text } from '@chakra-ui/react';
-import SourceFormFooter from '../SourcesForm/SourceFormFooter';
-import TopBar from '@/components/TopBar';
-import ContentContainer from '@/components/ContentContainer';
-import { useEffect, useState } from 'react';
-import { CreateConnectorPayload, TestConnectionPayload } from '../../types';
-import { RJSFSchema } from '@rjsf/utils';
-import Loader from '@/components/Loader';
-import { Step } from '@/components/Breadcrumbs/types';
-import EntityItem from '@/components/EntityItem';
-import moment from 'moment';
-import ObjectFieldTemplate from '@/views/Connectors/Sources/rjsf/ObjectFieldTemplate';
-import TitleFieldTemplate from '@/views/Connectors/Sources/rjsf/TitleFieldTemplate';
-import FieldTemplate from '@/views/Connectors/Sources/rjsf/FieldTemplate';
-import { FormProps } from '@rjsf/core';
-import BaseInputTemplate from '@/views/Connectors/Sources/rjsf/BaseInputTemplate';
-import DescriptionFieldTemplate from '@/views/Connectors/Sources/rjsf/DescriptionFieldTemplate';
-import { uiSchemas } from '../SourcesForm/SourceConfigForm/SourceConfigForm';
-import SourceActions from './SourceActions';
+import validator from "@rjsf/validator-ajv8";
+import { Form } from "@rjsf/chakra-ui";
+import { Box, Button, useToast, Divider, Text } from "@chakra-ui/react";
+import SourceFormFooter from "../SourcesForm/SourceFormFooter";
+import TopBar from "@/components/TopBar";
+import ContentContainer from "@/components/ContentContainer";
+import { useEffect, useState } from "react";
+import { CreateConnectorPayload, TestConnectionPayload } from "../../types";
+import { RJSFSchema } from "@rjsf/utils";
+import Loader from "@/components/Loader";
+import { Step } from "@/components/Breadcrumbs/types";
+import EntityItem from "@/components/EntityItem";
+import moment from "moment";
+import ObjectFieldTemplate from "@/views/Connectors/Sources/rjsf/ObjectFieldTemplate";
+import TitleFieldTemplate from "@/views/Connectors/Sources/rjsf/TitleFieldTemplate";
+import FieldTemplate from "@/views/Connectors/Sources/rjsf/FieldTemplate";
+import { FormProps } from "@rjsf/core";
+import BaseInputTemplate from "@/views/Connectors/Sources/rjsf/BaseInputTemplate";
+import DescriptionFieldTemplate from "@/views/Connectors/Sources/rjsf/DescriptionFieldTemplate";
+import { uiSchemas } from "../SourcesForm/SourceConfigForm/SourceConfigForm";
+import SourceActions from "./SourceActions";
 
 const EditSource = (): JSX.Element => {
   const { sourceId } = useParams();
@@ -40,7 +40,7 @@ const EditSource = (): JSX.Element => {
 
   const { data: connectorInfoResponse, isLoading: isConnectorInfoLoading } =
     useQuery({
-      queryKey: ['connectorInfo', sourceId],
+      queryKey: ["connectorInfo", sourceId],
       queryFn: () => getConnectorInfo(sourceId as string),
       refetchOnMount: true,
       refetchOnWindowFocus: false,
@@ -54,8 +54,8 @@ const EditSource = (): JSX.Element => {
     data: connectorDefinitionResponse,
     isLoading: isConnectorDefinitionLoading,
   } = useQuery({
-    queryKey: ['connector_definition', connectorName],
-    queryFn: () => getConnectorDefinition('source', connectorName as string),
+    queryKey: ["connector_definition", connectorName],
+    queryFn: () => getConnectorDefinition("source", connectorName as string),
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     enabled: !!connectorName,
@@ -73,9 +73,9 @@ const EditSource = (): JSX.Element => {
       connector: {
         configuration: testedFormData,
         name: connectorInfo?.attributes?.name,
-        connector_type: 'source',
+        connector_type: "source",
         connector_name: connectorInfo?.attributes?.connector_name,
-        description: connectorInfo?.attributes?.description ?? '',
+        description: connectorInfo?.attributes?.description ?? "",
       },
     };
     return updateConnector(payload, sourceId as string);
@@ -85,20 +85,20 @@ const EditSource = (): JSX.Element => {
     mutationFn: handleOnSaveChanges,
     onSettled: () => {
       toast({
-        status: 'success',
-        title: 'Success!!',
-        description: 'Connector Updated',
-        position: 'bottom-right',
+        status: "success",
+        title: "Success!!",
+        description: "Connector Updated",
+        position: "bottom-right",
         isClosable: true,
       });
-      navigate('/setup/sources');
+      navigate("/setup/sources");
     },
     onError: () => {
       toast({
-        status: 'error',
-        title: 'Error!!',
-        description: 'Something went wrong',
-        position: 'bottom-right',
+        status: "error",
+        title: "Error!!",
+        description: "Something went wrong",
+        position: "bottom-right",
         isClosable: true,
       });
     },
@@ -113,18 +113,18 @@ const EditSource = (): JSX.Element => {
       const payload: TestConnectionPayload = {
         connection_spec: formData,
         name: connectorInfo?.attributes?.connector_name,
-        type: 'source',
+        type: "source",
       };
 
       const testingConnectionResponse = await getConnectionStatus(payload);
       const isConnectionSucceeded =
-        testingConnectionResponse?.connection_status?.status === 'succeeded';
+        testingConnectionResponse?.connection_status?.status === "succeeded";
 
       if (isConnectionSucceeded) {
         toast({
-          status: 'success',
-          title: 'Connection successful',
-          position: 'bottom-right',
+          status: "success",
+          title: "Connection successful",
+          position: "bottom-right",
           isClosable: true,
         });
 
@@ -132,18 +132,18 @@ const EditSource = (): JSX.Element => {
       }
 
       toast({
-        status: 'error',
-        title: 'Connection failed',
+        status: "error",
+        title: "Connection failed",
         description: testingConnectionResponse?.connection_status?.message,
-        position: 'bottom-right',
+        position: "bottom-right",
         isClosable: true,
       });
     } catch (e) {
       toast({
-        status: 'error',
-        title: 'Connection failed',
-        description: 'Something went wrong!',
-        position: 'bottom-right',
+        status: "error",
+        title: "Connection failed",
+        description: "Something went wrong!",
+        position: "bottom-right",
         isClosable: true,
       });
     } finally {
@@ -156,16 +156,16 @@ const EditSource = (): JSX.Element => {
 
   const EDIT_SOURCE_STEPS: Step[] = [
     {
-      name: 'Sources',
-      url: '/setup/sources',
+      name: "Sources",
+      url: "/setup/sources",
     },
     {
-      name: connectorName || '',
-      url: '',
+      name: connectorName || "",
+      url: "",
     },
   ];
 
-  const templateOverrides: FormProps<any, RJSFSchema, any>['templates'] = {
+  const templateOverrides: FormProps<any, RJSFSchema, any>["templates"] = {
     ObjectFieldTemplate: ObjectFieldTemplate,
     TitleFieldTemplate: TitleFieldTemplate,
     FieldTemplate: FieldTemplate,
@@ -174,47 +174,47 @@ const EditSource = (): JSX.Element => {
   };
 
   return (
-    <Box width='100%' display='flex' justifyContent='center'>
+    <Box width="100%" display="flex" justifyContent="center">
       <ContentContainer>
         <TopBar
-          name={connectorName || ''}
+          name={connectorName || ""}
           breadcrumbSteps={EDIT_SOURCE_STEPS}
           extra={
-            <Box display='flex' alignItems='center'>
-              <Box display='flex' alignItems='center'>
+            <Box display="flex" alignItems="center">
+              <Box display="flex" alignItems="center">
                 <EntityItem
-                  name={connectorInfo?.attributes?.connector_name || ''}
-                  icon={connectorInfo?.attributes?.icon || ''}
+                  name={connectorInfo?.attributes?.connector_name || ""}
+                  icon={connectorInfo?.attributes?.icon || ""}
                 />
               </Box>
               <Divider
-                orientation='vertical'
-                height='24px'
-                borderColor='gray.500'
-                opacity='1'
-                marginX='13px'
+                orientation="vertical"
+                height="24px"
+                borderColor="gray.500"
+                opacity="1"
+                marginX="13px"
               />
-              <Text size='sm' fontWeight='medium'>
-                Last updated :{' '}
+              <Text size="sm" fontWeight="medium">
+                Last updated :{" "}
               </Text>
-              <Text size='sm' fontWeight='semibold'>
+              <Text size="sm" fontWeight="semibold">
                 {moment(connectorInfo?.attributes?.updated_at).format(
-                  'DD/MM/YYYY'
+                  "DD/MM/YYYY"
                 )}
               </Text>
-              <SourceActions connectorType='sources' />
+              <SourceActions connectorType="sources" />
             </Box>
           }
         />
 
         <Box
-          backgroundColor='gray.100'
-          padding='24px'
-          borderWidth='thin'
-          borderRadius='8px'
-          marginBottom='100px'
-          border='1px'
-          borderColor='gray.400'
+          backgroundColor="gray.100"
+          padding="24px"
+          borderWidth="thin"
+          borderRadius="8px"
+          marginBottom="100px"
+          border="1px"
+          borderColor="gray.400"
         >
           <Form
             uiSchema={
@@ -232,23 +232,24 @@ const EditSource = (): JSX.Element => {
             templates={templateOverrides}
           >
             <SourceFormFooter
-              ctaName='Save Changes'
-              ctaType='button'
+              ctaName="Save Changes"
+              ctaType="button"
               isCtaDisabled={!testedFormData}
               onCtaClick={mutate}
               isCtaLoading={isEditLoading}
               isAlignToContentContainer
               isDocumentsSectionRequired
               isContinueCtaRequired
+              documentationLink={connectorSchema?.documentation_url}
               extra={
                 <Button
-                  marginRight='10px'
-                  type='submit'
-                  variant='ghost'
+                  marginRight="10px"
+                  type="submit"
+                  variant="ghost"
                   isLoading={isTestRunning}
                   minWidth={0}
-                  width='auto'
-                  backgroundColor='gray.300'
+                  width="auto"
+                  backgroundColor="gray.300"
                 >
                   Test Connection
                 </Button>

@@ -20,8 +20,8 @@ type ConnectorDefinationApiResponse = {
   data?: {
     icon: string;
     name: string;
-    documentation_url: string;
     connector_spec: {
+      documentation_url: string;
       connection_specification: RJSFSchema;
       supports_normalization: boolean;
       supports_dbt: boolean;
