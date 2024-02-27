@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Cookies from "js-cookie";
-import SignIn from "./SignIn";
+import SignIn from "../SignIn";
 
 jest.mock("@/services/common", () => ({
   login: jest.fn().mockResolvedValue({

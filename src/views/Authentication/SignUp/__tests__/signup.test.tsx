@@ -1,6 +1,6 @@
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import SignUp from "./SignUp"; // Update the path based on your project structure
+import SignUp from "../SignUp"; // Update the path based on your project structure
 
 jest.mock("@/services/authentication", () => ({
   signUp: jest.fn().mockResolvedValue({
