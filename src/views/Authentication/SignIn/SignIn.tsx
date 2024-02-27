@@ -34,6 +34,7 @@ import Cookies from "js-cookie";
 import titleCase from "@/utils/TitleCase";
 import AuthFooter from "../AuthFooter";
 import HiddenInput from "@/components/HiddenInput";
+import CustomToast from "@/components/Toast/index"
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string()
@@ -130,23 +131,21 @@ const SignIn = (): JSX.Element => {
       result.data.attributes.token;
       setSubmitting(false);
       toast({
-        title: "Signed In",
-        status: "success",
         duration: 3000,
         isClosable: true,
         position: "bottom-right",
+        render: () => (<CustomToast title='Signed In' status= "success" />)
       });
       navigate("/setup/sources");
     } else {
       setSubmitting(false);
       result.data?.errors?.map((error: SignInErrorResponse) => {
         toast({
-          title: titleCase(error.detail),
-          status: "warning",
           duration: 5000,
           isClosable: true,
           position: "bottom-right",
           colorScheme: "red",
+          render: () => (<CustomToast title={titleCase(error.detail)} status= "warning" />)
         });
       });
     }
