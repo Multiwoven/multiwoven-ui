@@ -55,7 +55,7 @@ const Profile = () => {
             >
               <HStack spacing={0}>
                 <Avatar
-                  name={data?.data?.attributes.name}
+                  name={data?.data?.attributes?.name}
                   mr={1}
                   bgColor='brand.400'
                   marginRight={2}
@@ -66,10 +66,10 @@ const Profile = () => {
                 <VStack spacing={0} align='start'>
                   <Box w='128px' maxW='128px'>
                     <Text size='sm' fontWeight='semibold' noOfLines={1}>
-                      {data?.data?.attributes.name}
+                      {data?.data?.attributes?.name}
                     </Text>
                     <Text color='black.200' size='xs' noOfLines={1}>
-                      {data?.data?.attributes.email}
+                      {data?.data?.attributes?.email}
                     </Text>
                   </Box>
                 </VStack>
