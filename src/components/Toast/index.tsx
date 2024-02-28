@@ -1,31 +1,40 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {
     Box,
+    Button
   } from '@chakra-ui/react';
-import { CheckCircleIcon, InfoIcon, Icon } from '@chakra-ui/icons'
+import { CheckCircleIcon, InfoIcon, Icon, CloseIcon} from '@chakra-ui/icons'
 
+export type customToastStatus = "success" | "info" | "warning" | "error" | undefined ;
+
+interface CustomToastIconProps {
+    status?: customToastStatus
+}
 interface ToastProps {
-    title?: string;
-    status?: "success" | "info" | "warning" | "error" | undefined ;
+    text?: string;
+    status?: customToastStatus
     style?: Object;
+    onClose?:() => void;
 }
 
+const CustomToastIcon: React.FC<CustomToastIconProps> = ({status}) => {
+    const color: string = status ? `${status}.400` : 'info.400';
+
+    if (status === 'success') {
+      return <Icon as={CheckCircleIcon} color={color} marginRight="16px"  boxSize="20px" />;
+    } else {
+      return <Icon as={InfoIcon} color={color} marginRight="16px" boxSize="20px" />;
+    }
+    
+};
+
 const CustomToast: React.FC<ToastProps> = ({
-    title = '',
+    text,
     status = undefined,
-    style={}
+    style={},
+    onClose=() => {}
 }) => {
     
-    const getIcon: () => JSX.Element = () => {
-        const color: string = status ? `${status}.400` : 'info.400';
-
-        if (status === 'success') {
-          return <Icon as={CheckCircleIcon} color={color} marginRight="16px"  boxSize="20px" />;
-        } else {
-          return <Icon as={InfoIcon} color={color} marginRight="16px" boxSize="20px" />;
-        }
-        
-    };
 
     if(status) {
         const bg : string = `${status}.100`;
@@ -39,14 +48,27 @@ const CustomToast: React.FC<ToastProps> = ({
                 paddingX="16px" 
                 paddingY="25px" 
                 borderRadius="8px" 
+                display="flex"
+                justifyContent="space-between"
                 >
-                    {getIcon()}
-                    {title}
+                    <Box display="flex"  justifyContent="flex-start" alignItems="center">
+                        < CustomToastIcon status={status} />
+                        <Box>
+                            {text}
+                        </Box>
+                    </Box> 
+                 
+                    <Button variant="unstyled" width="auto" onClick={onClose} marginX="16px"   >
+                        <Icon as={CloseIcon} color="black.100" boxSize="20px" />
+                    </Button>
+                    
+                     
+                    
             </Box>
         );  
     }
 
-    <Box style={style}> {getIcon()} {title}</Box>
+    <Box style={style}> < CustomToastIcon status={status} /> {text}</Box>
 }
 
 export default CustomToast

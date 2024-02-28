@@ -18,7 +18,7 @@ import {
   Text,
   Container,
   Stack,
-  useToast,
+  // useToast,
   Flex,
   HStack,
   Image,
@@ -35,6 +35,7 @@ import titleCase from "@/utils/TitleCase";
 import AuthFooter from "../AuthFooter";
 import HiddenInput from "@/components/HiddenInput";
 import CustomToast from "@/components/Toast/index"
+import useCustomToast from "../../../hooks/useCustomToast";
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string()
@@ -116,7 +117,7 @@ const PasswordField = ({
 const SignIn = (): JSX.Element => {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
-  const toast = useToast();
+  const showToast = useCustomToast();
 
   const handleSubmit = async (values: SignInPayload) => {
     setSubmitting(true);
@@ -130,22 +131,24 @@ const SignIn = (): JSX.Element => {
       });
       result.data.attributes.token;
       setSubmitting(false);
-      toast({
+      showToast({
         duration: 3000,
         isClosable: true,
         position: "bottom-right",
-        render: () => (<CustomToast title='Signed In' status= "success" />)
+        text:'Signed In', 
+        status: "success"
       });
       navigate("/setup/sources");
     } else {
       setSubmitting(false);
       result.data?.errors?.map((error: SignInErrorResponse) => {
-        toast({
+        showToast({
           duration: 5000,
           isClosable: true,
           position: "bottom-right",
           colorScheme: "red",
-          render: () => (<CustomToast title={titleCase(error.detail)} status= "warning" />)
+          status: "warning",  
+          text:titleCase(error.detail) ,  
         });
       });
     }
