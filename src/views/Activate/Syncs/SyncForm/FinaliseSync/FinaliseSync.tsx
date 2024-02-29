@@ -186,6 +186,7 @@ const FinaliseSync = (): JSX.Element => {
                           onChange={formik.handleChange}
                           isRequired
                           color='gray.600'
+                          height='35px'
                         />
                       </Box>
                       <Divider orientation='vertical' height='24px' color='gray.400' />
