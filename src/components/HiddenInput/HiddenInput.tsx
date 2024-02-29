@@ -28,10 +28,10 @@ const HiddenInput = (props: InputProps): JSX.Element => {
       <Input
         id='password'
         name='password'
-        type={isOpen ? 'text' : 'password'}
         autoComplete='current-password'
         required
         {...props}
+        type={isOpen ? 'text' : 'password'}
       />
     </InputGroup>
   );
