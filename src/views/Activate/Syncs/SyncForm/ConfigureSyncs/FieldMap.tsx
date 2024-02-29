@@ -43,11 +43,7 @@ const FieldMap = ({
           color='black.500'
         >
           {options.map((option) => (
-            <option
-              key={option}
-              value={option}
-              disabled={disabledOptions.includes?.(option)}
-            >
+            <option key={option} value={option} disabled={disabledOptions.includes?.(option)}>
               {option}
             </option>
           ))}

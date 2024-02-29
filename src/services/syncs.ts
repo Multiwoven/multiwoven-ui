@@ -13,26 +13,20 @@ export const getCatalog = (connectorId: string): Promise<DiscoverResponse> =>
     url: `/connectors/${connectorId}/discover`,
   });
 
-export const createSync = (
-  payload: CreateSyncPayload
-): Promise<ApiResponse<CreateSyncResponse>> =>
+export const createSync = (payload: CreateSyncPayload): Promise<ApiResponse<CreateSyncResponse>> =>
   multiwovenFetch<CreateSyncPayload, ApiResponse<CreateSyncResponse>>({
     method: 'post',
     url: '/syncs',
     data: payload,
   });
 
-export const fetchSyncs = (): Promise<
-  ApiResponse<CreateSyncResponse[] | ErrorResponse>
-> =>
+export const fetchSyncs = (): Promise<ApiResponse<CreateSyncResponse[] | ErrorResponse>> =>
   multiwovenFetch<null, ApiResponse<CreateSyncResponse[]>>({
     method: 'get',
     url: `/syncs`,
   });
 
-export const getSyncById = (
-  id: string
-): Promise<ApiResponse<CreateSyncResponse>> =>
+export const getSyncById = (id: string): Promise<ApiResponse<CreateSyncResponse>> =>
   multiwovenFetch<null, ApiResponse<CreateSyncResponse>>({
     method: 'get',
     url: `/syncs/${id}`,
@@ -40,7 +34,7 @@ export const getSyncById = (
 
 export const editSync = (
   payload: CreateSyncPayload,
-  id: string
+  id: string,
 ): Promise<ApiResponse<CreateSyncResponse>> =>
   multiwovenFetch<CreateSyncPayload, ApiResponse<CreateSyncResponse>>({
     method: 'put',
@@ -48,9 +42,7 @@ export const editSync = (
     data: payload,
   });
 
-export const deleteSync = (
-  id: string
-): Promise<ApiResponse<CreateSyncResponse>> =>
+export const deleteSync = (id: string): Promise<ApiResponse<CreateSyncResponse>> =>
   multiwovenFetch<null, ApiResponse<CreateSyncResponse>>({
     method: 'delete',
     url: `/syncs/${id}`,

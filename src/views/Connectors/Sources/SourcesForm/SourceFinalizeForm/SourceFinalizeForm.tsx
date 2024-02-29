@@ -3,10 +3,7 @@ import SourceFormFooter from '../SourceFormFooter';
 import { useFormik } from 'formik';
 import { useContext, useState } from 'react';
 import { SteppedFormContext } from '@/components/SteppedForm/SteppedForm';
-import {
-  CreateConnectorPayload,
-  TestConnectionPayload,
-} from '@/views/Connectors/types';
+import { CreateConnectorPayload, TestConnectionPayload } from '@/views/Connectors/types';
 import { useNavigate } from 'react-router-dom';
 import { createNewConnector } from '@/services/connectors';
 import { useQueryClient } from '@tanstack/react-query';
@@ -22,9 +19,8 @@ const SourceFinalizeForm = (): JSX.Element | null => {
   const toast = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const finalDataSourceForm = forms.find(
-    ({ stepKey }) => stepKey === finalDataSourceFormKey
-  )?.data?.[finalDataSourceFormKey] as TestConnectionPayload | undefined;
+  const finalDataSourceForm = forms.find(({ stepKey }) => stepKey === finalDataSourceFormKey)
+    ?.data?.[finalDataSourceFormKey] as TestConnectionPayload | undefined;
 
   if (!finalDataSourceForm) return null;
 
@@ -81,12 +77,7 @@ const SourceFinalizeForm = (): JSX.Element | null => {
       <ContentContainer>
         <Box width='100%'>
           <form onSubmit={formik.handleSubmit}>
-            <Box
-              padding='24px'
-              backgroundColor='gray.300'
-              borderRadius='8px'
-              marginBottom='16px'
-            >
+            <Box padding='24px' backgroundColor='gray.300' borderRadius='8px' marginBottom='16px'>
               <Text size='md' fontWeight='semibold' marginBottom='24px'>
                 Finalize settings for this Destination
               </Text>

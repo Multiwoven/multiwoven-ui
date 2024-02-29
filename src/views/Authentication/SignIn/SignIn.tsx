@@ -1,14 +1,7 @@
-import { useState } from "react";
-import {
-  Formik,
-  Form,
-  ErrorMessage,
-  FormikTouched,
-  FormikErrors,
-  FieldInputProps,
-} from "formik";
-import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { Formik, Form, ErrorMessage, FormikTouched, FormikErrors, FieldInputProps } from 'formik';
+import * as Yup from 'yup';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -23,27 +16,20 @@ import {
   HStack,
   Image,
   Checkbox,
-} from "@chakra-ui/react";
-import MultiwovenIcon from "@/assets/images/icon-white.svg";
-import {
-  SignInErrorResponse,
-  SignInPayload,
-  signIn,
-} from "@/services/authentication";
-import Cookies from "js-cookie";
-import titleCase from "@/utils/TitleCase";
-import AuthFooter from "../AuthFooter";
-import HiddenInput from "@/components/HiddenInput";
-import CustomToast from "@/components/Toast/index"
+} from '@chakra-ui/react';
+import MultiwovenIcon from '@/assets/images/icon-white.svg';
+import { SignInErrorResponse, SignInPayload, signIn } from '@/services/authentication';
+import Cookies from 'js-cookie';
+import titleCase from '@/utils/TitleCase';
+import AuthFooter from '../AuthFooter';
+import HiddenInput from '@/components/HiddenInput';
 import useCustomToast from "../../../hooks/useCustomToast";
 
 const SignInSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Please enter a valid email address")
-    .required("Email is required"),
+  email: Yup.string().email('Please enter a valid email address').required('Email is required'),
   password: Yup.string()
-    .min(8, "Password must be at least 8 characters")
-    .required("Password is required"),
+    .min(8, 'Password must be at least 8 characters')
+    .required('Password is required'),
 });
 
 interface SignInFormProps {
@@ -58,7 +44,7 @@ interface SignInFormProps {
           value?: any;
           onChange?: (e: any) => void;
           onBlur?: (e: any) => void;
-        }
+        },
   ) => FieldInputProps<any>;
   touched: FormikTouched<any>;
   errors: FormikErrors<any>;
@@ -74,16 +60,16 @@ const FormField = ({
 }: SignInFormProps) => (
   <FormControl isInvalid={!!(touched[name] && errors[name])}>
     <Input
-      variant="outline"
+      variant='outline'
       placeholder={placeholder}
-      _placeholder={{ color: "black.100" }}
+      _placeholder={{ color: 'black.100' }}
       type={type}
       {...getFieldProps(name)}
-      fontSize="sm"
-      color="black.500"
-      focusBorderColor="brand.400"
+      fontSize='sm'
+      color='black.500'
+      focusBorderColor='brand.400'
     />
-    <Text size="xs" color="red.500" mt={2}>
+    <Text size='xs' color='red.500' mt={2}>
       <ErrorMessage name={name} />
     </Text>
   </FormControl>
@@ -99,16 +85,16 @@ const PasswordField = ({
 }: SignInFormProps) => (
   <FormControl isInvalid={!!(touched[name] && errors[name])}>
     <HiddenInput
-      variant="outline"
+      variant='outline'
       placeholder={placeholder}
-      _placeholder={{ color: "black.100" }}
+      _placeholder={{ color: 'black.100' }}
       type={type}
       {...getFieldProps(name)}
-      fontSize="sm"
-      color="black.500"
-      focusBorderColor="brand.400"
+      fontSize='sm'
+      color='black.500'
+      focusBorderColor='brand.400'
     />
-    <Text size="xs" color="red.500" mt={2}>
+    <Text size='xs' color='red.500' mt={2}>
       <ErrorMessage name={name} />
     </Text>
   </FormControl>
@@ -125,28 +111,28 @@ const SignIn = (): JSX.Element => {
 
     if (result.data?.attributes) {
       const token = result.data.attributes.token;
-      Cookies.set("authToken", token, {
+      Cookies.set('authToken', token, {
         secure: true,
-        sameSite: "Lax",
+        sameSite: 'Lax',
       });
       result.data.attributes.token;
       setSubmitting(false);
       showToast({
         duration: 3000,
         isClosable: true,
-        position: "bottom-right",
+        position: 'bottom-right',
         text:'Signed In', 
         status: "success"
       });
-      navigate("/setup/sources");
+      navigate('/setup/sources', { replace: true });
     } else {
       setSubmitting(false);
       result.data?.errors?.map((error: SignInErrorResponse) => {
         showToast({
           duration: 5000,
           isClosable: true,
-          position: "bottom-right",
-          colorScheme: "red",
+          position: 'bottom-right',
+          colorScheme: 'red',
           status: "warning",  
           text:titleCase(error.detail) ,  
         });
@@ -156,118 +142,95 @@ const SignIn = (): JSX.Element => {
 
   return (
     <>
-      <Flex
-        justify="center"
-        w="100%"
-        minHeight="90vh"
-        alignItems="center"
-        overflowY="auto"
-      >
+      <Flex justify='center' w='100%' minHeight='90vh' alignItems='center' overflowY='auto'>
         <Formik
           initialValues={{
-            email: "",
-            password: "",
+            email: '',
+            password: '',
           }}
           onSubmit={(values) => handleSubmit(values)}
           validationSchema={SignInSchema}
         >
           {({ getFieldProps, touched, errors }) => (
             <Form>
-              <Container width={{ base: "400px", sm: "500px" }} py="6">
+              <Container width={{ base: '400px', sm: '500px' }} py='6'>
                 <Stack>
-                  <Box position="relative" top="12">
+                  <Box position='relative' top='12'>
                     <Box
-                      bgColor="brand.400"
-                      h="80px"
-                      w="80px"
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center"
-                      borderRadius="11px"
-                      mx="auto"
+                      bgColor='brand.400'
+                      h='80px'
+                      w='80px'
+                      display='flex'
+                      justifyContent='center'
+                      alignItems='center'
+                      borderRadius='11px'
+                      mx='auto'
                     >
-                      <Image
-                        src={MultiwovenIcon}
-                        width="45px"
-                        alt="Multiwoven Logo in White"
-                      />
+                      <Image src={MultiwovenIcon} width='45px' alt='Multiwoven Logo in White' />
                     </Box>
                   </Box>
                   <Box
-                    padding="20px"
-                    borderRadius="10px"
-                    border="1px"
-                    borderColor="gray.400"
-                    paddingTop="60px"
+                    padding='20px'
+                    borderRadius='10px'
+                    border='1px'
+                    borderColor='gray.400'
+                    paddingTop='60px'
                   >
-                    <Stack spacing="8px" textAlign="center" mb="32px">
-                      <Heading size="xs" fontWeight="semibold">
-                        Let's activate your data
+                    <Stack spacing='8px' textAlign='center' mb='32px'>
+                      <Heading size='xs' fontWeight='semibold'>
+                        {"Let's activate your data"}
                       </Heading>
-                      <Text size="sm" color="black.200">
+                      <Text size='sm' color='black.200'>
                         Sign In to your Multiwoven account
                       </Text>
                     </Stack>
-                    <Stack spacing="6">
-                      <Stack spacing="3">
+                    <Stack spacing='6'>
+                      <Stack spacing='3'>
                         <FormField
-                          placeholder="Enter email"
-                          name="email"
-                          type="text"
+                          placeholder='Enter email'
+                          name='email'
+                          type='text'
                           getFieldProps={getFieldProps}
                           touched={touched}
                           errors={errors}
                         />
                         <PasswordField
-                          placeholder="Enter password"
-                          name="password"
-                          type="password"
+                          placeholder='Enter password'
+                          name='password'
+                          type='password'
                           getFieldProps={getFieldProps}
                           touched={touched}
                           errors={errors}
                         />
-                        ={" "}
-                        <HStack justify="space-between">
-                          <Checkbox
-                            defaultChecked
-                            colorScheme="red"
-                            iconSize="12px"
-                            size="sm"
-                          >
-                            <Text size="xs" fontWeight="medium">
+                        ={' '}
+                        <HStack justify='space-between'>
+                          <Checkbox defaultChecked colorScheme='red' iconSize='12px' size='sm'>
+                            <Text size='xs' fontWeight='medium'>
                               Stay signed in
                             </Text>
                           </Checkbox>
-                          <Text
-                            size="xs"
-                            color="brand.400"
-                            fontWeight="semibold"
-                          >
+                          <Text size='xs' color='brand.400' fontWeight='semibold'>
                             Forgot Password?
                           </Text>
                         </HStack>
                       </Stack>
-                      <Stack spacing="6">
+                      <Stack spacing='6'>
                         <Button
-                          type="submit"
+                          type='submit'
                           isLoading={submitting}
-                          loadingText="Signing In"
-                          variant="solid"
-                          width="full"
+                          loadingText='Signing In'
+                          variant='solid'
+                          width='full'
                         >
                           Sign In
                         </Button>
                       </Stack>
-                      <HStack spacing={1} justify="center">
-                        <Text color="black.500" size="xs" fontWeight="medium">
-                          Don't have an account?{" "}
+                      <HStack spacing={1} justify='center'>
+                        <Text color='black.500' size='xs' fontWeight='medium'>
+                          {"Don't have an account?"}{' '}
                         </Text>
-                        <Link to="/sign-up">
-                          <Text
-                            color="brand.400"
-                            size="xs"
-                            fontWeight="semibold"
-                          >
+                        <Link to='/sign-up'>
+                          <Text color='brand.400' size='xs' fontWeight='semibold'>
                             Sign Up
                           </Text>
                         </Link>

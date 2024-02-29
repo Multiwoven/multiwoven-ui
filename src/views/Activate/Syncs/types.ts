@@ -83,11 +83,7 @@ export type CreateSyncResponse = {
   type: 'syncs';
 };
 
-export type SyncColumnFields =
-  | 'model'
-  | 'destination'
-  | 'lastUpdated'
-  | 'status';
+export type SyncColumnFields = 'model' | 'destination' | 'lastUpdated' | 'status';
 
 export type SyncColumnEntity = {
   key: SyncColumnFields;

@@ -26,9 +26,7 @@ const FinaliseSync = (): JSX.Element => {
   const navigate = useNavigate();
 
   const { forms } = state;
-  const syncConfigForm = forms.find(
-    (form) => form.stepKey === 'configureSyncs'
-  );
+  const syncConfigForm = forms.find((form) => form.stepKey === 'configureSyncs');
   const syncConfigData = syncConfigForm?.data;
 
   const formik = useFormik({
@@ -80,12 +78,7 @@ const FinaliseSync = (): JSX.Element => {
     <Box display='flex' width='100%' justifyContent='center'>
       <ContentContainer>
         <form onSubmit={formik.handleSubmit}>
-          <Box
-            backgroundColor='gray.300'
-            padding='20px'
-            borderRadius='8px'
-            marginBottom='100px'
-          >
+          <Box backgroundColor='gray.300' padding='20px' borderRadius='8px' marginBottom='100px'>
             <Text fontWeight='600' mb='6' size='md'>
               Finalise setting for this sync
             </Text>
@@ -151,8 +144,7 @@ const FinaliseSync = (): JSX.Element => {
                           Interval{' '}
                         </Text>
                         <Text size='xs' color='black.200'>
-                          Schedule your sync to run on a set interval (e.g.,
-                          once per hour)
+                          Schedule your sync to run on a set interval (e.g., once per hour)
                         </Text>
                       </Box>
                     </Radio>
@@ -194,13 +186,10 @@ const FinaliseSync = (): JSX.Element => {
                           onChange={formik.handleChange}
                           isRequired
                           color='gray.600'
+                          height='35px'
                         />
                       </Box>
-                      <Divider
-                        orientation='vertical'
-                        height='24px'
-                        color='gray.400'
-                      />
+                      <Divider orientation='vertical' height='24px' color='gray.400' />
                       <Box>
                         <Select
                           name='sync_interval_unit'

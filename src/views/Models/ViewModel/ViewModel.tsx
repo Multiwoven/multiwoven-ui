@@ -168,13 +168,7 @@ const ViewModel = (): JSX.Element => {
                 Edit
               </Button>
             </Flex>
-            <Box
-              borderX='1px'
-              borderBottom='1px'
-              roundedBottom='lg'
-              py={2}
-              borderColor='gray.400'
-            >
+            <Box borderX='1px' borderBottom='1px' roundedBottom='lg' py={2} borderColor='gray.400'>
               <Editor
                 width='100%'
                 height='280px'
@@ -222,11 +216,7 @@ const ViewModel = (): JSX.Element => {
               <Form>
                 <VStack>
                   <FormControl>
-                    <FormLabel
-                      htmlFor='primaryKey'
-                      fontSize='sm'
-                      fontWeight='bold'
-                    >
+                    <FormLabel htmlFor='primaryKey' fontSize='sm' fontWeight='bold'>
                       Primary Key
                     </FormLabel>
                     <Field
