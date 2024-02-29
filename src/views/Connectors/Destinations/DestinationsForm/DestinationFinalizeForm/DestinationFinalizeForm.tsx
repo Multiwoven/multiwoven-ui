@@ -2,10 +2,7 @@ import { Box, Input, Text, Textarea, useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useContext, useState } from 'react';
 import { SteppedFormContext } from '@/components/SteppedForm/SteppedForm';
-import {
-  CreateConnectorPayload,
-  TestConnectionPayload,
-} from '@/views/Connectors/types';
+import { CreateConnectorPayload, TestConnectionPayload } from '@/views/Connectors/types';
 import { useNavigate } from 'react-router-dom';
 import { createNewConnector } from '@/services/connectors';
 import { useQueryClient } from '@tanstack/react-query';
@@ -25,7 +22,7 @@ const DestinationFinalizeForm = (): JSX.Element | null => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const finalDestinationConfigForm = forms.find(
-    ({ stepKey }) => stepKey === finalDestinationConfigFormKey
+    ({ stepKey }) => stepKey === finalDestinationConfigFormKey,
   )?.data?.[finalDestinationConfigFormKey] as TestConnectionPayload | undefined;
 
   if (!finalDestinationConfigForm) return null;
@@ -83,12 +80,7 @@ const DestinationFinalizeForm = (): JSX.Element | null => {
       <ContentContainer>
         <Box maxWidth={maxContentWidth} width='100%'>
           <form onSubmit={formik.handleSubmit}>
-            <Box
-              padding='24px'
-              backgroundColor='gray.300'
-              borderRadius='8px'
-              marginBottom='16px'
-            >
+            <Box padding='24px' backgroundColor='gray.300' borderRadius='8px' marginBottom='16px'>
               <Text size='md' fontWeight='semibold' marginBottom='24px'>
                 Finalize settings for this Destination
               </Text>

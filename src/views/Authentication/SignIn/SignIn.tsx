@@ -1,12 +1,5 @@
 import { useState } from 'react';
-import {
-  Formik,
-  Form,
-  ErrorMessage,
-  FormikTouched,
-  FormikErrors,
-  FieldInputProps,
-} from 'formik';
+import { Formik, Form, ErrorMessage, FormikTouched, FormikErrors, FieldInputProps } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -25,20 +18,14 @@ import {
   Checkbox,
 } from '@chakra-ui/react';
 import MultiwovenIcon from '@/assets/images/icon-white.svg';
-import {
-  SignInErrorResponse,
-  SignInPayload,
-  signIn,
-} from '@/services/authentication';
+import { SignInErrorResponse, SignInPayload, signIn } from '@/services/authentication';
 import Cookies from 'js-cookie';
 import titleCase from '@/utils/TitleCase';
 import AuthFooter from '../AuthFooter';
 import HiddenInput from '@/components/HiddenInput';
 
 const SignInSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Please enter a valid email address')
-    .required('Email is required'),
+  email: Yup.string().email('Please enter a valid email address').required('Email is required'),
   password: Yup.string()
     .min(8, 'Password must be at least 8 characters')
     .required('Password is required'),
@@ -56,7 +43,7 @@ interface SignInFormProps {
           value?: any;
           onChange?: (e: any) => void;
           onBlur?: (e: any) => void;
-        }
+        },
   ) => FieldInputProps<any>;
   touched: FormikTouched<any>;
   errors: FormikErrors<any>;
@@ -154,13 +141,7 @@ const SignIn = (): JSX.Element => {
 
   return (
     <>
-      <Flex
-        justify='center'
-        w='100%'
-        minHeight='90vh'
-        alignItems='center'
-        overflowY='auto'
-      >
+      <Flex justify='center' w='100%' minHeight='90vh' alignItems='center' overflowY='auto'>
         <Formik
           initialValues={{
             email: '',
@@ -184,11 +165,7 @@ const SignIn = (): JSX.Element => {
                       borderRadius='11px'
                       mx='auto'
                     >
-                      <Image
-                        src={MultiwovenIcon}
-                        width='45px'
-                        alt='Multiwoven Logo in White'
-                      />
+                      <Image src={MultiwovenIcon} width='45px' alt='Multiwoven Logo in White' />
                     </Box>
                   </Box>
                   <Box
@@ -226,21 +203,12 @@ const SignIn = (): JSX.Element => {
                         />
                         ={' '}
                         <HStack justify='space-between'>
-                          <Checkbox
-                            defaultChecked
-                            colorScheme='red'
-                            iconSize='12px'
-                            size='sm'
-                          >
+                          <Checkbox defaultChecked colorScheme='red' iconSize='12px' size='sm'>
                             <Text size='xs' fontWeight='medium'>
                               Stay signed in
                             </Text>
                           </Checkbox>
-                          <Text
-                            size='xs'
-                            color='brand.400'
-                            fontWeight='semibold'
-                          >
+                          <Text size='xs' color='brand.400' fontWeight='semibold'>
                             Forgot Password?
                           </Text>
                         </HStack>
@@ -261,11 +229,7 @@ const SignIn = (): JSX.Element => {
                           {"Don't have an account?"}{' '}
                         </Text>
                         <Link to='/sign-up'>
-                          <Text
-                            color='brand.400'
-                            size='xs'
-                            fontWeight='semibold'
-                          >
+                          <Text color='brand.400' size='xs' fontWeight='semibold'>
                             Sign Up
                           </Text>
                         </Link>

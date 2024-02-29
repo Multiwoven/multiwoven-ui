@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Image,
-  Spacer,
-  Text,
-  VStack,
-  useToast,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Image, Spacer, Text, VStack, useToast } from '@chakra-ui/react';
 
 import StarsImage from '@/assets/images/stars.svg';
 import EmptyQueryPreviewImage from '@/assets/images/EmptyQueryPreview.png';
@@ -68,7 +58,7 @@ const DefineSQL = ({
   function handleContinueClick(
     query: string,
     connector_id: string | number,
-    tableData: TableDataType | null | undefined
+    tableData: TableDataType | null | undefined,
   ) {
     if (stepInfo?.formKey) {
       const formData = {
@@ -86,19 +76,16 @@ const DefineSQL = ({
     const query = (editorRef?.current as any)?.getValue() as string;
     const response = await getModelPreviewById(query, connector_id?.toString());
     if ('data' in response && response.data.errors) {
-      response.data.errors.forEach(
-        (error: { title: string; detail: string }) => {
-          toast({
-            title: 'An Error Occurred',
-            description:
-              error.detail || 'Please check your query and try again',
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-            position: 'bottom-right',
-          });
-        }
-      );
+      response.data.errors.forEach((error: { title: string; detail: string }) => {
+        toast({
+          title: 'An Error Occurred',
+          description: error.detail || 'Please check your query and try again',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'bottom-right',
+        });
+      });
     } else {
       setTableData(ConvertModelPreviewToTableData(response as Field[]));
       canMoveForward(true);
@@ -120,10 +107,7 @@ const DefineSQL = ({
       },
     };
 
-    const modelUpdateResponse = await putModelById(
-      prefillValues?.model_id || '',
-      updatePayload
-    );
+    const modelUpdateResponse = await putModelById(prefillValues?.model_id || '', updatePayload);
     if (modelUpdateResponse.data) {
       toast({
         title: 'Model updated successfully',
@@ -274,11 +258,7 @@ const DefineSQL = ({
           isContinueCtaRequired
           isCtaDisabled={!moveForward}
           onCtaClick={() => {
-            handleContinueClick(
-              (editorRef?.current as any).getValue(),
-              connector_id,
-              tableData
-            );
+            handleContinueClick((editorRef?.current as any).getValue(), connector_id, tableData);
           }}
         />
       )}

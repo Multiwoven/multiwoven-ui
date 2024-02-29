@@ -118,11 +118,7 @@ const EditModelModal = (prefillValues: PrefillValue): JSX.Element => {
               <Form>
                 <VStack spacing={5}>
                   <FormControl>
-                    <FormLabel
-                      htmlFor='modelName'
-                      fontSize='sm'
-                      fontWeight='semibold'
-                    >
+                    <FormLabel htmlFor='modelName' fontSize='sm' fontWeight='semibold'>
                       Model Name
                     </FormLabel>
                     <Field
@@ -144,12 +140,7 @@ const EditModelModal = (prefillValues: PrefillValue): JSX.Element => {
                     <FormLabel htmlFor='description' fontWeight='bold'>
                       <Flex alignItems='center' fontSize='sm'>
                         Description{' '}
-                        <Text
-                          ml={2}
-                          size='xs'
-                          color='gray.600'
-                          fontWeight={400}
-                        >
+                        <Text ml={2} size='xs' color='gray.600' fontWeight={400}>
                           {' '}
                           (optional)
                         </Text>

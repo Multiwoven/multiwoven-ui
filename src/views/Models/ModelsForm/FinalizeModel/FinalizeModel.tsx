@@ -33,16 +33,13 @@ type ModelConfig = {
 
 type StepData = {
   step: number;
-  data: { [key: string]: ModelConfig | any };
+  data: { [key: string]: ModelConfig };
   stepKey: string;
 };
 
 const FinalizeModel = (): JSX.Element => {
   const { state } = useContext(SteppedFormContext);
-  const defineModelData: StepData = extractDataByKey<StepData>(
-    state.forms,
-    'defineModel'
-  );
+  const defineModelData: StepData = extractDataByKey<StepData>(state.forms, 'defineModel');
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -100,14 +97,7 @@ const FinalizeModel = (): JSX.Element => {
 
   return (
     <>
-      <Box
-        bgColor='gray.300'
-        px={6}
-        py={4}
-        marginTop={6}
-        marginX='30px'
-        borderRadius='8px'
-      >
+      <Box bgColor='gray.300' px={6} py={4} marginTop={6} marginX='30px' borderRadius='8px'>
         <Text mb={6} fontWeight='semibold' size='md'>
           Finalize settings for this Model
         </Text>
@@ -125,11 +115,7 @@ const FinalizeModel = (): JSX.Element => {
           <Form>
             <VStack spacing={5}>
               <FormControl>
-                <FormLabel
-                  htmlFor='modelName'
-                  fontSize='sm'
-                  fontWeight='semibold'
-                >
+                <FormLabel htmlFor='modelName' fontSize='sm' fontWeight='semibold'>
                   Model Name
                 </FormLabel>
                 <Field
@@ -170,11 +156,7 @@ const FinalizeModel = (): JSX.Element => {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel
-                  htmlFor='primaryKey'
-                  fontSize='sm'
-                  fontWeight='semibold'
-                >
+                <FormLabel htmlFor='primaryKey' fontSize='sm' fontWeight='semibold'>
                   Primary Key
                 </FormLabel>
                 <Field
@@ -193,7 +175,7 @@ const FinalizeModel = (): JSX.Element => {
                       <option key={index} value={key}>
                         {name}
                       </option>
-                    )
+                    ),
                   )}
                 </Field>
                 <Text color='red.500' fontSize='sm'>

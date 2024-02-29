@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "lint-fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
