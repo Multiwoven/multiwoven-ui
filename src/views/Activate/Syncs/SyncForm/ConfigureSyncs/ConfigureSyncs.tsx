@@ -28,11 +28,8 @@ const ConfigureSyncs = ({
   const modelInfo = forms.find((form) => form.stepKey === 'selectModel');
   const selectedModel = modelInfo?.data?.selectModel as ModelEntity;
 
-  const destinationInfo = forms.find(
-    (form) => form.stepKey === 'selectDestination'
-  );
-  const selectedDestination = destinationInfo?.data
-    ?.selectDestination as ConnectorItem;
+  const destinationInfo = forms.find((form) => form.stepKey === 'selectDestination');
+  const selectedDestination = destinationInfo?.data?.selectDestination as ConnectorItem;
 
   const handleOnStreamChange = (stream: Stream) => {
     setSelectedStream(stream);

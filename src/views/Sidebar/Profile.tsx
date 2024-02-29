@@ -46,13 +46,7 @@ const Profile = () => {
       <Popover closeOnEsc>
         <PopoverTrigger>
           <Box cursor='pointer'>
-            <Box
-              bgColor='gray.200'
-              px={2}
-              py={2}
-              rounded='lg'
-              _hover={{ bgColor: 'gray.300' }}
-            >
+            <Box bgColor='gray.200' px={2} py={2} rounded='lg' _hover={{ bgColor: 'gray.300' }}>
               <HStack spacing={0}>
                 <Avatar
                   name={data?.data?.attributes?.name}
