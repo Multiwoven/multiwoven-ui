@@ -1,4 +1,6 @@
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import { expect } from '@jest/globals';
+
 import { MemoryRouter } from 'react-router-dom';
 import SignUp from '../SignUp'; // Update the path based on your project structure
 
