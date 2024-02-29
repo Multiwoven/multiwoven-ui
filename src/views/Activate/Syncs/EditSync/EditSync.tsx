@@ -1,10 +1,7 @@
 import ContentContainer from '@/components/ContentContainer';
 import TopBar from '@/components/TopBar';
 import { Box, Divider, Text, useToast } from '@chakra-ui/react';
-import {
-  EDIT_SYNC_FORM_STEPS,
-  SYNCS_LIST_QUERY_KEY,
-} from '@/views/Activate/Syncs/constants';
+import { EDIT_SYNC_FORM_STEPS, SYNCS_LIST_QUERY_KEY } from '@/views/Activate/Syncs/constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { editSync, getSyncById } from '@/services/syncs';
@@ -23,16 +20,13 @@ import {
 } from '@/views/Activate/Syncs/types';
 import ScheduleForm from './ScheduleForm';
 import { FormikProps, useFormik } from 'formik';
-import FormFooter from '@/components/FormFooter';
 import SyncActions from './SyncActions';
+import SourceFormFooter from '@/views/Connectors/Sources/SourcesForm/SourceFormFooter';
 
 const EditSync = (): JSX.Element | null => {
   const [selectedStream, setSelectedStream] = useState<Stream | null>(null);
   const [isEditLoading, setIsEditLoading] = useState<boolean>(false);
-  const [configuration, setConfiguration] = useState<Record<
-    string,
-    string
-  > | null>(null);
+  const [configuration, setConfiguration] = useState<Record<string, string> | null>(null);
   const { syncId } = useParams();
   const toast = useToast();
   const navigate = useNavigate();
@@ -44,21 +38,20 @@ const EditSync = (): JSX.Element | null => {
   } = useQuery({
     queryKey: ['sync', syncId],
     queryFn: () => getSyncById(syncId as string),
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnWindowFocus: false,
     enabled: !!syncId,
   });
 
   const syncData = syncFetchResponse?.data.attributes;
 
-  const { data: destinationFetchResponse, isLoading: isConnectorInfoLoading } =
-    useQuery({
-      queryKey: ['sync', 'destination', syncData?.destination.id],
-      queryFn: () => getConnectorInfo(syncData?.destination.id as string),
-      refetchOnMount: true,
-      refetchOnWindowFocus: false,
-      enabled: !!syncData?.destination.id,
-    });
+  const { data: destinationFetchResponse, isLoading: isConnectorInfoLoading } = useQuery({
+    queryKey: ['sync', 'destination', syncData?.destination.id],
+    queryFn: () => getConnectorInfo(syncData?.destination.id as string),
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    enabled: !!syncData?.destination.id,
+  });
 
   const formik: FormikProps<FinalizeSyncFormFields> = useFormik({
     initialValues: {
@@ -149,9 +142,7 @@ const EditSync = (): JSX.Element | null => {
 
   const handleOnStreamsLoad = (catalog: DiscoverResponse) => {
     const { streams } = catalog.data.attributes.catalog;
-    const selectedStream = streams.find(
-      ({ name }) => name === syncData?.stream_name
-    );
+    const selectedStream = streams.find(({ name }) => name === syncData?.stream_name);
     if (selectedStream) {
       setSelectedStream(selectedStream);
     }
@@ -218,11 +209,14 @@ const EditSync = (): JSX.Element | null => {
             <ScheduleForm formik={formik} isEdit />
           </React.Fragment>
         ) : null}
-        <FormFooter
+        <SourceFormFooter
           ctaName='Save Changes'
           ctaType='submit'
           isCtaLoading={isEditLoading}
           isAlignToContentContainer
+          isDocumentsSectionRequired
+          isContinueCtaRequired
+          isBackRequired
         />
       </ContentContainer>
     </form>

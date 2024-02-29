@@ -5,10 +5,7 @@ import { getModelPreviewById } from '@/services/models';
 import { useQuery } from '@tanstack/react-query';
 import { FieldMap as FieldMapType, Stream } from '@/views/Activate/Syncs/types';
 import FieldMap from './FieldMap';
-import {
-  convertFieldMapToConfig,
-  getPathFromObject,
-} from '@/views/Activate/Syncs/utils';
+import { convertFieldMapToConfig, getPathFromObject } from '@/views/Activate/Syncs/utils';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
@@ -31,22 +28,16 @@ const MapFields = ({
   handleOnConfigChange,
   configuration,
 }: MapFieldsProps): JSX.Element | null => {
-  const [fields, setFields] = useState<FieldMapType[]>([
-    { model: '', destination: '' },
-  ]);
+  const [fields, setFields] = useState<FieldMapType[]>([{ model: '', destination: '' }]);
   const { data: previewModelData } = useQuery({
     queryKey: ['syncs', 'preview-model', model?.connector?.id],
-    queryFn: () =>
-      getModelPreviewById(model?.query, String(model?.connector?.id)),
+    queryFn: () => getModelPreviewById(model?.query, String(model?.connector?.id)),
     enabled: !!model?.connector?.id,
     refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
 
-  const destinationColumns = useMemo(
-    () => getPathFromObject(stream?.json_schema),
-    [stream]
-  );
+  const destinationColumns = useMemo(() => getPathFromObject(stream?.json_schema), [stream]);
 
   useEffect(() => {
     if (data) {
@@ -66,11 +57,7 @@ const MapFields = ({
     setFields([...fields, { model: '', destination: '' }]);
   };
 
-  const handleOnChange = (
-    id: number,
-    type: 'model' | 'destination',
-    value: string
-  ) => {
+  const handleOnChange = (id: number, type: 'model' | 'destination', value: string) => {
     const fieldsClone = [...fields];
     fieldsClone[id] = {
       ...fieldsClone[id],
@@ -89,9 +76,7 @@ const MapFields = ({
   const mappedColumns = fields.map((item) => item.model);
 
   const souceConfigList = configuration ? Object.keys(configuration) : [];
-  const destinationConfigList = configuration
-    ? Object.values(configuration)
-    : [];
+  const destinationConfigList = configuration ? Object.values(configuration) : [];
 
   useEffect(() => {
     let FieldStruct: FieldMapType[] = [];
@@ -99,12 +84,10 @@ const MapFields = ({
       if (Object.keys(configuration).length === 0) {
         FieldStruct = [{ model: '', destination: '' }];
       } else {
-        FieldStruct = Object.entries(configuration).map(
-          ([model, destination]) => ({
-            model,
-            destination,
-          })
-        );
+        FieldStruct = Object.entries(configuration).map(([model, destination]) => ({
+          model,
+          destination,
+        }));
       }
       setFields(FieldStruct);
     }
@@ -120,22 +103,11 @@ const MapFields = ({
       <Text fontWeight={600} size='md'>
         Map fields to {destination?.attributes?.connector_name}
       </Text>
-      <Text
-        size='xs'
-        mb={6}
-        letterSpacing='-0.12px'
-        fontWeight={400}
-        color='black.200'
-      >
+      <Text size='xs' mb={6} letterSpacing='-0.12px' fontWeight={400} color='black.200'>
         Select the API from the Destination that you wish to map.
       </Text>
       {fields.map((_, index) => (
-        <Box
-          key={`field-map-${index}`}
-          display='flex'
-          alignItems='flex-end'
-          marginBottom='30px'
-        >
+        <Box key={`field-map-${index}`} display='flex' alignItems='flex-end' marginBottom='30px'>
           <FieldMap
             id={index}
             fieldType='model'
@@ -147,13 +119,7 @@ const MapFields = ({
             isDisabled={!stream}
             selectedConfigOptions={souceConfigList}
           />
-          <Box
-            width='80px'
-            padding='20px'
-            position='relative'
-            top='8px'
-            color='gray.600'
-          >
+          <Box width='80px' padding='20px' position='relative' top='8px' color='gray.600'>
             <ArrowRightIcon />
           </Box>
           <FieldMap

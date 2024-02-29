@@ -85,8 +85,7 @@ const DeleteModelModal = (): JSX.Element => {
                 Are you sure you want to delete this Model?
               </Text>
               <Text fontWeight='light' fontSize={14} textAlign='center'>
-                This action will permanently delete the Model and cannot be
-                undone.
+                This action will permanently delete the Model and cannot be undone.
               </Text>
             </Flex>
           </ModalBody>
