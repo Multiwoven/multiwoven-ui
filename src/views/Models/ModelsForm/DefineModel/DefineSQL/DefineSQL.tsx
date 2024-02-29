@@ -16,7 +16,6 @@ import { DefineSQLProps } from './types';
 import { UpdateModelPayload } from '@/views/Models/ViewModel/types';
 import ContentContainer from '@/components/ContentContainer';
 import SourceFormFooter from '@/views/Connectors/Sources/SourcesForm/SourceFormFooter';
-import FormFooter from '@/components/FormFooter';
 
 const DefineSQL = ({
   hasPrefilledValues = false,
@@ -242,13 +241,15 @@ const DefineSQL = ({
         </Box>
       </ContentContainer>
       {isUpdateButtonVisible ? (
-        <FormFooter
+        <SourceFormFooter
           ctaName='Save Changes'
           ctaType='button'
           isCtaDisabled={!moveForward}
           isAlignToContentContainer
           isBackRequired
           onCtaClick={handleModelUpdate}
+          isContinueCtaRequired
+          isDocumentsSectionRequired
         />
       ) : (
         <SourceFormFooter

@@ -20,8 +20,8 @@ import {
 } from '@/views/Activate/Syncs/types';
 import ScheduleForm from './ScheduleForm';
 import { FormikProps, useFormik } from 'formik';
-import FormFooter from '@/components/FormFooter';
 import SyncActions from './SyncActions';
+import SourceFormFooter from '@/views/Connectors/Sources/SourcesForm/SourceFormFooter';
 
 const EditSync = (): JSX.Element | null => {
   const [selectedStream, setSelectedStream] = useState<Stream | null>(null);
@@ -38,7 +38,7 @@ const EditSync = (): JSX.Element | null => {
   } = useQuery({
     queryKey: ['sync', syncId],
     queryFn: () => getSyncById(syncId as string),
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnWindowFocus: false,
     enabled: !!syncId,
   });
@@ -209,11 +209,14 @@ const EditSync = (): JSX.Element | null => {
             <ScheduleForm formik={formik} isEdit />
           </React.Fragment>
         ) : null}
-        <FormFooter
+        <SourceFormFooter
           ctaName='Save Changes'
           ctaType='submit'
           isCtaLoading={isEditLoading}
           isAlignToContentContainer
+          isDocumentsSectionRequired
+          isContinueCtaRequired
+          isBackRequired
         />
       </ContentContainer>
     </form>
