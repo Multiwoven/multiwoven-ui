@@ -1,7 +1,52 @@
 import { Stack, Tab, TabIndicator, TabList, Tabs, Box, Text } from '@chakra-ui/react';
 import ContentContainer from '@/components/ContentContainer';
 import TopBar from '@/components/TopBar';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const data = {
+  labels: ['2024-03-04T10:10:00.000Z'],
+  datasets: [
+    {
+      label: 'Total',
+      data: [2],
+      backgroundColor: 'skyblue',
+    },
+    {
+      label: 'Failed',
+      data: [0],
+      backgroundColor: 'lightcoral',
+    },
+    {
+      label: 'Success',
+      data: [2],
+      backgroundColor: 'lightgreen',
+    },
+  ],
+};
+
+const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top' as const,
+    },
+    title: {
+      display: true,
+      text: 'Chart.js Bar Chart',
+    },
+  },
+};
 const TabName = ({ title }: { title: string }) => (
   <Tab
     _selected={{
@@ -50,6 +95,7 @@ const Dashboard = (): JSX.Element => {
             </Tabs>
           </Stack>
         </Box>
+        <Bar options={options} data={data} />
       </ContentContainer>
     </Box>
   );
