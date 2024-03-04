@@ -14,19 +14,19 @@ export type Report = {
   };
 };
 
+export type ReportTimePeriod = 'one_week' | 'one_day';
+
 type ReportOptions = {
   metric?: 'sync_run_triggered' | 'total_sync_run_rows' | 'all';
   connector_ids?: Array<number>;
   time_period?: 'one_week' | 'one_day';
 };
 
-const defaultOptions: ReportOptions = {
-  metric: 'all',
-  time_period: 'one_week',
-};
-
-export const getReport = async (options: ReportOptions = defaultOptions): Promise<Report> =>
+export const getReport = async ({
+  metric = 'all',
+  time_period = 'one_week',
+}: ReportOptions): Promise<Report> =>
   multiwovenFetch<null, Report>({
     method: 'get',
-    url: `/reports?type=workspace_activity&metric=${options.metric}&time_period=${options.time_period}`,
+    url: `/reports?type=workspace_activity&metric=${metric}&time_period=${time_period}`,
   });

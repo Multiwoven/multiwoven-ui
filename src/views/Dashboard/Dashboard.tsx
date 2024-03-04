@@ -11,11 +11,12 @@ import {
   Tooltip,
 } from 'chart.js';
 import { useQuery } from '@tanstack/react-query';
-import { getReport } from '@/services/dashboard';
+import { ReportTimePeriod, getReport } from '@/services/dashboard';
 import SyncRuns from './SyncRuns';
 import SyncRunsErrors from './SyncRunsErrors';
 import RowsProcessed from './RowsProcessed';
 import RowsFailed from './RowsFailed';
+import { useState } from 'react';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -35,9 +36,11 @@ const TabName = ({ title }: { title: string }) => (
 );
 
 const Dashboard = (): JSX.Element => {
+  const [reportTime, setReportTime] = useState<ReportTimePeriod>('one_week');
+
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard', 'syncs'],
-    queryFn: () => getReport(),
+    queryFn: () => getReport({ time_period: reportTime }),
     refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
@@ -49,7 +52,6 @@ const Dashboard = (): JSX.Element => {
     return <div>Error</div>;
   }
 
-  console.log(data.data.sync_run_triggered);
   const syncRunTriggeredData = data.data.sync_run_triggered;
   const syncRunRowsData = data.data.total_sync_run_rows;
 
