@@ -31,7 +31,7 @@ type MenuArray = MenuSection[];
 const menus: MenuArray = [
   {
     heading: null,
-    menu: [{ title: 'Dashboard', link: '/', Icon: FiHome, disabled: true }],
+    menu: [{ title: 'Dashboard', link: '/', Icon: FiHome }],
   },
   {
     heading: 'SETUP',
