@@ -55,8 +55,6 @@ export const ChartCard = ({
     },
   };
 
-  console.log(chartData);
-
   return (
     <Box
       w='356px'
@@ -78,9 +76,9 @@ export const ChartCard = ({
         </Text>
         <Spacer />
         <ChakraTooltip hasArrow label={tooltipLabel} fontSize='sm' placement={tooltipPosition}>
-          <span>
+          <Text color='gray.600'>
             <FiInfo />
-          </span>
+          </Text>
         </ChakraTooltip>
       </HStack>
       <Box>
