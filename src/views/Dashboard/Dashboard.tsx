@@ -1,4 +1,14 @@
-import { Stack, Tab, TabIndicator, TabList, Tabs, Box, Text, Checkbox } from '@chakra-ui/react';
+import {
+  Stack,
+  Tab,
+  TabIndicator,
+  TabList,
+  Tabs,
+  Box,
+  Text,
+  Checkbox,
+  VStack,
+} from '@chakra-ui/react';
 import ContentContainer from '@/components/ContentContainer';
 import TopBar from '@/components/TopBar';
 import { useQuery } from '@tanstack/react-query';
@@ -73,10 +83,24 @@ const Dashboard = (): JSX.Element => {
               borderWidth='1px'
               borderColor='gray.400'
             >
-              <Stack gap='12px'>
+              <Stack gap='12px' height='100%'>
+                {connectorsList?.length === 0 && (
+                  <VStack justify='center' height='100%'>
+                    <Text color='gray.600' size='xs' fontWeight='semibold'>
+                      No connectors found
+                    </Text>
+                  </VStack>
+                )}
                 {connectorsList?.map((connector, index) => (
-                  <Box key={index} paddingY='10px' paddingX='16px' display='flex' gap='12px'>
-                    <Checkbox size='md' colorScheme='#F54C3D' />
+                  <Box
+                    key={index}
+                    paddingY='10px'
+                    paddingX='16px'
+                    display='flex'
+                    gap='12px'
+                    _hover={{ backgroundColor: 'gray.200' }}
+                  >
+                    <Checkbox size='md' />
                     <EntityItem
                       icon={connector?.attributes?.icon}
                       name={connector?.attributes?.name}
