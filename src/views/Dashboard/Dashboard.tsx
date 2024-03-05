@@ -7,7 +7,7 @@ import {
   Box,
   Text,
   VStack,
-  Checkbox,
+  Spinner,
 } from '@chakra-ui/react';
 import ContentContainer from '@/components/ContentContainer';
 import TopBar from '@/components/TopBar';
@@ -21,7 +21,7 @@ import {
   Tooltip,
 } from 'chart.js';
 import { useQuery } from '@tanstack/react-query';
-import { ReportTimePeriod, getReport } from '@/services/dashboard';
+import { ReportTimePeriod, getReport, Report } from '@/services/dashboard';
 import SyncRuns from './SyncRuns';
 import SyncRunsErrors from './SyncRunsErrors';
 import RowsProcessed from './RowsProcessed';
@@ -34,7 +34,7 @@ import { ConnectorItem } from '../Connectors/types';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const TabName = ({ title }: { title: string }) => (
+const TabName = ({ title, onClick }: { title: string; onClick?: () => void }) => (
   <Tab
     _selected={{
       backgroundColor: 'gray.100',
@@ -42,6 +42,7 @@ const TabName = ({ title }: { title: string }) => (
       color: 'black.500',
     }}
     color='black.200'
+    onClick={onClick}
   >
     <Text size='xs' fontWeight='semibold'>
       {title}
@@ -50,41 +51,38 @@ const TabName = ({ title }: { title: string }) => (
 );
 
 const Dashboard = (): JSX.Element => {
-  const [reportTime, setReportTime] = useState<ReportTimePeriod>('one_day');
   const [filteredConnectorsList, setFilteredConnectorsList] = useState<ConnectorItem[]>();
+  const [reportTime, setReportTime] = useState<ReportTimePeriod>('one_day');
+  const [report, setReport] = useState<Report>();
 
-  const { data: reportData, isLoading: reportIsLoading } = useQuery({
-    queryKey: ['dashboard', 'syncs'],
-    queryFn: () => getReport({ time_period: reportTime }),
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-  });
-
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['models'],
     queryFn: () => getAllConnectors(),
     refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
 
+  useEffect(() => {
+    setFilteredConnectorsList(data?.data);
+  }, [data]);
+
+  const { data: reportData } = useQuery({
+    queryKey: ['dashboard', 'syncs', reportTime],
+    queryFn: () => getReport({ time_period: reportTime }),
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
+
+  useEffect(() => {
+    setReport(reportData);
+  }, [reportData]);
+
   const setReportTimePeriod = (timePeriod: ReportTimePeriod) => {
     setReportTime(timePeriod);
   };
 
-  if (isLoading || reportIsLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!reportData) {
-    return <div>Error</div>;
-  }
-
-  const syncRunTriggeredData = reportData.data.sync_run_triggered;
-  const syncRunRowsData = reportData.data.total_sync_run_rows;
-
-  useEffect(() => {
-    setFilteredConnectorsList(data?.data);
-  }, [data]);
+  const syncRunTriggeredData = report?.data.sync_run_triggered;
+  const syncRunRowsData = report?.data.total_sync_run_rows;
 
   return (
     <Box width='100%' display='flex' flexDirection='column' alignItems='center'>
@@ -96,75 +94,51 @@ const Dashboard = (): JSX.Element => {
           onCtaClicked={() => {}}
           isCtaVisible={false}
         />
+        <Box display='flex' gap='24px'>
+          <Box>
+            <ListConnectors
+              connectorsList={data?.data}
+              filteredConnectorsList={filteredConnectorsList}
+              setFilteredConnectorsList={setFilteredConnectorsList}
+            />
+          </Box>
+          <Stack gap='24px'>
+            <Stack spacing='16'>
+              <Tabs
+                size='md'
+                variant='indicator'
+                background='gray.300'
+                padding={1}
+                borderRadius='8px'
+                borderStyle='solid'
+                borderWidth='1px'
+                borderColor='gray.400'
+                width='fit-content'
+              >
+                <TabList gap='8px'>
+                  <TabName title='24hr' onClick={() => setReportTimePeriod('one_day')} />
+                  <TabName title='7d' onClick={() => setReportTimePeriod('one_week')} />
+                </TabList>
+                <TabIndicator />
+              </Tabs>
+            </Stack>
 
-        <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap='24px'>
-          <Stack gap='32px'>
-            <Tabs
-              size='md'
-              variant='indicator'
-              background='gray.300'
-              padding={1}
-              borderRadius='8px'
-              borderStyle='solid'
-              borderWidth='1px'
-              borderColor='gray.400'
-              width='352px'
-            >
-              <TabList gap='8px'>
-                <TabName title='All Connectors' />
-                <TabName title='By Destination' />
-                <TabName title='By Source' />
-              </TabList>
-              <TabIndicator />
-            </Tabs>
-            <Box
-              height='460px'
-              backgroundColor='gray.100'
-              width='352px'
-              borderRadius='8px'
-              borderStyle='solid'
-              borderWidth='1px'
-              borderColor='gray.400'
-            >
-              <Box>
-                <ListConnectors
-                  connectorsList={data?.data}
-                  filteredConnectorsList={filteredConnectorsList}
-                  setFilteredConnectorsList={setFilteredConnectorsList}
-                />
+            {syncRunRowsData && syncRunTriggeredData ? (
+              <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap={3}>
+                <VStack gap={3}>
+                  <SyncRuns syncRunTriggeredData={syncRunTriggeredData} />
+                  <SyncRunsErrors syncRunTriggeredData={syncRunTriggeredData} />
+                </VStack>
+                <VStack gap={3}>
+                  <RowsProcessed rowsProcessedData={syncRunRowsData} />
+                  <RowsFailed rowsFailedData={syncRunRowsData} />
+                </VStack>
               </Box>
-              <Stack gap='32px'>
-                <Stack spacing='16'>
-                  <Tabs
-                    size='md'
-                    variant='indicator'
-                    background='gray.300'
-                    padding={1}
-                    borderRadius='8px'
-                    borderStyle='solid'
-                    borderWidth='1px'
-                    borderColor='gray.400'
-                    width='fit-content'
-                  >
-                    <TabList>
-                      <TabName title='24h' />
-                      <TabName title='7d' />
-                    </TabList>
-                    <TabIndicator />
-                  </Tabs>
-                </Stack>
-                <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap={3}>
-                  <VStack gap={3}>
-                    <SyncRuns syncRunTriggeredData={syncRunTriggeredData} />
-                    <SyncRunsErrors syncRunTriggeredData={syncRunTriggeredData} />
-                  </VStack>
-                  <VStack gap={3}>
-                    <RowsProcessed rowsProcessedData={syncRunRowsData} />
-                    <RowsFailed rowsFailedData={syncRunRowsData} />
-                  </VStack>
-                </Box>
-              </Stack>
-            </Box>
+            ) : (
+              <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap={3}>
+                <Spinner speed='0.8s' emptyColor='gray.200' color='brand.300' size='lg' mx='auto' />
+              </Box>
+            )}
           </Stack>
         </Box>
       </ContentContainer>
