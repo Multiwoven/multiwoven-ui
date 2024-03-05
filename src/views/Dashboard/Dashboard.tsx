@@ -49,7 +49,7 @@ const TabName = ({ title }: { title: string }) => (
 );
 
 const Dashboard = (): JSX.Element => {
-  const [reportTime, setReportTime] = useState<ReportTimePeriod>('one_week');
+  const [reportTime, setReportTime] = useState<ReportTimePeriod>('one_day');
 
   const { data: reportData } = useQuery({
     queryKey: ['dashboard', 'syncs'],
@@ -65,6 +65,10 @@ const Dashboard = (): JSX.Element => {
     refetchOnWindowFocus: false,
   });
 
+  const setReportTimePeriod = (timePeriod: ReportTimePeriod) => {
+    setReportTime(timePeriod);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -75,8 +79,6 @@ const Dashboard = (): JSX.Element => {
 
   const syncRunTriggeredData = reportData.data.sync_run_triggered;
   const syncRunRowsData = reportData.data.total_sync_run_rows;
-
-  console.log(data);
 
   const connectorsList = data?.data;
 
