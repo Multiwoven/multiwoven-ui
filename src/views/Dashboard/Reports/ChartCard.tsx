@@ -29,6 +29,7 @@ type ChartCardProps = {
   chartData: ChartData;
   tooltipLabel: string;
   cardTitle: string;
+  chartEmptyText?: string;
   tooltipPosition?: 'top' | 'top-start' | 'top-end' | undefined;
 };
 
@@ -39,6 +40,7 @@ export const ChartCard = ({
   tooltipLabel,
   cardTitle,
   tooltipPosition = 'top',
+  chartEmptyText = 'No Data found',
 }: ChartCardProps): JSX.Element => {
   const options = {
     responsive: true,
@@ -77,8 +79,6 @@ export const ChartCard = ({
     return total + datasetSum;
   }, 0);
 
-  console.log(totalSum);
-
   return (
     <Box
       w='356px'
@@ -110,7 +110,7 @@ export const ChartCard = ({
       </Box>
       {totalSum === 0 ? (
         <Box position='relative' left='40%' bottom='60%'>
-          <Badge text='No Data found' variant='default' width='fit-content' />
+          <Badge text={chartEmptyText} variant='default' width='fit-content' />
         </Box>
       ) : (
         <></>
