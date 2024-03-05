@@ -9,7 +9,7 @@ import ListConnectors from './ListConnectors';
 import { ConnectorItem } from '../Connectors/types';
 
 const Dashboard = (): JSX.Element => {
-  const [connectorsList, setConnectorsList] = useState<ConnectorItem[]>();
+  const [filteredConnectorsList, setFilteredConnectorsList] = useState<ConnectorItem[]>();
 
   const { data } = useQuery({
     queryKey: ['models'],
@@ -19,7 +19,7 @@ const Dashboard = (): JSX.Element => {
   });
 
   useEffect(() => {
-    setConnectorsList(data?.data);
+    setFilteredConnectorsList(data?.data);
   }, [data]);
 
   return (
@@ -33,7 +33,11 @@ const Dashboard = (): JSX.Element => {
           isCtaVisible={false}
         />
         <Box>
-          <ListConnectors connectorsList={connectorsList} setConnectorsList={setConnectorsList} />
+          <ListConnectors
+            connectorsList={data?.data}
+            filteredConnectorsList={filteredConnectorsList}
+            setFilteredConnectorsList={setFilteredConnectorsList}
+          />
         </Box>
       </ContentContainer>
     </Box>
