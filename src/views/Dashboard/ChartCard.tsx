@@ -50,6 +50,7 @@ export const ChartCard = ({
         ticks: {
           stepSize: 1,
           fontFamily: 'Manrope',
+          maxTicksLimit: 4,
         },
       },
     },
