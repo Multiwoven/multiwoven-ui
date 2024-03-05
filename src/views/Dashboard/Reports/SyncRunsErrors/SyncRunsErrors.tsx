@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { ChartCard } from '../ChartCard';
+import { ChartCard } from '@/views/Dashboard/Reports/ChartCard';
 import { ReportObject } from '@/services/dashboard';
 
 type SyncRunsErrorsProps = {
@@ -22,6 +22,7 @@ const SyncRunsErrors = ({ syncRunTriggeredData }: SyncRunsErrorsProps): JSX.Elem
       chartData={chartData}
       tooltipLabel='Number of sync runs that encountered fatal or row-level errors'
       cardTitle='Sync runs with errors'
+      chartEmptyText='No sync runs with errors'
     />
   );
 };

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { ChartCard } from '../ChartCard';
+import { ChartCard } from '@/views/Dashboard/Reports/ChartCard';
 import { ReportObject } from '@/services/dashboard';
 
 type SyncRunsProps = {
@@ -27,6 +27,7 @@ const SyncRuns = ({ syncRunTriggeredData }: SyncRunsProps): JSX.Element => {
       chartData={chartData}
       tooltipLabel='Number of sync runs triggered manually or via recurring schedule'
       cardTitle='Sync runs'
+      chartEmptyText='No sync runs'
     />
   );
 };

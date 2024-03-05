@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { ChartCard } from '../ChartCard';
+import { ChartCard } from '@/views/Dashboard/Reports/ChartCard';
 import { ReportObject } from '@/services/dashboard';
 
 type RowsProcessedProps = {
@@ -28,6 +28,7 @@ const RowsProcessed = ({ rowsProcessedData }: RowsProcessedProps): JSX.Element =
       tooltipLabel='Number of rows added, changed, or removed during sync runs'
       cardTitle='Rows processed'
       tooltipPosition='top-end'
+      chartEmptyText='No processed rows'
     />
   );
 };

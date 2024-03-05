@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { ChartCard } from '../ChartCard';
+import { ChartCard } from '@/views/Dashboard/Reports/ChartCard';
 import { ReportObject } from '@/services/dashboard';
 
 type RowsFailedProps = {
@@ -23,6 +23,7 @@ const RowsFailed = ({ rowsFailedData }: RowsFailedProps): JSX.Element => {
       tooltipLabel='Number of rows added, changed, or removed during sync runs'
       cardTitle='Rows Failed'
       tooltipPosition='top-end'
+      chartEmptyText='No processed rows'
     />
   );
 };
