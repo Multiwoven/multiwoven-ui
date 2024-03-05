@@ -10,11 +10,23 @@ import {
   Legend,
   Tooltip,
 } from 'chart.js';
+import Badge from '@/components/Badge';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+type Dataset = {
+  label: string;
+  data: number[];
+  backgroundColor: string;
+};
+
+type ChartData = {
+  labels: string[];
+  datasets: Dataset[];
+};
+
 type ChartCardProps = {
-  chartData: any;
+  chartData: ChartData;
   tooltipLabel: string;
   cardTitle: string;
   tooltipPosition?: 'top' | 'top-start' | 'top-end' | undefined;
@@ -46,6 +58,7 @@ export const ChartCard = ({
           maxTicksLimit: 4,
           fontFamily: 'Manrope',
         },
+        grid: { color: '#F2F4F7' },
       },
       y: {
         stacked: true,
@@ -54,9 +67,17 @@ export const ChartCard = ({
           fontFamily: 'Manrope',
           maxTicksLimit: 4,
         },
+        grid: { color: '#F2F4F7' },
       },
     },
   };
+
+  const totalSum = chartData.datasets.reduce((total, dataset) => {
+    const datasetSum = dataset.data.reduce((sum, value) => sum + value, 0);
+    return total + datasetSum;
+  }, 0);
+
+  console.log(totalSum);
 
   return (
     <Box
@@ -84,9 +105,16 @@ export const ChartCard = ({
           </Text>
         </ChakraTooltip>
       </HStack>
-      <Box>
+      <Box opacity={totalSum > 0 ? '100%' : '40%'}>
         <Bar height='180px' width='316px' options={options} data={chartData} />
       </Box>
+      {totalSum === 0 ? (
+        <Box position='relative' left='40%' bottom='60%'>
+          <Badge text='No Data found' variant='default' width='fit-content' />
+        </Box>
+      ) : (
+        <></>
+      )}
     </Box>
   );
 };
