@@ -23,7 +23,7 @@ import Cookies from 'js-cookie';
 import titleCase from '@/utils/TitleCase';
 import AuthFooter from '../AuthFooter';
 import HiddenInput from '@/components/HiddenInput';
-import useCustomToast from "../../../hooks/useCustomToast";
+import useCustomToast from '../../../hooks/useCustomToast';
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Please enter a valid email address').required('Email is required'),
@@ -121,8 +121,8 @@ const SignIn = (): JSX.Element => {
         duration: 3000,
         isClosable: true,
         position: 'bottom-right',
-        text:'Signed In', 
-        status: "success"
+        text: 'Signed In',
+        status: 'success',
       });
       navigate('/setup/sources', { replace: true });
     } else {
@@ -133,8 +133,8 @@ const SignIn = (): JSX.Element => {
           isClosable: true,
           position: 'bottom-right',
           colorScheme: 'red',
-          status: "warning",  
-          text:titleCase(error.detail) ,  
+          status: 'warning',
+          text: titleCase(error.detail),
         });
       });
     }
