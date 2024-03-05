@@ -1,6 +1,6 @@
 
 import { useToast, type UseToastOptions } from "@chakra-ui/react";
-import CustomToast, {type customToastStatus} from "../components/Toast/index"
+import Toast, {type customToastStatus} from "../components/Toast/index"
 
 interface showToastProps {
   text: string
@@ -16,7 +16,7 @@ export default function useCustomToast() {
    
         return toast({
         ...toastOptions,
-        render: ({ onClose }) => (<CustomToast text={text} status={status as customToastStatus} onClose={onClose}/>)
+        render: ({ onClose }) => (<Toast text={text} status={status as customToastStatus} onClose={onClose}/>)
        
       });
     };

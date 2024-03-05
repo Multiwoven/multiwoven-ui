@@ -19,16 +19,10 @@ interface ToastProps {
 
 const CustomToastIcon: React.FC<CustomToastIconProps> = ({status}) => {
     const color: string = status ? `${status}.400` : 'info.400';
-
-    if (status === 'success') {
-      return <Icon as={CheckCircleIcon} color={color} marginRight="16px"  boxSize="20px" />;
-    } else {
-      return <Icon as={InfoIcon} color={color} marginRight="16px" boxSize="20px" />;
-    }
-    
+    return <Icon as={status === 'success' ? CheckCircleIcon : InfoIcon} color={color} marginRight="16px" boxSize="20px" />;   
 };
 
-const CustomToast: React.FC<ToastProps> = ({
+const Toast: React.FC<ToastProps> = ({
     text,
     status = undefined,
     style={},
@@ -52,13 +46,13 @@ const CustomToast: React.FC<ToastProps> = ({
                 justifyContent="space-between"
                 >
                     <Box display="flex"  justifyContent="flex-start" alignItems="center">
-                        < CustomToastIcon status={status} />
+                        <CustomToastIcon status={status} />
                         <Box>
                             {text}
                         </Box>
                     </Box> 
                  
-                    <Button variant="unstyled" width="auto" onClick={onClose} marginX="16px"   >
+                    <Button variant="unstyled" width="auto" onClick={onClose} marginX="16px">
                         <Icon as={CloseIcon} color="black.100" boxSize="20px" />
                     </Button>
                     
@@ -68,7 +62,7 @@ const CustomToast: React.FC<ToastProps> = ({
         );  
     }
 
-    <Box style={style}> < CustomToastIcon status={status} /> {text}</Box>
+    <Box style={style}> <CustomToastIcon status={status} />{text}</Box>
 }
 
-export default CustomToast
+export default Toast;
