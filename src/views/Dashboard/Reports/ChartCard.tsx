@@ -20,6 +20,8 @@ type ChartCardProps = {
   tooltipPosition?: 'top' | 'top-start' | 'top-end' | undefined;
 };
 
+const mode = 'index' as const;
+
 export const ChartCard = ({
   chartData,
   tooltipLabel,
@@ -34,7 +36,7 @@ export const ChartCard = ({
       },
     },
     interaction: {
-      mode: 'index' as 'index',
+      mode: mode,
     },
     scales: {
       x: {
