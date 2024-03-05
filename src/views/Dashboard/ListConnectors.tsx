@@ -81,7 +81,16 @@ const ListConnectors = ({
               gap='12px'
               _hover={{ backgroundColor: 'gray.200' }}
             >
-              <Checkbox size='md' />
+              <Checkbox
+                size='lg'
+                borderColor='gray.300'
+                _checked={{
+                  '& .chakra-checkbox__control': {
+                    background: 'brand.400',
+                    borderColor: 'brand.400',
+                  },
+                }}
+              />
               <EntityItem icon={connector?.attributes?.icon} name={connector?.attributes?.name} />
             </Box>
           ))}
