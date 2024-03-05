@@ -12,7 +12,13 @@ import {
 import EntityItem from '@/components/EntityItem';
 import { ConnectorItem } from '../Connectors/types';
 
-const TabName = ({ title }: { title: string }) => (
+enum CONNECTOR_TYPE {
+  ALL = 'all',
+  DESTINATION = 'destination',
+  SOURCE = 'source',
+}
+
+const TabName = ({ title, filterConnectors }: { title: string; filterConnectors: () => void }) => (
   <Tab
     _selected={{
       backgroundColor: 'gray.100',
@@ -20,6 +26,7 @@ const TabName = ({ title }: { title: string }) => (
       color: 'black.500',
     }}
     color='black.200'
+    onClick={filterConnectors}
   >
     <Text size='xs' fontWeight='semibold'>
       {title}
@@ -29,10 +36,25 @@ const TabName = ({ title }: { title: string }) => (
 
 const ListConnectors = ({
   connectorsList,
+  filteredConnectorsList,
+  setFilteredConnectorsList,
 }: {
   connectorsList?: ConnectorItem[];
-  setConnectorsList: React.Dispatch<React.SetStateAction<ConnectorItem[] | undefined>>;
+  filteredConnectorsList?: ConnectorItem[];
+  setFilteredConnectorsList: React.Dispatch<React.SetStateAction<ConnectorItem[] | undefined>>;
 }): JSX.Element => {
+  const filterConnectors = (filterBy: string) => {
+    if (filterBy === 'all') {
+      setFilteredConnectorsList(connectorsList);
+      return;
+    }
+
+    const updatedFilteredConnectors = connectorsList?.filter(
+      (connector) => connector?.attributes?.connector_type === filterBy,
+    );
+    setFilteredConnectorsList(updatedFilteredConnectors);
+  };
+
   return (
     <Stack gap='24px'>
       <Stack spacing='16'>
@@ -48,9 +70,18 @@ const ListConnectors = ({
           width='352px'
         >
           <TabList gap='8px'>
-            <TabName title='All Connectors' />
-            <TabName title='By Destination' />
-            <TabName title='By Source' />
+            <TabName
+              title='All Connectors'
+              filterConnectors={() => filterConnectors(CONNECTOR_TYPE.ALL)}
+            />
+            <TabName
+              title='By Destination'
+              filterConnectors={() => filterConnectors(CONNECTOR_TYPE.DESTINATION)}
+            />
+            <TabName
+              title='By Source'
+              filterConnectors={() => filterConnectors(CONNECTOR_TYPE.SOURCE)}
+            />
           </TabList>
           <TabIndicator />
         </Tabs>
@@ -65,14 +96,14 @@ const ListConnectors = ({
         borderColor='gray.400'
       >
         <Stack gap='12px' height='100%'>
-          {connectorsList?.length === 0 && (
+          {filteredConnectorsList?.length === 0 && (
             <VStack justify='center' height='100%'>
               <Text color='gray.600' size='xs' fontWeight='semibold'>
                 No connectors found
               </Text>
             </VStack>
           )}
-          {connectorsList?.map((connector, index) => (
+          {filteredConnectorsList?.map((connector, index) => (
             <Box
               key={index}
               paddingY='10px'
