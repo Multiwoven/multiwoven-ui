@@ -88,3 +88,9 @@ export const deleteConnector = async (id: string): Promise<ConnectorInfoResponse
     method: 'delete',
     url: `/connectors/${id}`,
   });
+
+export const getAllConnectors = async (): Promise<ConnectorListResponse> =>
+  multiwovenFetch<null, ConnectorListResponse>({
+    method: 'get',
+    url: '/connectors',
+  });
