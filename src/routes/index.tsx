@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react';
+import { Navigate } from 'react-router-dom';
 const AboutUs = lazy(() => import('@/views/AboutUs'));
 const Dashboard = lazy(() => import('@/views/Dashboard'));
 const SignIn = lazy(() => import('@/views/Authentication/SignIn'));
@@ -30,7 +31,14 @@ export const MAIN_PAGE_ROUTES: MAIN_PAGE_ROUTES_ITEM[] = [
   {
     name: 'Homepage',
     url: '/',
-    component: <SuspenseWithLoader redirectRoute='/'>{<Dashboard />}</SuspenseWithLoader>,
+    component: (
+      <SuspenseWithLoader redirectRoute='/setup/sources'>
+        {
+          // <Dashboard />
+          <Navigate to='/setup/sources' />
+        }
+      </SuspenseWithLoader>
+    ),
   },
   {
     name: 'About Us',
