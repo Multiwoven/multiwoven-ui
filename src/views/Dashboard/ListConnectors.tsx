@@ -11,6 +11,11 @@ import {
 } from '@chakra-ui/react';
 import EntityItem from '@/components/EntityItem';
 import { ConnectorItem } from '../Connectors/types';
+import { useState } from 'react';
+
+import Pagination from './Pagination';
+
+const ITEMS_PER_PAGE = 6;
 
 enum CONNECTOR_TYPE {
   ALL = 'all',
@@ -43,6 +48,27 @@ const ListConnectors = ({
   filteredConnectorsList?: ConnectorItem[];
   setFilteredConnectorsList: React.Dispatch<React.SetStateAction<ConnectorItem[] | undefined>>;
 }): JSX.Element => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Calculate the start and end index of the items to display for the current page
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+
+  // Slice the array to display only the items for the current page
+  const currentPageConnectorsList = filteredConnectorsList?.slice(startIndex, endIndex);
+
+  const totalPages = filteredConnectorsList
+    ? Math.ceil(filteredConnectorsList?.length / ITEMS_PER_PAGE)
+    : 1;
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
   const filterConnectors = (filterBy: string) => {
     if (filterBy === 'all') {
       setFilteredConnectorsList(connectorsList);
@@ -96,14 +122,14 @@ const ListConnectors = ({
         borderColor='gray.400'
       >
         <Stack gap='12px' height='100%'>
-          {filteredConnectorsList?.length === 0 && (
+          {currentPageConnectorsList?.length === 0 && (
             <VStack justify='center' height='100%'>
               <Text color='gray.600' size='xs' fontWeight='semibold'>
                 No connectors found
               </Text>
             </VStack>
           )}
-          {filteredConnectorsList?.map((connector, index) => (
+          {currentPageConnectorsList?.map((connector, index) => (
             <Box
               key={index}
               paddingY='10px'
@@ -127,6 +153,11 @@ const ListConnectors = ({
           ))}
         </Stack>
       </Box>
+      <Pagination
+        currentPage={currentPage}
+        handlePrevPage={handlePrevPage}
+        handleNextPage={handleNextPage}
+      />
     </Stack>
   );
 };
