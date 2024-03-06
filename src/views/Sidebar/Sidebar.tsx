@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Text, Divider } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Divider, VStack } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
 import IconImage from '../../assets/images/multiwoven-logo.png';
 import {
@@ -94,7 +94,7 @@ const renderMenuSection = (section: MenuSection, index: number) => (
 );
 
 const SideBarFooter = () => (
-  <Stack position='absolute' bottom='0' left='0px' right='0px' margin='24px 16px'>
+  <Stack spacing='0' margin='24px 16px'>
     <Box />
     <Stack spacing='0'>
       <NavButton label='Settings' icon={FiSettings} disabled={true} />
@@ -110,13 +110,13 @@ const Sidebar = (): JSX.Element => {
   return (
     <Flex
       position='relative'
-      
       as='section'
       minH='100vh'
       bg='bg.canvas'
       borderRightWidth='1px'
       borderRightStyle='solid'
       borderRightColor='gray.400'
+      direction="column"
     >
       <Flex
         flex='1'
@@ -124,8 +124,9 @@ const Sidebar = (): JSX.Element => {
         maxW={{ base: 'full', sm: 'xs' }}
         paddingX={4}
         paddingY={6}
+        direction="column"
       >
-        <Stack justify='space-between' spacing='1' width='full'>
+        <VStack justify='space-between' spacing='1' width='full' height="full">
           <Stack spacing='6' shouldWrapChildren>
             <Flex justifyContent='center'>
               <img width={160} src={IconImage} alt='IconImage' />
@@ -134,9 +135,9 @@ const Sidebar = (): JSX.Element => {
               <Divider orientation='horizontal' />
             </Box>
             {menus.map(renderMenuSection)}
-            <SideBarFooter />
           </Stack>
-        </Stack>
+          <SideBarFooter />
+        </VStack>
       </Flex>
     </Flex>
   );
