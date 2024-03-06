@@ -11,68 +11,72 @@ import {
   Tooltip,
 } from 'chart.js';
 import Badge from '@/components/Badge';
+import { ChartData, ChartDataType } from '../types';
+import moment from 'moment';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-type Dataset = {
-  label: string;
-  data: number[];
-  backgroundColor: string;
-};
-
-type ChartData = {
-  labels: string[];
-  datasets: Dataset[];
-};
-
 type ChartCardProps = {
-  chartData: ChartData;
+  data: ChartDataType;
   tooltipLabel: string;
   cardTitle: string;
   chartEmptyText?: string;
   tooltipPosition?: 'top' | 'top-start' | 'top-end' | undefined;
 };
 
-const mode = 'index' as const;
+const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  interaction: {
+    mode: 'index' as const,
+  },
+  scales: {
+    x: {
+      stacked: true,
+      barThickness: '10px',
+      ticks: {
+        maxTicksLimit: 4,
+        fontFamily: 'Manrope',
+      },
+      grid: { color: '#F2F4F7' },
+    },
+    y: {
+      stacked: true,
+      ticks: {
+        stepSize: 1,
+        fontFamily: 'Manrope',
+        maxTicksLimit: 4,
+      },
+      grid: { color: '#F2F4F7' },
+    },
+  },
+};
 
 export const ChartCard = ({
-  chartData,
+  data,
   tooltipLabel,
   cardTitle,
   tooltipPosition = 'top',
   chartEmptyText = 'No Data found',
-}: ChartCardProps): JSX.Element => {
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    interaction: {
-      mode: mode,
-    },
-    scales: {
-      x: {
-        stacked: true,
-        barThickness: '10px',
-        ticks: {
-          maxTicksLimit: 4,
-          fontFamily: 'Manrope',
-        },
-        grid: { color: '#F2F4F7' },
-      },
-      y: {
-        stacked: true,
-        ticks: {
-          stepSize: 1,
-          fontFamily: 'Manrope',
-          maxTicksLimit: 4,
-        },
-        grid: { color: '#F2F4F7' },
-      },
-    },
+}: ChartCardProps): JSX.Element | null => {
+  const labels = data.xData.map((run) => moment(run.time_slice).format('ddd hh:mm'));
+  const datasets = data.yDataPoints.map((dataPoint) => ({
+    label: data.yLabels[dataPoint],
+    data: data.yData.map((run) => Number(run[dataPoint])),
+    backgroundColor: data.backgroundColors[dataPoint],
+  }));
+  console.log(datasets);
+
+  const chartData: ChartData = {
+    labels: labels,
+    datasets: datasets,
   };
+
+  console.log('new chart data', chartData);
 
   const totalSum = chartData.datasets.reduce((total, dataset) => {
     const datasetSum = dataset.data.reduce((sum, value) => sum + value, 0);
@@ -112,9 +116,7 @@ export const ChartCard = ({
         <Box position='relative' left='40%' bottom='60%'>
           <Badge text={chartEmptyText} variant='default' width='fit-content' />
         </Box>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </Box>
   );
 };
