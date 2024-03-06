@@ -69,14 +69,11 @@ export const ChartCard = ({
     data: data.yData.map((run) => Number(run[dataPoint])),
     backgroundColor: data.backgroundColors[dataPoint],
   }));
-  console.log(datasets);
 
   const chartData: ChartData = {
     labels: labels,
     datasets: datasets,
   };
-
-  console.log('new chart data', chartData);
 
   const totalSum = chartData.datasets.reduce((total, dataset) => {
     const datasetSum = dataset.data.reduce((sum, value) => sum + value, 0);
