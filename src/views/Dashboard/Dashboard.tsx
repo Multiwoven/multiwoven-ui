@@ -37,7 +37,7 @@ const TabName = ({ title, onClick }: { title: string; onClick?: () => void }) =>
   </Tab>
 );
 
-const Dashboard = (): JSX.Element => {
+const Dashboard = (): JSX.Element | null => {
   const [filteredConnectorsList, setFilteredConnectorsList] = useState<ConnectorItem[]>();
   const [reportTime, setReportTime] = useState<ReportTimePeriod>('one_day');
   const [report, setReport] = useState<Report>();
@@ -110,10 +110,12 @@ const Dashboard = (): JSX.Element => {
                   <TabIndicator />
                 </Tabs>
               </Stack>
-              <Reports
-                syncRunTriggeredData={syncRunTriggeredData}
-                syncRunRowsData={syncRunRowsData}
-              />
+              {syncRunTriggeredData && syncRunRowsData ? (
+                <Reports
+                  syncRunTriggeredData={syncRunTriggeredData}
+                  syncRunRowsData={syncRunRowsData}
+                />
+              ) : null}
             </Stack>
           </Box>
         </Box>
