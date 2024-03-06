@@ -3,14 +3,16 @@ import { Box, Text } from '@chakra-ui/react';
 type BadgeProps = {
   text: string;
   variant: 'success' | 'warning' | 'error' | 'info' | 'default';
+  width?: string;
 };
 
 const colors = {
   default: {
-    textColor: 'black.500',
+    textColor: 'black.300',
     bgColor: 'gray.200',
     borderColor: 'gray.500',
   },
+
   info: {
     textColor: 'info.600',
     bgColor: 'info.100',
@@ -33,10 +35,10 @@ const colors = {
   },
 };
 
-const Badge = ({ text, variant }: BadgeProps): JSX.Element => {
+const Badge = ({ text, variant, width = '71px' }: BadgeProps): JSX.Element => {
   return (
     <Box
-      w={'71px' || 'fit'}
+      w={width}
       h='20px'
       alignItems='center'
       alignContent='center'
@@ -50,7 +52,7 @@ const Badge = ({ text, variant }: BadgeProps): JSX.Element => {
     >
       <Text
         size='xxs'
-        fontWeight='medium'
+        fontWeight='semibold'
         color={variant ? colors[variant].textColor : colors.default.textColor}
       >
         {text}
