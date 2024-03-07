@@ -43,10 +43,12 @@ const ListConnectors = ({
   connectorsList,
   filteredConnectorsList,
   setFilteredConnectorsList,
+  setConnectorsId,
 }: {
+  setFilteredConnectorsList: React.Dispatch<React.SetStateAction<ConnectorItem[] | undefined>>;
+  setConnectorsId: React.Dispatch<React.SetStateAction<number[]>>;
   connectorsList?: ConnectorItem[];
   filteredConnectorsList?: ConnectorItem[];
-  setFilteredConnectorsList: React.Dispatch<React.SetStateAction<ConnectorItem[] | undefined>>;
 }): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -79,6 +81,16 @@ const ListConnectors = ({
       (connector) => connector?.attributes?.connector_type === filterBy,
     );
     setFilteredConnectorsList(updatedFilteredConnectors);
+  };
+
+  const handleCheckboxChange = (checked: boolean, connectorId: string) => {
+    // If the checkbox is checked, add the connector ID to the list
+    if (checked) {
+      setConnectorsId((prevIds) => [...prevIds, +connectorId]);
+    } else {
+      // If the checkbox is unchecked, remove the connector ID from the list
+      setConnectorsId((prevIds) => prevIds.filter((id) => id !== +connectorId));
+    }
   };
 
   return (
@@ -136,7 +148,9 @@ const ListConnectors = ({
               paddingX='16px'
               display='flex'
               gap='12px'
-              _hover={{ backgroundColor: 'gray.200' }}
+              _hover={{
+                backgroundColor: 'gray.200',
+              }}
             >
               <Checkbox
                 size='lg'
@@ -147,6 +161,7 @@ const ListConnectors = ({
                     borderColor: 'brand.400',
                   },
                 }}
+                onChange={({ target: { checked } }) => handleCheckboxChange(checked, connector.id)}
               />
               <EntityItem icon={connector?.attributes?.icon} name={connector?.attributes?.name} />
             </Box>
