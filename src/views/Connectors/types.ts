@@ -1,4 +1,4 @@
-export type ConnectorTypes = "source" | "destination" | "model";
+export type ConnectorTypes = 'source' | 'destination' | 'model';
 
 export type DatasourceType = {
   icon: string;
@@ -17,9 +17,9 @@ export type TestConnectionPayload = {
 };
 
 export type TestConnectionResponse = {
-  type: "connection_status";
+  type: 'connection_status';
   connection_status: {
-    status: "failed" | "succeeded";
+    status: 'failed' | 'succeeded';
     message: string;
   };
 };
@@ -32,7 +32,7 @@ export type ConnectionStatusProps = {
 };
 
 export type ConnectionStatusMetaData = {
-  status: "failed" | "success" | "loading";
+  status: 'failed' | 'success' | 'loading';
   text: string;
 };
 
@@ -50,7 +50,7 @@ export type CreateConnectorPayload = {
   connector: {
     configuration: unknown;
     name: string;
-    connector_type: "source" | "destination";
+    connector_type: 'source' | 'destination';
     connector_name: string;
     description: string;
   };
@@ -89,11 +89,11 @@ export type ConnectorListResponse = {
 };
 
 export type ConnectorTableColumnFields =
-  | "connector_name"
-  | "icon"
-  | "updated_at"
-  | "status"
-  | "name";
+  | 'connector_name'
+  | 'icon'
+  | 'updated_at'
+  | 'status'
+  | 'name';
 
 export type SourceListColumnType = {
   key: ConnectorTableColumnFields;

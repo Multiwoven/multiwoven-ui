@@ -67,13 +67,7 @@ const SyncActions = () => {
             </Box>
           </Box>
         </PopoverTrigger>
-        <PopoverContent
-          w='182px'
-          border='1px'
-          borderColor='gray.400'
-          borderStyle='solid'
-          mr={8}
-        >
+        <PopoverContent w='182px' border='1px' borderColor='gray.400' borderStyle='solid' mr={8}>
           <PopoverBody margin={0} p={0}>
             <Button
               _hover={{ bgColor: 'gray.200' }}

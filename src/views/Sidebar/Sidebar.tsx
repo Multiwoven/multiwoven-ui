@@ -31,7 +31,7 @@ type MenuArray = MenuSection[];
 const menus: MenuArray = [
   {
     heading: null,
-    menu: [{ title: 'Dashboard', link: '/', Icon: FiHome, disabled: true }],
+    menu: [{ title: 'Dashboard', link: '/', Icon: FiHome }],
   },
   {
     heading: 'SETUP',
@@ -66,12 +66,7 @@ const renderMenuSection = (section: MenuSection, index: number) => (
   <Stack key={index}>
     {section.heading && (
       <Box paddingX='16px'>
-        <Text
-          size='xs'
-          color='gray.600'
-          fontWeight='bold'
-          letterSpacing='2.4px'
-        >
+        <Text size='xs' color='gray.600' fontWeight='bold' letterSpacing='2.4px'>
           {section.heading}
         </Text>
       </Box>

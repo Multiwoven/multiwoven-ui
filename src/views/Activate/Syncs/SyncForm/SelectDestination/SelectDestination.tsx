@@ -37,8 +37,7 @@ const SelectDestination = ({
 
   if (isLoading && !data) return <Loader />;
 
-  if (data?.data.length === 0)
-    return <NoConnectors connectorType='destination' />;
+  if (data?.data.length === 0) return <NoConnectors connectorType='destination' />;
 
   return (
     <Box width='100%' display='flex' justifyContent='center'>
@@ -52,11 +51,7 @@ const SelectDestination = ({
               destinationData={data}
               isLoading={isLoading}
             />
-            <SourceFormFooter
-              ctaName='Continue'
-              ctaType='submit'
-              isBackRequired
-            />
+            <SourceFormFooter ctaName='Continue' ctaType='submit' isBackRequired />
           </>
         )}
       </ContentContainer>

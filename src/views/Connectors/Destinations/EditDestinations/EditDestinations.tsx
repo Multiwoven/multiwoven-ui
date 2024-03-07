@@ -41,25 +41,20 @@ const EditDestination = (): JSX.Element => {
   const [isTestRunning, setIsTestRunning] = useState<boolean>(false);
   const [testedFormData, setTestedFormData] = useState<unknown>(null);
 
-  const { data: connectorInfoResponse, isLoading: isConnectorInfoLoading } =
-    useQuery({
-      queryKey: CONNECTOR_INFO_KEY,
-      queryFn: () => getConnectorInfo(destinationId as string),
-      refetchOnMount: true,
-      refetchOnWindowFocus: false,
-      enabled: !!destinationId,
-    });
+  const { data: connectorInfoResponse, isLoading: isConnectorInfoLoading } = useQuery({
+    queryKey: CONNECTOR_INFO_KEY,
+    queryFn: () => getConnectorInfo(destinationId as string),
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    enabled: !!destinationId,
+  });
 
   const connectorInfo = connectorInfoResponse?.data;
   const connectorName = connectorInfo?.attributes?.connector_name;
 
-  const {
-    data: connectorDefinitionResponse,
-    isLoading: isConnectorDefinitionLoading,
-  } = useQuery({
+  const { data: connectorDefinitionResponse, isLoading: isConnectorDefinitionLoading } = useQuery({
     queryKey: ['connector_definition', connectorName],
-    queryFn: () =>
-      getConnectorDefinition('destination', connectorName as string),
+    queryFn: () => getConnectorDefinition('destination', connectorName as string),
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     enabled: !!connectorName,
@@ -206,9 +201,7 @@ const EditDestination = (): JSX.Element => {
                 Last updated :{' '}
               </Text>
               <Text size='sm' fontWeight='semibold'>
-                {moment(connectorInfo?.attributes?.updated_at).format(
-                  'DD/MM/YYYY'
-                )}
+                {moment(connectorInfo?.attributes?.updated_at).format('DD/MM/YYYY')}
               </Text>
               <SourceActions connectorType='destinations' />
             </Box>
@@ -225,9 +218,7 @@ const EditDestination = (): JSX.Element => {
           <Form
             uiSchema={
               connectorSchema?.connection_specification?.title
-                ? uiSchemas[
-                    connectorSchema?.connection_specification?.title.toLowerCase()
-                  ]
+                ? uiSchemas[connectorSchema?.connection_specification?.title.toLowerCase()]
                 : undefined
             }
             schema={connectorSchema?.connection_specification as RJSFSchema}
