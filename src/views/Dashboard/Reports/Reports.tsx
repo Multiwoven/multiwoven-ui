@@ -15,7 +15,7 @@ type ReportsProps = {
 const Reports = ({ syncRunTriggeredData, syncRunRowsData }: ReportsProps): JSX.Element => {
   if (!syncRunRowsData && !syncRunTriggeredData) {
     return (
-      <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap={3}>
+      <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap={4}>
         <Spinner speed='0.8s' emptyColor='gray.200' color='brand.300' size='lg' mx='auto' />
       </Box>
     );
@@ -58,8 +58,8 @@ const Reports = ({ syncRunTriggeredData, syncRunRowsData }: ReportsProps): JSX.E
 
   return (
     <>
-      <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap={3}>
-        <VStack gap={3}>
+      <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap={4}>
+        <VStack gap={4}>
           {/* <SyncRuns syncRunTriggeredData={syncRunTriggeredData} />
             <SyncRunsErrors syncRunTriggeredData={syncRunTriggeredData} />
           </VStack>
@@ -79,7 +79,7 @@ const Reports = ({ syncRunTriggeredData, syncRunRowsData }: ReportsProps): JSX.E
             chartEmptyText='No sync runs failed'
           />
         </VStack>
-        <VStack gap={3}>
+        <VStack gap={4}>
           <ChartCard
             data={syncRowsProcessed}
             tooltipLabel='Number of rows added, changed, or removed during sync runs'

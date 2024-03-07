@@ -10,7 +10,6 @@ import {
   Legend,
   Tooltip,
 } from 'chart.js';
-import Badge from '@/components/Badge';
 import { ChartData, ChartDataType } from '../types';
 import moment from 'moment';
 
@@ -111,7 +110,23 @@ export const ChartCard = ({
       </Box>
       {totalSum === 0 ? (
         <Box position='relative' left='40%' bottom='60%'>
-          <Badge text={chartEmptyText} variant='default' width='fit-content' />
+          <Box
+            w='fit-content'
+            h='20px'
+            alignItems='center'
+            alignContent='center'
+            bgColor='gray.200'
+            border='1px'
+            borderRadius='4px'
+            borderColor='gray.400'
+            gap='10px'
+            px='2px'
+            display='flex'
+          >
+            <Text size='xxs' fontWeight='semibold' color='black.100'>
+              {chartEmptyText}
+            </Text>
+          </Box>
         </Box>
       ) : null}
     </Box>

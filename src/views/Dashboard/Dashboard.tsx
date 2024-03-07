@@ -41,6 +41,7 @@ const Dashboard = (): JSX.Element | null => {
   const [filteredConnectorsList, setFilteredConnectorsList] = useState<ConnectorItem[]>();
   const [reportTime, setReportTime] = useState<ReportTimePeriod>('one_day');
   const [report, setReport] = useState<Report>();
+  const [connectorIds, setConnectorIds] = useState<number[]>([]);
 
   const { data } = useQuery({
     queryKey: ['models'],
@@ -54,8 +55,8 @@ const Dashboard = (): JSX.Element | null => {
   }, [data]);
 
   const { data: reportData } = useQuery({
-    queryKey: ['dashboard', 'syncs', reportTime],
-    queryFn: () => getReport({ time_period: reportTime }),
+    queryKey: ['dashboard', 'syncs', reportTime, connectorIds],
+    queryFn: () => getReport({ time_period: reportTime, connector_ids: [...connectorIds] }),
     refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
@@ -87,10 +88,11 @@ const Dashboard = (): JSX.Element | null => {
               connectorsList={data?.data}
               filteredConnectorsList={filteredConnectorsList}
               setFilteredConnectorsList={setFilteredConnectorsList}
+              setConnectorsId={setConnectorIds}
             />
           </Box>
           <Box>
-            <Stack gap='24px'>
+            <Stack gap='12px'>
               <Stack spacing='16'>
                 <Tabs
                   size='md'
