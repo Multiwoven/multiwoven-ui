@@ -44,7 +44,7 @@ const Dashboard = (): JSX.Element | null => {
   const [connectorIds, setConnectorIds] = useState<number[]>([]);
 
   const { data } = useQuery({
-    queryKey: ['models'],
+    queryKey: ['connectors', 'dashboard'],
     queryFn: () => getAllConnectors(),
     refetchOnMount: true,
     refetchOnWindowFocus: false,
