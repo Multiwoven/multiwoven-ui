@@ -18,6 +18,8 @@ import { useEffect, useState } from 'react';
 import ListConnectors from './ListConnectors';
 import { ConnectorItem } from '../Connectors/types';
 import Reports from './Reports';
+import Loader from '@/components/Loader';
+import ReportsSkeleton from './Reports/Skeleton/Reports';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -41,9 +43,9 @@ const Dashboard = (): JSX.Element | null => {
   const [filteredConnectorsList, setFilteredConnectorsList] = useState<ConnectorItem[]>();
   const [reportTime, setReportTime] = useState<ReportTimePeriod>('one_day');
   const [report, setReport] = useState<Report>();
-  const [connectorIds, setConnectorIds] = useState<number[]>([]);
+  const [checkedConnectorIds, setCheckedConnectorIds] = useState<number[]>([]);
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['connectors', 'dashboard'],
     queryFn: () => getAllConnectors(),
     refetchOnMount: true,
@@ -54,9 +56,9 @@ const Dashboard = (): JSX.Element | null => {
     setFilteredConnectorsList(data?.data);
   }, [data]);
 
-  const { data: reportData } = useQuery({
-    queryKey: ['dashboard', 'syncs', reportTime, connectorIds],
-    queryFn: () => getReport({ time_period: reportTime, connector_ids: [...connectorIds] }),
+  const { data: reportData, isLoading: reportsDataLoading } = useQuery({
+    queryKey: ['dashboard', 'syncs', reportTime, checkedConnectorIds],
+    queryFn: () => getReport({ time_period: reportTime, connector_ids: [...checkedConnectorIds] }),
     refetchOnMount: true,
     refetchOnWindowFocus: false,
   });
@@ -72,6 +74,10 @@ const Dashboard = (): JSX.Element | null => {
   const syncRunTriggeredData = report?.data.sync_run_triggered;
   const syncRunRowsData = report?.data.total_sync_run_rows;
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <Box width='100%' display='flex' flexDirection='column' alignItems='center'>
       <ContentContainer>
@@ -86,9 +92,10 @@ const Dashboard = (): JSX.Element | null => {
           <Box>
             <ListConnectors
               connectorsList={data?.data}
+              checkedConnectorIds={checkedConnectorIds}
               filteredConnectorsList={filteredConnectorsList}
               setFilteredConnectorsList={setFilteredConnectorsList}
-              setConnectorsId={setConnectorIds}
+              setCheckedConnectorIds={setCheckedConnectorIds}
             />
           </Box>
           <Box>
@@ -117,7 +124,9 @@ const Dashboard = (): JSX.Element | null => {
                   syncRunTriggeredData={syncRunTriggeredData}
                   syncRunRowsData={syncRunRowsData}
                 />
-              ) : null}
+              ) : (
+                <ReportsSkeleton fetchingReports={reportsDataLoading} />
+              )}
             </Stack>
           </Box>
         </Box>

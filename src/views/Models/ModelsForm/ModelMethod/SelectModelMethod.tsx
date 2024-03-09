@@ -40,7 +40,11 @@ const ModelMethod = (): JSX.Element => {
                     <Text size='lg' fontWeight='semibold'>
                       {method.name}
                     </Text>
-                    {!method.enabled ? <Badge text='weaving soon' variant='default' /> : <></>}
+                    {!method.enabled ? (
+                      <Badge text='weaving soon' variant='default' width='fit-content' />
+                    ) : (
+                      <></>
+                    )}
                   </HStack>
                   <Text size='sm' color='black.200' fontWeight='regular'>
                     {method.description}
