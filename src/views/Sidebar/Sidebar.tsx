@@ -116,7 +116,7 @@ const Sidebar = (): JSX.Element => {
       borderRightWidth='1px'
       borderRightStyle='solid'
       borderRightColor='gray.400'
-      direction="column"
+      direction='column'
     >
       <Flex
         flex='1'
@@ -124,9 +124,9 @@ const Sidebar = (): JSX.Element => {
         maxW={{ base: 'full', sm: 'xs' }}
         paddingX={4}
         paddingY={6}
-        direction="column"
+        direction='column'
       >
-        <VStack justify='space-between' spacing='1' width='full' height="full">
+        <VStack justify='space-between' spacing='1' width='full' height='full'>
           <Stack spacing='6' shouldWrapChildren>
             <Flex justifyContent='center'>
               <img width={160} src={IconImage} alt='IconImage' />
