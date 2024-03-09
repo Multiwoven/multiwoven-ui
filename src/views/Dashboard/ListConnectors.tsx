@@ -44,6 +44,7 @@ const ListConnectors = ({
   filteredConnectorsList,
   setFilteredConnectorsList,
   setCheckedConnectorIds,
+  checkedConnectorIds,
 }: {
   setFilteredConnectorsList: React.Dispatch<React.SetStateAction<ConnectorItem[] | undefined>>;
   setCheckedConnectorIds: React.Dispatch<React.SetStateAction<number[]>>;
@@ -154,6 +155,10 @@ const ListConnectors = ({
               }}
             >
               <Checkbox
+                isChecked={
+                  checkedConnectorIds?.findIndex((connectorId) => connectorId === +connector.id) !==
+                  -1
+                }
                 size='lg'
                 borderColor='gray.300'
                 _checked={{
