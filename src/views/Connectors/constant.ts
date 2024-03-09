@@ -18,16 +18,21 @@ export const CONNECTORS: Record<ConnectorTypes, Record<string, string>> = {
 export const CONNECTION_STATUS: ConnectionStatus[] = [
   {
     name: 'Establishing Connection',
-    status: ({ isLoading }) => {
+    status: ({ data, isLoading }) => {
       if (isLoading) {
         return {
           status: 'loading',
           text: 'Checking network connectivity',
         };
-      }
+      }else if (data?.connection_status?.status !== 'failed') {
+        return {
+          status: 'success',
+          text: 'Connection Established',
+        };
+      } 
       return {
-        status: 'success',
-        text: 'Connection Established',
+        status: 'failed',
+        text: 'Connection Failed',
       };
     },
   },
