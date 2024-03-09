@@ -46,7 +46,7 @@ const Dashboard = (): JSX.Element | null => {
   const [checkedConnectorIds, setCheckedConnectorIds] = useState<number[]>([]);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['models'],
+    queryKey: ['connectors', 'dashboard'],
     queryFn: () => getAllConnectors(),
     refetchOnMount: true,
     refetchOnWindowFocus: false,
