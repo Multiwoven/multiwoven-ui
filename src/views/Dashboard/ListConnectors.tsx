@@ -43,10 +43,11 @@ const ListConnectors = ({
   connectorsList,
   filteredConnectorsList,
   setFilteredConnectorsList,
-  setConnectorsId,
+  setCheckedConnectorIds,
 }: {
   setFilteredConnectorsList: React.Dispatch<React.SetStateAction<ConnectorItem[] | undefined>>;
-  setConnectorsId: React.Dispatch<React.SetStateAction<number[]>>;
+  setCheckedConnectorIds: React.Dispatch<React.SetStateAction<number[]>>;
+  checkedConnectorIds: number[];
   connectorsList?: ConnectorItem[];
   filteredConnectorsList?: ConnectorItem[];
 }): JSX.Element => {
@@ -86,10 +87,10 @@ const ListConnectors = ({
   const handleCheckboxChange = (checked: boolean, connectorId: string) => {
     // If the checkbox is checked, add the connector ID to the list
     if (checked) {
-      setConnectorsId((prevIds) => [...prevIds, +connectorId]);
+      setCheckedConnectorIds((prevIds) => [...prevIds, +connectorId]);
     } else {
       // If the checkbox is unchecked, remove the connector ID from the list
-      setConnectorsId((prevIds) => prevIds.filter((id) => id !== +connectorId));
+      setCheckedConnectorIds((prevIds) => prevIds.filter((id) => id !== +connectorId));
     }
   };
 
