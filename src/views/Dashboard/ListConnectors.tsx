@@ -12,6 +12,7 @@ import {
 import EntityItem from '@/components/EntityItem';
 import { ConnectorItem } from '../Connectors/types';
 import { useState } from 'react';
+import NoConnectorsFound from '@/assets/images/empty-state-illustration.svg';
 
 import Pagination from './Pagination';
 
@@ -138,6 +139,7 @@ const ListConnectors = ({
         <Stack gap='12px' height='100%'>
           {currentPageConnectorsList?.length === 0 && (
             <VStack justify='center' height='100%'>
+              <img src={NoConnectorsFound} alt='no-connectors-found' />
               <Text color='gray.600' size='xs' fontWeight='semibold'>
                 No connectors found
               </Text>
