@@ -19,7 +19,7 @@ import ListConnectors from './ListConnectors';
 import { ConnectorItem } from '../Connectors/types';
 import Reports from './Reports';
 import Loader from '@/components/Loader';
-import ReportsWithShimmer from './Reports/Shimmer/Reports';
+import ReportsSkeleton from './Reports/Skeleton/Reports';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -125,7 +125,7 @@ const Dashboard = (): JSX.Element | null => {
                   syncRunRowsData={syncRunRowsData}
                 />
               ) : (
-                <ReportsWithShimmer fetchingReports={reportsDataLoading} />
+                <ReportsSkeleton fetchingReports={reportsDataLoading} />
               )}
             </Stack>
           </Box>

@@ -12,7 +12,7 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export const ChartShimmer = ({
+export const ChartSkeleton = ({
   fetchingReports,
 }: {
   fetchingReports: boolean;
