@@ -161,6 +161,10 @@ const ListConnectors = ({
                     background: 'brand.400',
                     borderColor: 'brand.400',
                   },
+                  '& .chakra-checkbox__control:hover': {
+                    background: 'brand.400',
+                    borderColor: 'brand.400',
+                  },
                 }}
                 onChange={({ target: { checked } }) => handleCheckboxChange(checked, connector.id)}
               />
