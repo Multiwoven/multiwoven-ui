@@ -99,7 +99,16 @@ export const ChartCard = ({
           {cardTitle}
         </Text>
         <Spacer />
-        <ChakraTooltip hasArrow label={tooltipLabel} fontSize='sm' placement={tooltipPosition}>
+        <ChakraTooltip
+          hasArrow
+          label={tooltipLabel}
+          fontSize='xs'
+          placement={tooltipPosition}
+          backgroundColor='black.500'
+          color='gray.100'
+          borderRadius='6px'
+          padding='8px'
+        >
           <Text color='gray.600'>
             <FiInfo />
           </Text>
