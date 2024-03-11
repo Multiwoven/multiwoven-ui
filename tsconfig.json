@@ -23,7 +23,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+
+    /* Testing */
+    "types": ["jest"],
   },
   "include": ["src", "vite.config.ts", "cypress.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
