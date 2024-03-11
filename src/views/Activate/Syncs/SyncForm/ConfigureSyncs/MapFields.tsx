@@ -47,8 +47,6 @@ const MapFields = ({
     [stream],
   );
 
-  //console.log(destinationColumns, requiredDestinationColumns);
-
   useEffect(() => {
     if (data) {
       const fields = Object.keys(data).map((modelKey) => ({
@@ -92,11 +90,11 @@ const MapFields = ({
     if (!isEdit) {
       const updatedFields = destinationColumns
         .filter((property) => requiredDestinationColumns.includes(property))
-        .map((field, index) => ({ model: `model_${index}`, destination: field }));
+        .map((field, index) => ({ model: `model_${index}`, destination: field, isRequired: true }));
 
       // if only one destination field, we by default select it
       if (destinationColumns.length === 1) {
-        updatedFields.push({ model: '', destination: destinationColumns[0] });
+        updatedFields.push({ model: '', destination: destinationColumns[0], isRequired: true });
       }
 
       if (updatedFields.length > 0) {
@@ -134,7 +132,7 @@ const MapFields = ({
       <Text size='xs' mb={6} letterSpacing='-0.12px' fontWeight={400} color='black.200'>
         Select the API from the Destination that you wish to map.
       </Text>
-      {fields.map((_, index) => (
+      {fields.map(({ isRequired = false }, index) => (
         <Box key={`field-map-${index}`} display='flex' alignItems='flex-end' marginBottom='30px'>
           <FieldMap
             id={index}
@@ -157,17 +155,19 @@ const MapFields = ({
             icon={destination.attributes.icon}
             options={destinationColumns}
             onChange={handleOnChange}
-            isDisabled={!stream}
+            isDisabled={!stream || isRequired}
             selectedConfigOptions={destinationConfigList}
           />
-          <Box py='20px' position='relative' top='12px' color='gray.600'>
-            <CloseButton
-              size='sm'
-              marginLeft='10px'
-              _hover={{ backgroundColor: 'none' }}
-              onClick={() => handleRemoveMap(index)}
-            />
-          </Box>
+          {!isRequired && (
+            <Box py='20px' position='relative' top='12px' color='gray.600'>
+              <CloseButton
+                size='sm'
+                marginLeft='10px'
+                _hover={{ backgroundColor: 'none' }}
+                onClick={() => handleRemoveMap(index)}
+              />
+            </Box>
+          )}
         </Box>
       ))}
       <Box>
