@@ -12,6 +12,7 @@ import {
 import EntityItem from '@/components/EntityItem';
 import { ConnectorItem } from '../Connectors/types';
 import { useState } from 'react';
+import NoConnectorsFound from '@/assets/images/empty-state-illustration.svg';
 
 import Pagination from './Pagination';
 
@@ -44,6 +45,7 @@ const ListConnectors = ({
   filteredConnectorsList,
   setFilteredConnectorsList,
   setCheckedConnectorIds,
+  checkedConnectorIds,
 }: {
   setFilteredConnectorsList: React.Dispatch<React.SetStateAction<ConnectorItem[] | undefined>>;
   setCheckedConnectorIds: React.Dispatch<React.SetStateAction<number[]>>;
@@ -137,6 +139,7 @@ const ListConnectors = ({
         <Stack gap='12px' height='100%'>
           {currentPageConnectorsList?.length === 0 && (
             <VStack justify='center' height='100%'>
+              <img src={NoConnectorsFound} alt='no-connectors-found' />
               <Text color='gray.600' size='xs' fontWeight='semibold'>
                 No connectors found
               </Text>
@@ -154,10 +157,18 @@ const ListConnectors = ({
               }}
             >
               <Checkbox
+                isChecked={
+                  checkedConnectorIds?.findIndex((connectorId) => connectorId === +connector.id) !==
+                  -1
+                }
                 size='lg'
                 borderColor='gray.300'
                 _checked={{
                   '& .chakra-checkbox__control': {
+                    background: 'brand.400',
+                    borderColor: 'brand.400',
+                  },
+                  '& .chakra-checkbox__control:hover': {
                     background: 'brand.400',
                     borderColor: 'brand.400',
                   },
