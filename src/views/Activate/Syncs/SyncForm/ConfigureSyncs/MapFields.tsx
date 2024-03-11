@@ -88,17 +88,21 @@ const MapFields = ({
   const souceConfigList = configuration ? Object.keys(configuration) : [];
   const destinationConfigList = configuration ? Object.values(configuration) : [];
 
-  //console.log(fields);
-
   useEffect(() => {
     if (!isEdit) {
       const updatedFields = destinationColumns
         .filter((property) => requiredDestinationColumns.includes(property))
-        .map((field) => ({ model: '', destination: field }));
+        .map((field, index) => ({ model: `model_${index}`, destination: field }));
+
+      // if only one destination field, we by default select it
+      if (destinationColumns.length === 1) {
+        updatedFields.push({ model: '', destination: destinationColumns[0] });
+      }
+
       if (updatedFields.length > 0) {
         setFields(updatedFields);
+        handleOnConfigChange(convertFieldMapToConfig(updatedFields));
       }
-      console.log(updatedFields);
     }
   }, [requiredDestinationColumns]);
 
