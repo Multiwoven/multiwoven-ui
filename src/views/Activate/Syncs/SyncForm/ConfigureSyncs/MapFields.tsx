@@ -47,6 +47,8 @@ const MapFields = ({
     [stream],
   );
 
+  //console.log(destinationColumns, requiredDestinationColumns);
+
   useEffect(() => {
     if (data) {
       const fields = Object.keys(data).map((modelKey) => ({
@@ -85,6 +87,20 @@ const MapFields = ({
 
   const souceConfigList = configuration ? Object.keys(configuration) : [];
   const destinationConfigList = configuration ? Object.values(configuration) : [];
+
+  //console.log(fields);
+
+  useEffect(() => {
+    if (!isEdit) {
+      const updatedFields = destinationColumns
+        .filter((property) => requiredDestinationColumns.includes(property))
+        .map((field) => ({ model: '', destination: field }));
+      if (updatedFields.length > 0) {
+        setFields(updatedFields);
+      }
+      console.log(updatedFields);
+    }
+  }, [requiredDestinationColumns]);
 
   useEffect(() => {
     let FieldStruct: FieldMapType[] = [];
