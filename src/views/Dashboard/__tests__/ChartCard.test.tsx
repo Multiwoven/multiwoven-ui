@@ -32,7 +32,7 @@ describe('ChartCard', () => {
     backgroundColors: { total_count: 'red' },
   };
 
-  it('renders chart card with correct data', () => {
+  it('should render chart card with correct data', () => {
     render(
       <ChartCard
         data={mockData}
@@ -45,7 +45,8 @@ describe('ChartCard', () => {
 
     expect(screen.getByText('Card Title'));
   });
-  it('renders chart card with no data', () => {
+
+  it('should render chart card with no data', () => {
     render(
       <ChartCard
         data={{

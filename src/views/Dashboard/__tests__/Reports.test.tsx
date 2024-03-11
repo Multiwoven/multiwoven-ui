@@ -11,7 +11,7 @@ jest.mock('@/views/Dashboard/Reports/ChartCard', () => {
   };
 });
 
-it('passes correct props to ChartCard', () => {
+it('should passes correct props to ChartCard', () => {
   const mockData: ReportObject[] = [
     { time_slice: '2021-01-01T00:00:00Z', failed_count: 2, success_count: 98, total_count: 100 },
   ];

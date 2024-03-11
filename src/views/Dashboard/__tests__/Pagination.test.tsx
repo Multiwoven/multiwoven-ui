@@ -16,21 +16,21 @@ describe('Pagination Component', () => {
     );
   });
 
-  it('renders the current page number', () => {
+  it('should render the current page number', () => {
     expect(screen.getByText('1'));
   });
 
-  it('renders the previous and next page buttons', () => {
+  it('should render the previous and next page buttons', () => {
     expect(screen.getAllByRole('button')).toHaveLength(2);
   });
 
-  it('calls handlePrevPage when the previous button is clicked', () => {
+  it('should call handlePrevPage when the previous button is clicked', () => {
     const prevButton = screen.getAllByRole('button')[0];
     fireEvent.click(prevButton);
     expect(handlePrevPage).toHaveBeenCalledTimes(1);
   });
 
-  it('calls handleNextPage when the next button is clicked', () => {
+  it('should call handleNextPage when the next button is clicked', () => {
     const nextButton = screen.getAllByRole('button')[1];
     fireEvent.click(nextButton);
     expect(handleNextPage).toHaveBeenCalledTimes(1);
