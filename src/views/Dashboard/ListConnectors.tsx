@@ -12,6 +12,7 @@ import {
 import EntityItem from '@/components/EntityItem';
 import { ConnectorItem } from '../Connectors/types';
 import { useState } from 'react';
+import NoConnectorsFound from '@/assets/images/empty-state-illustration.svg';
 
 import Pagination from './Pagination';
 
@@ -43,10 +44,14 @@ const ListConnectors = ({
   connectorsList,
   filteredConnectorsList,
   setFilteredConnectorsList,
+  setCheckedConnectorIds,
+  checkedConnectorIds,
 }: {
+  setFilteredConnectorsList: React.Dispatch<React.SetStateAction<ConnectorItem[] | undefined>>;
+  setCheckedConnectorIds: React.Dispatch<React.SetStateAction<number[]>>;
+  checkedConnectorIds: number[];
   connectorsList?: ConnectorItem[];
   filteredConnectorsList?: ConnectorItem[];
-  setFilteredConnectorsList: React.Dispatch<React.SetStateAction<ConnectorItem[] | undefined>>;
 }): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -81,8 +86,18 @@ const ListConnectors = ({
     setFilteredConnectorsList(updatedFilteredConnectors);
   };
 
+  const handleCheckboxChange = (checked: boolean, connectorId: string) => {
+    // If the checkbox is checked, add the connector ID to the list
+    if (checked) {
+      setCheckedConnectorIds((prevIds) => [...prevIds, +connectorId]);
+    } else {
+      // If the checkbox is unchecked, remove the connector ID from the list
+      setCheckedConnectorIds((prevIds) => prevIds.filter((id) => id !== +connectorId));
+    }
+  };
+
   return (
-    <Stack gap='24px'>
+    <Stack gap='12px'>
       <Stack spacing='16'>
         <Tabs
           size='md'
@@ -124,6 +139,7 @@ const ListConnectors = ({
         <Stack gap='12px' height='100%'>
           {currentPageConnectorsList?.length === 0 && (
             <VStack justify='center' height='100%'>
+              <img src={NoConnectorsFound} alt='no-connectors-found' />
               <Text color='gray.600' size='xs' fontWeight='semibold'>
                 No connectors found
               </Text>
@@ -136,9 +152,15 @@ const ListConnectors = ({
               paddingX='16px'
               display='flex'
               gap='12px'
-              _hover={{ backgroundColor: 'gray.200' }}
+              _hover={{
+                backgroundColor: 'gray.200',
+              }}
             >
               <Checkbox
+                isChecked={
+                  checkedConnectorIds?.findIndex((connectorId) => connectorId === +connector.id) !==
+                  -1
+                }
                 size='lg'
                 borderColor='gray.300'
                 _checked={{
@@ -146,7 +168,12 @@ const ListConnectors = ({
                     background: 'brand.400',
                     borderColor: 'brand.400',
                   },
+                  '& .chakra-checkbox__control:hover': {
+                    background: 'brand.400',
+                    borderColor: 'brand.400',
+                  },
                 }}
+                onChange={({ target: { checked } }) => handleCheckboxChange(checked, connector.id)}
               />
               <EntityItem icon={connector?.attributes?.icon} name={connector?.attributes?.name} />
             </Box>

@@ -1,9 +1,5 @@
 import { ReportObject } from '@/services/dashboard';
-// import SyncRuns from './SyncRuns';
-// import SyncRunsErrors from './SyncRunsErrors';
-// import RowsProcessed from './RowsProcessed';
-// import RowsFailed from './RowsFailed';
-import { Box, VStack, Spinner } from '@chakra-ui/react';
+import { Box, VStack } from '@chakra-ui/react';
 import { ChartCard } from './ChartCard';
 import { ChartDataType } from '../types';
 
@@ -13,13 +9,6 @@ type ReportsProps = {
 };
 
 const Reports = ({ syncRunTriggeredData, syncRunRowsData }: ReportsProps): JSX.Element => {
-  if (!syncRunRowsData && !syncRunTriggeredData) {
-    return (
-      <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap={3}>
-        <Spinner speed='0.8s' emptyColor='gray.200' color='brand.300' size='lg' mx='auto' />
-      </Box>
-    );
-  }
   const syncRunsData: ChartDataType = {
     xData: syncRunTriggeredData,
     yData: syncRunTriggeredData,
@@ -58,14 +47,8 @@ const Reports = ({ syncRunTriggeredData, syncRunRowsData }: ReportsProps): JSX.E
 
   return (
     <>
-      <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap={3}>
-        <VStack gap={3}>
-          {/* <SyncRuns syncRunTriggeredData={syncRunTriggeredData} />
-            <SyncRunsErrors syncRunTriggeredData={syncRunTriggeredData} />
-          </VStack>
-          <VStack gap={3}>
-            <RowsProcessed rowsProcessedData={syncRunRowsData} />
-            <RowsFailed rowsFailedData={syncRunRowsData} /> */}
+      <Box display={{ base: 'flex flex-col', lg: 'flex' }} gap={4}>
+        <VStack gap={4}>
           <ChartCard
             data={syncRunsData}
             tooltipLabel='Number of sync runs triggered manually or via recurring schedule'
@@ -79,7 +62,7 @@ const Reports = ({ syncRunTriggeredData, syncRunRowsData }: ReportsProps): JSX.E
             chartEmptyText='No sync runs failed'
           />
         </VStack>
-        <VStack gap={3}>
+        <VStack gap={4}>
           <ChartCard
             data={syncRowsProcessed}
             tooltipLabel='Number of rows added, changed, or removed during sync runs'

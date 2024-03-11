@@ -133,7 +133,7 @@ const SignUp = (): JSX.Element => {
         isClosable: true,
         position: 'bottom-right',
       });
-      navigate('/setup/sources');
+      navigate('/');
     } else {
       setSubmitting(false);
       result.data?.errors?.map((error: SignUpErrors) => {

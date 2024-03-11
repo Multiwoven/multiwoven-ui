@@ -25,8 +25,13 @@ type ReportOptions = {
 export const getReport = async ({
   metric = 'all',
   time_period = 'one_week',
-}: ReportOptions): Promise<Report> =>
-  multiwovenFetch<null, Report>({
+  connector_ids = [],
+}: ReportOptions): Promise<Report> => {
+  const connectorIdsQueryParam = connector_ids.map((id) => `connector_ids[]=${id}`).join('&');
+  const url = `/reports?type=workspace_activity&metric=${metric}&time_period=${time_period}&${connectorIdsQueryParam}`;
+
+  return multiwovenFetch<null, Report>({
     method: 'get',
-    url: `/reports?type=workspace_activity&metric=${metric}&time_period=${time_period}`,
+    url: url,
   });
+};
