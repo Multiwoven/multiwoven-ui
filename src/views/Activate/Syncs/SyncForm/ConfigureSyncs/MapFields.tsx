@@ -5,7 +5,11 @@ import { getModelPreviewById } from '@/services/models';
 import { useQuery } from '@tanstack/react-query';
 import { FieldMap as FieldMapType, Stream } from '@/views/Activate/Syncs/types';
 import FieldMap from './FieldMap';
-import { convertFieldMapToConfig, getPathFromObject } from '@/views/Activate/Syncs/utils';
+import {
+  convertFieldMapToConfig,
+  getPathFromObject,
+  getRequiredProperties,
+} from '@/views/Activate/Syncs/utils';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
@@ -38,6 +42,10 @@ const MapFields = ({
   });
 
   const destinationColumns = useMemo(() => getPathFromObject(stream?.json_schema), [stream]);
+  const requiredDestinationColumns = useMemo(
+    () => getRequiredProperties(stream?.json_schema),
+    [stream],
+  );
 
   useEffect(() => {
     if (data) {
