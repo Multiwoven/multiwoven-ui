@@ -1,25 +1,39 @@
-import { render } from '@testing-library/react';
-import { ChartCard } from '@/views/Dashboard/Reports/ChartCard';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { ChartCard } from '@/views/Dashboard/Reports/ChartCard'; // Adjust the import path to match your file structure
 import { ChartDataType } from '../types';
+
+jest.mock('moment', () => {
+  const actualMoment = jest.requireActual('moment');
+  return {
+    __esModule: true,
+    default: jest.fn(() => actualMoment('2020-01-01T00:00:00Z')),
+    ...actualMoment,
+  };
+});
+
+jest.mock('react-chartjs-2', () => ({
+  Bar: () => null,
+}));
 
 describe('ChartCard', () => {
   const mockData: ChartDataType = {
     xData: [
       { total_count: 30, success_count: 20, failed_count: 10, time_slice: '2022-01-01T00:00:00Z' },
-      { total_count: 30, success_count: 20, failed_count: 10, time_slice: '2022-01-01T00:00:00Z' },
+      { total_count: 25, success_count: 15, failed_count: 10, time_slice: '2022-01-02T00:00:00Z' },
     ],
     yDataPoints: ['total_count'],
     xDataPoints: ['time_slice'],
-    yLabels: { success_count: 'Label 1', failed_count: 'Label 2' },
+    yLabels: { total_count: 'Total' },
     yData: [
       { total_count: 30, success_count: 20, failed_count: 10, time_slice: '2022-01-01T00:00:00Z' },
-      { total_count: 30, success_count: 20, failed_count: 10, time_slice: '2022-01-01T00:00:00Z' },
+      { total_count: 25, success_count: 15, failed_count: 10, time_slice: '2022-01-02T00:00:00Z' },
     ],
-    backgroundColors: { success_count: 'red', failed_count: 'blue' },
+    backgroundColors: { total_count: 'red' },
   };
 
   it('renders chart card with correct data', () => {
-    const { getByText } = render(
+    render(
       <ChartCard
         data={mockData}
         tooltipLabel='Tooltip Label'
@@ -29,41 +43,26 @@ describe('ChartCard', () => {
       />,
     );
 
-    expect(getByText('Card Title'));
+    expect(screen.getByText('Card Title'));
   });
+  it('renders chart card with no data', () => {
+    render(
+      <ChartCard
+        data={{
+          xData: [],
+          yData: [],
+          xDataPoints: [],
+          yDataPoints: [],
+          yLabels: {},
+          backgroundColors: {},
+        }}
+        tooltipLabel='Tooltip Label'
+        cardTitle='Card Title'
+        tooltipPosition='top'
+        chartEmptyText='No Data found'
+      />,
+    );
 
-  // it('renders chart with correct data points', () => {
-  //   const { getByText } = render(
-  //     <ChartCard
-  //       data={mockData}
-  //       tooltipLabel='Tooltip Label'
-  //       cardTitle='Card Title'
-  //       tooltipPosition='top'
-  //       chartEmptyText='No Data found'
-  //     />,
-  //   );
-
-  //   expect(getByText('10'));
-  //   expect(getByText('20'));
-  //   expect(getByText('30'));
-  //   expect(getByText('40'));
-  // });
-
-  // it('renders chart with correct background colors', () => {
-  //   const { container } = render(
-  //     <ChartCard
-  //       data={mockData}
-  //       tooltipLabel='Tooltip Label'
-  //       cardTitle='Card Title'
-  //       tooltipPosition='top'
-  //       chartEmptyText='No Data found'
-  //     />,
-  //   );
-
-  //   const chartBars = container.querySelectorAll('.chart-bar');
-  //   expect(chartBars[0]);
-  //   expect(chartBars[1]);
-  // });
-
-  // Add more tests as needed
+    expect(screen.getByText('No Data found'));
+  });
 });
