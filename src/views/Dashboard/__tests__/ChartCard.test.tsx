@@ -3,18 +3,8 @@ import '@testing-library/jest-dom';
 import { ChartCard } from '@/views/Dashboard/Reports/ChartCard'; // Adjust the import path to match your file structure
 import { ChartDataType } from '../types';
 
-jest.mock('moment', () => {
-  const actualMoment = jest.requireActual('moment');
-  return {
-    __esModule: true,
-    default: jest.fn(() => actualMoment('2020-01-01T00:00:00Z')),
-    ...actualMoment,
-  };
-});
-
-jest.mock('react-chartjs-2', () => ({
-  Bar: () => null,
-}));
+jest.mock('moment');
+jest.mock('react-chartjs-2');
 
 describe('ChartCard', () => {
   const mockData: ChartDataType = {
