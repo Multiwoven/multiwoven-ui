@@ -19,7 +19,7 @@ describe('ChartCard', () => {
       { total_count: 30, success_count: 20, failed_count: 10, time_slice: '2022-01-01T00:00:00Z' },
       { total_count: 25, success_count: 15, failed_count: 10, time_slice: '2022-01-02T00:00:00Z' },
     ],
-    backgroundColors: { total_count: 'red' },
+    backgroundColors: { total_count: 'green' },
   };
 
   it('should render chart card with correct data', () => {
@@ -54,6 +54,7 @@ describe('ChartCard', () => {
       />,
     );
 
+    expect(screen.getByText('Card Title'));
     expect(screen.getByText('No Data found'));
   });
 });
