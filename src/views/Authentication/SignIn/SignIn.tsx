@@ -123,7 +123,7 @@ const SignIn = (): JSX.Element => {
         isClosable: true,
         position: 'bottom-right',
       });
-      navigate('/setup/sources', { replace: true });
+      navigate('/', { replace: true });
     } else {
       setSubmitting(false);
       result.data?.errors?.map((error: SignInErrorResponse) => {
