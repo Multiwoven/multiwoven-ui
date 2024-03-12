@@ -26,6 +26,7 @@ export type DiscoverResponse = {
 export type FieldMap = {
   model: string;
   destination: string;
+  isRequired?: boolean;
 };
 
 export type ConfigSync = {

@@ -5,7 +5,11 @@ import { getModelPreviewById } from '@/services/models';
 import { useQuery } from '@tanstack/react-query';
 import { FieldMap as FieldMapType, Stream } from '@/views/Activate/Syncs/types';
 import FieldMap from './FieldMap';
-import { convertFieldMapToConfig, getPathFromObject } from '@/views/Activate/Syncs/utils';
+import {
+  convertFieldMapToConfig,
+  getPathFromObject,
+  getRequiredProperties,
+} from '@/views/Activate/Syncs/utils';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
@@ -38,6 +42,10 @@ const MapFields = ({
   });
 
   const destinationColumns = useMemo(() => getPathFromObject(stream?.json_schema), [stream]);
+  const requiredDestinationColumns = useMemo(
+    () => getRequiredProperties(stream?.json_schema),
+    [stream],
+  );
 
   useEffect(() => {
     if (data) {
@@ -79,6 +87,24 @@ const MapFields = ({
   const destinationConfigList = configuration ? Object.values(configuration) : [];
 
   useEffect(() => {
+    if (!isEdit) {
+      const updatedFields = destinationColumns
+        .filter((property) => requiredDestinationColumns.includes(property))
+        .map((field, index) => ({ model: `model_${index}`, destination: field, isRequired: true }));
+
+      // if only one destination field, we by default select it
+      if (destinationColumns.length === 1) {
+        updatedFields.push({ model: '', destination: destinationColumns[0], isRequired: true });
+      }
+
+      if (updatedFields.length > 0) {
+        setFields(updatedFields);
+        handleOnConfigChange(convertFieldMapToConfig(updatedFields));
+      }
+    }
+  }, [requiredDestinationColumns]);
+
+  useEffect(() => {
     let FieldStruct: FieldMapType[] = [];
     if (configuration) {
       if (Object.keys(configuration).length === 0) {
@@ -106,7 +132,7 @@ const MapFields = ({
       <Text size='xs' mb={6} letterSpacing='-0.12px' fontWeight={400} color='black.200'>
         Select the API from the Destination that you wish to map.
       </Text>
-      {fields.map((_, index) => (
+      {fields.map(({ isRequired = false }, index) => (
         <Box key={`field-map-${index}`} display='flex' alignItems='flex-end' marginBottom='30px'>
           <FieldMap
             id={index}
@@ -129,17 +155,19 @@ const MapFields = ({
             icon={destination.attributes.icon}
             options={destinationColumns}
             onChange={handleOnChange}
-            isDisabled={!stream}
+            isDisabled={!stream || isRequired}
             selectedConfigOptions={destinationConfigList}
           />
-          <Box py='20px' position='relative' top='12px' color='gray.600'>
-            <CloseButton
-              size='sm'
-              marginLeft='10px'
-              _hover={{ backgroundColor: 'none' }}
-              onClick={() => handleRemoveMap(index)}
-            />
-          </Box>
+          {!isRequired && (
+            <Box py='20px' position='relative' top='12px' color='gray.600'>
+              <CloseButton
+                size='sm'
+                marginLeft='10px'
+                _hover={{ backgroundColor: 'none' }}
+                onClick={() => handleRemoveMap(index)}
+              />
+            </Box>
+          )}
         </Box>
       ))}
       <Box>
