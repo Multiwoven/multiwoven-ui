@@ -23,6 +23,7 @@ import Cookies from 'js-cookie';
 import titleCase from '@/utils/TitleCase';
 import AuthFooter from '../AuthFooter';
 import HiddenInput from '@/components/HiddenInput';
+import { CustomToastStatus } from '@/components/Toast/index';
 import useCustomToast from '../../../hooks/useCustomToast';
 
 const SignInSchema = Yup.object().shape({
@@ -122,7 +123,7 @@ const SignIn = (): JSX.Element => {
         isClosable: true,
         position: 'bottom-right',
         text: 'Signed In',
-        status: 'success',
+        status: CustomToastStatus.Success,
       });
       navigate('/setup/sources', { replace: true });
     } else {
@@ -133,7 +134,7 @@ const SignIn = (): JSX.Element => {
           isClosable: true,
           position: 'bottom-right',
           colorScheme: 'red',
-          status: 'warning',
+          status: CustomToastStatus.Warning,
           text: titleCase(error.detail),
         });
       });
