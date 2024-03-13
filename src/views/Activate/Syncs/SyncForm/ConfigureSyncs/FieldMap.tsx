@@ -43,6 +43,7 @@ const FieldMap = ({
             borderStyle='solid'
             borderColor={isDisabled ? 'gray.500' : 'gray.400'}
             color='black.500'
+            _placeholder={{ color: isDisabled ? 'black.500' : 'gray.600' }}
           >
             {options.map((option) => (
               <option key={option} value={option} disabled={disabledOptions.includes?.(option)}>
@@ -51,7 +52,11 @@ const FieldMap = ({
             ))}
           </Select>
         ) : (
-          <TemplateDropdown entityName={entityName} isDisabled={isDisabled} />
+          <TemplateDropdown
+            entityName={entityName}
+            isDisabled={isDisabled}
+            columnOptions={options}
+          />
         )}
       </Box>
     </Box>

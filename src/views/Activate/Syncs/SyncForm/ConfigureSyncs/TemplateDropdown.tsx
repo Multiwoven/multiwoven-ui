@@ -10,11 +10,16 @@ import {
   PopoverTrigger,
   PopoverContent,
   Input,
+  InputGroup,
+  InputLeftElement,
+  Icon,
 } from '@chakra-ui/react';
+import { FiSearch } from 'react-icons/fi';
 
 type TemplateDropdownProps = {
   entityName: string;
   isDisabled: boolean;
+  columnOptions: string[];
 };
 
 const TabName = ({ title, filterConnectors }: { title: string; filterConnectors: () => void }) => (
@@ -34,7 +39,11 @@ const TabName = ({ title, filterConnectors }: { title: string; filterConnectors:
   </Tab>
 );
 
-const TemplateDropdown = ({ entityName, isDisabled }: TemplateDropdownProps): JSX.Element => {
+const TemplateDropdown = ({
+  entityName,
+  isDisabled,
+  columnOptions,
+}: TemplateDropdownProps): JSX.Element => {
   return (
     <Popover placement='bottom-start'>
       <PopoverTrigger>
@@ -46,7 +55,7 @@ const TemplateDropdown = ({ entityName, isDisabled }: TemplateDropdownProps): JS
           borderWidth='1px'
           borderStyle='solid'
           borderColor={isDisabled ? 'gray.500' : 'gray.400'}
-          _placeholder={{ color: 'black.500' }}
+          _placeholder={{ color: isDisabled ? 'black.500' : 'gray.600' }}
         />
       </PopoverTrigger>
       <PopoverContent>
@@ -61,6 +70,7 @@ const TemplateDropdown = ({ entityName, isDisabled }: TemplateDropdownProps): JS
           zIndex={5}
           borderRadius='6px'
           padding='3'
+          marginBottom={4}
         >
           <Stack gap='12px'>
             <Stack spacing='16'>
@@ -83,14 +93,37 @@ const TemplateDropdown = ({ entityName, isDisabled }: TemplateDropdownProps): JS
                 <TabIndicator />
               </Tabs>
             </Stack>
-            <Box
-              backgroundColor='gray.100'
-              borderRadius='8px'
-              borderStyle='solid'
-              borderWidth='1px'
-              borderColor='gray.400'
-            >
-              <Stack gap='12px' height='100%'></Stack>
+            <Box backgroundColor='gray.100'>
+              <Stack gap='12px' height='100%'>
+                <InputGroup>
+                  <InputLeftElement pointerEvents='none'>
+                    <Icon as={FiSearch} color='gray.600' boxSize='5' />
+                  </InputLeftElement>
+                  <Input
+                    placeholder='Search Columns'
+                    _placeholder={{ color: 'gray.600' }}
+                    borderColor='black.500'
+                    _hover={{ borderColor: 'black.500' }}
+                  />
+                </InputGroup>
+                <Box height='180px' overflowY='auto'>
+                  {columnOptions.map((column, index) => (
+                    <Box
+                      key={index}
+                      paddingY='10px'
+                      paddingX='16px'
+                      display='flex'
+                      gap='12px'
+                      _hover={{
+                        backgroundColor: 'gray.200',
+                      }}
+                      cursor='pointer'
+                    >
+                      <Text size='sm'>{column}</Text>
+                    </Box>
+                  ))}
+                </Box>
+              </Stack>
             </Box>
           </Stack>
         </Box>
