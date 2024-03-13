@@ -41,7 +41,7 @@ const FieldMap = ({
             isRequired
             borderWidth='1px'
             borderStyle='solid'
-            borderColor='gray.400'
+            borderColor={isDisabled ? 'gray.500' : 'gray.400'}
             color='black.500'
           >
             {options.map((option) => (

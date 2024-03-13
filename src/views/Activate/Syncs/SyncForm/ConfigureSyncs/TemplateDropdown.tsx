@@ -45,8 +45,8 @@ const TemplateDropdown = ({ entityName, isDisabled }: TemplateDropdownProps): JS
           isRequired
           borderWidth='1px'
           borderStyle='solid'
-          borderColor='gray.400'
-          _placeholder={{ color: 'gray.600' }}
+          borderColor={isDisabled ? 'gray.500' : 'gray.400'}
+          _placeholder={{ color: 'black.500' }}
         />
       </PopoverTrigger>
       <PopoverContent>
