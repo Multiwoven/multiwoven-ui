@@ -1,5 +1,6 @@
 import EntityItem from '@/components/EntityItem';
 import { Box, Select } from '@chakra-ui/react';
+import TemplateDropdown from './TemplateDropdown';
 
 type FieldMapProps = {
   id: number;
@@ -29,25 +30,29 @@ const FieldMap = ({
       <Box marginBottom='10px'>
         <EntityItem icon={icon} name={entityName} />
       </Box>
-      <Box>
-        <Select
-          value={selectedConfigOptions?.[id]}
-          placeholder={`Select a field from ${entityName}`}
-          backgroundColor={isDisabled ? 'gray.300' : 'gray.100'}
-          isDisabled={isDisabled}
-          onChange={(e) => onChange(id, fieldType, e.target.value)}
-          isRequired
-          borderWidth='1px'
-          borderStyle='solid'
-          borderColor='gray.400'
-          color='black.500'
-        >
-          {options.map((option) => (
-            <option key={option} value={option} disabled={disabledOptions.includes?.(option)}>
-              {option}
-            </option>
-          ))}
-        </Select>
+      <Box position='relative'>
+        {fieldType === 'destination' ? (
+          <Select
+            value={selectedConfigOptions?.[id]}
+            placeholder={`Select a field from ${entityName}`}
+            backgroundColor={isDisabled ? 'gray.300' : 'gray.100'}
+            isDisabled={isDisabled}
+            onChange={(e) => onChange(id, fieldType, e.target.value)}
+            isRequired
+            borderWidth='1px'
+            borderStyle='solid'
+            borderColor='gray.400'
+            color='black.500'
+          >
+            {options.map((option) => (
+              <option key={option} value={option} disabled={disabledOptions.includes?.(option)}>
+                {option}
+              </option>
+            ))}
+          </Select>
+        ) : (
+          <TemplateDropdown entityName={entityName} isDisabled={isDisabled} />
+        )}
       </Box>
     </Box>
   );
