@@ -1,14 +1,11 @@
 import ContentContainer from '@/components/ContentContainer';
-import TopBar from '@/components/TopBar';
-import { Box, Divider, Text, useToast } from '@chakra-ui/react';
-import { EDIT_SYNC_FORM_STEPS, SYNCS_LIST_QUERY_KEY } from '@/views/Activate/Syncs/constants';
+import { useToast } from '@chakra-ui/react';
+import { SYNCS_LIST_QUERY_KEY } from '@/views/Activate/Syncs/constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { editSync, getSyncById } from '@/services/syncs';
 import Loader from '@/components/Loader';
 import React, { useEffect, useState } from 'react';
-import MappedInfo from './MappedInfo';
-import moment from 'moment';
 import SelectStreams from '@/views/Activate/Syncs/SyncForm/ConfigureSyncs/SelectStreams';
 import MapFields from '../SyncForm/ConfigureSyncs/MapFields';
 import { getConnectorInfo } from '@/services/connectors';
@@ -20,17 +17,18 @@ import {
 } from '@/views/Activate/Syncs/types';
 import ScheduleForm from './ScheduleForm';
 import { FormikProps, useFormik } from 'formik';
-import SyncActions from './SyncActions';
 import SourceFormFooter from '@/views/Connectors/Sources/SourcesForm/SourceFormFooter';
 
 const EditSync = (): JSX.Element | null => {
   const [selectedStream, setSelectedStream] = useState<Stream | null>(null);
   const [isEditLoading, setIsEditLoading] = useState<boolean>(false);
   const [configuration, setConfiguration] = useState<Record<string, string> | null>(null);
+
   const { syncId } = useParams();
   const toast = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
   const {
     data: syncFetchResponse,
     isLoading,
@@ -154,40 +152,6 @@ const EditSync = (): JSX.Element | null => {
   return (
     <form onSubmit={formik.handleSubmit} style={{ backgroundColor: '#F9FAFB' }}>
       <ContentContainer>
-        <TopBar
-          name='Sync'
-          breadcrumbSteps={EDIT_SYNC_FORM_STEPS}
-          extra={
-            syncData?.model ? (
-              <Box display='flex' alignItems='center'>
-                <MappedInfo
-                  source={{
-                    name: syncData?.model.connector.name,
-                    icon: syncData?.model.connector.icon,
-                  }}
-                  destination={{
-                    name: syncData?.destination.name,
-                    icon: syncData?.destination.icon,
-                  }}
-                />
-                <Divider
-                  orientation='vertical'
-                  height='24px'
-                  borderColor='gray.500'
-                  opacity='1'
-                  marginX='13px'
-                />
-                <Text size='sm' fontWeight='medium'>
-                  Last updated :{' '}
-                </Text>
-                <Text size='sm' fontWeight='semibold'>
-                  {moment(syncData.updated_at).format('DD/MM/YYYY')}
-                </Text>
-                <SyncActions />
-              </Box>
-            ) : null
-          }
-        />
         {isLoading || isConnectorInfoLoading || !syncData ? <Loader /> : null}
         {syncData && destinationFetchResponse?.data ? (
           <React.Fragment>
