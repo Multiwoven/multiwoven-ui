@@ -15,6 +15,7 @@ import Columns from './Columns';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getSyncsConfiguration } from '@/services/syncs';
+import StaticOptions from './StaticOptions';
 
 type TemplateOptionsProps = {
   entityName: string;
@@ -62,7 +63,6 @@ const TemplateOptions = ({
   const staticValueOptions = Object.keys(
     data?.data?.configurations?.catalog_mapping_types?.static || {},
   );
-  console.log(staticValueOptions);
 
   return (
     <Popover placement='bottom-start'>
@@ -92,7 +92,7 @@ const TemplateOptions = ({
           padding='3'
           marginBottom={4}
         >
-          <Stack gap='12px'>
+          <Stack gap='20px'>
             <Stack spacing='16'>
               <Tabs
                 size='md'
@@ -124,6 +124,9 @@ const TemplateOptions = ({
             </Stack>
             <Box backgroundColor='gray.100'>
               {activeTab === OPTION_TYPE.COLUMNS && <Columns columnOptions={columnOptions} />}
+              {activeTab === OPTION_TYPE.STATIC && (
+                <StaticOptions staticValues={staticValueOptions} />
+              )}
             </Box>
           </Stack>
         </Box>
