@@ -12,7 +12,9 @@ import {
   Input,
 } from '@chakra-ui/react';
 import Columns from './Columns';
+import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { getSyncsConfiguration } from '@/services/syncs';
 
 type TemplateOptionsProps = {
   entityName: string;
@@ -49,6 +51,18 @@ const TemplateOptions = ({
   columnOptions,
 }: TemplateOptionsProps): JSX.Element => {
   const [activeTab, setActiveTab] = useState(OPTION_TYPE.COLUMNS);
+
+  const { data } = useQuery({
+    queryKey: ['syncsConfiguration'],
+    queryFn: () => getSyncsConfiguration(),
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+  });
+
+  const staticValueOptions = Object.keys(
+    data?.data?.configurations?.catalog_mapping_types?.static || {},
+  );
+  console.log(staticValueOptions);
 
   return (
     <Popover placement='bottom-start'>

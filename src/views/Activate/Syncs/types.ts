@@ -29,6 +29,16 @@ export type FieldMap = {
   isRequired?: boolean;
 };
 
+export type SyncsConfigurationForTemplateMapping = {
+  data: {
+    configurations: {
+      catalog_mapping_types: {
+        static: Record<string, string>;
+      };
+    };
+  };
+};
+
 export type ConfigSync = {
   source_id: string;
   destination_id: string;
