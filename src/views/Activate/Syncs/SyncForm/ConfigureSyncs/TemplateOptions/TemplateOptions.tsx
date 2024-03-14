@@ -12,6 +12,7 @@ import {
   Input,
 } from '@chakra-ui/react';
 import Columns from './Columns';
+import { useState } from 'react';
 
 type TemplateOptionsProps = {
   entityName: string;
@@ -19,7 +20,13 @@ type TemplateOptionsProps = {
   columnOptions: string[];
 };
 
-const TabName = ({ title, filterConnectors }: { title: string; filterConnectors: () => void }) => (
+enum OPTION_TYPE {
+  COLUMNS = 'columns',
+  STATIC = 'static',
+  TEMPLATE = 'template',
+}
+
+const TabName = ({ title, handleActiveTab }: { title: string; handleActiveTab: () => void }) => (
   <Tab
     _selected={{
       backgroundColor: 'gray.100',
@@ -27,7 +34,7 @@ const TabName = ({ title, filterConnectors }: { title: string; filterConnectors:
       color: 'black.500',
     }}
     color='black.200'
-    onClick={filterConnectors}
+    onClick={handleActiveTab}
     padding='6px 24px'
   >
     <Text size='xs' fontWeight='semibold'>
@@ -41,6 +48,8 @@ const TemplateOptions = ({
   isDisabled,
   columnOptions,
 }: TemplateOptionsProps): JSX.Element => {
+  const [activeTab, setActiveTab] = useState(OPTION_TYPE.COLUMNS);
+
   return (
     <Popover placement='bottom-start'>
       <PopoverTrigger>
@@ -83,15 +92,24 @@ const TemplateOptions = ({
                 width='fit-content'
               >
                 <TabList gap='8px'>
-                  <TabName title='Column' filterConnectors={() => {}} />
-                  <TabName title='Static Value' filterConnectors={() => {}} />
-                  <TabName title='Template' filterConnectors={() => {}} />
+                  <TabName
+                    title='Column'
+                    handleActiveTab={() => setActiveTab(OPTION_TYPE.COLUMNS)}
+                  />
+                  <TabName
+                    title='Static Value'
+                    handleActiveTab={() => setActiveTab(OPTION_TYPE.STATIC)}
+                  />
+                  <TabName
+                    title='Template'
+                    handleActiveTab={() => setActiveTab(OPTION_TYPE.TEMPLATE)}
+                  />
                 </TabList>
                 <TabIndicator />
               </Tabs>
             </Stack>
             <Box backgroundColor='gray.100'>
-              <Columns columnOptions={columnOptions} />
+              {activeTab === OPTION_TYPE.COLUMNS && <Columns columnOptions={columnOptions} />}
             </Box>
           </Stack>
         </Box>
