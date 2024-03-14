@@ -1,4 +1,4 @@
-import { Stack, RadioGroup, Radio, Box, Divider, Text } from '@chakra-ui/react';
+import { Stack, RadioGroup, Radio, Box, Divider, Text, Input } from '@chakra-ui/react';
 import { useState } from 'react';
 
 type StaticOptionsProps = {
@@ -69,6 +69,37 @@ const StaticOptions = ({ staticValues }: StaticOptionsProps): JSX.Element => {
               </Radio>
             </Stack>
           </RadioGroup>
+        )}
+        {(selectedStaticValue as STATIC_OPTION_TYPE) === STATIC_OPTION_TYPE.NUMBER && (
+          <Box padding='8px 12px'>
+            <Input
+              name='sync_interval'
+              pr='4.5rem'
+              type='number'
+              placeholder='Enter number'
+              _focusVisible={{
+                borderStyle: '1px',
+                borderWidth: 'solid',
+                borderColor: 'black.100',
+              }}
+              _hover={{ borderStyle: '1px', borderWidth: 'solid', borderColor: 'black.100' }}
+              value=''
+              onChange={() => {}}
+              isRequired
+              color='gray.600'
+              height='35px'
+              borderStyle='1px'
+              borderWidth='solid'
+              borderColor='black.100'
+            />
+          </Box>
+        )}
+        {(selectedStaticValue as STATIC_OPTION_TYPE) === STATIC_OPTION_TYPE.NULL && (
+          <Box padding='8px 12px'>
+            <Text color='black.200' size='xs' fontWeight={500}>
+              A null value be synced to this destination field.
+            </Text>
+          </Box>
         )}
       </Box>
     </Stack>
