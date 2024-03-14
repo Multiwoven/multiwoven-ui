@@ -7,7 +7,6 @@ import { Box, Text } from '@chakra-ui/react';
 import StatusTag from '@/components/StatusTag';
 import moment from 'moment';
 import { SyncRunsColumnFields, SyncRunsResponse } from '../types';
-import ContentContainer from '@/components/ContentContainer';
 import Loader from '@/components/Loader';
 import Table from '@/components/Table';
 import { ResultEntity } from './ResultEntity';
