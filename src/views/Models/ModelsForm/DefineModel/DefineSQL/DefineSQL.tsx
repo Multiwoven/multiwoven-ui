@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Image, Spacer, Text, VStack, useToast } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Image, Spacer, Text, VStack } from '@chakra-ui/react';
 
 import StarsImage from '@/assets/images/stars.svg';
 import EmptyQueryPreviewImage from '@/assets/images/EmptyQueryPreview.png';
@@ -16,6 +16,8 @@ import { DefineSQLProps } from './types';
 import { UpdateModelPayload } from '@/views/Models/ViewModel/types';
 import ContentContainer from '@/components/ContentContainer';
 import SourceFormFooter from '@/views/Connectors/Sources/SourcesForm/SourceFormFooter';
+import { CustomToastStatus } from '@/components/Toast/index';
+import useCustomToast from '@/hooks/useCustomToast';
 
 const DefineSQL = ({
   hasPrefilledValues = false,
@@ -46,7 +48,7 @@ const DefineSQL = ({
     user_query = prefillValues.query;
   }
 
-  const toast = useToast();
+  const showToast = useCustomToast();
   const navigate = useNavigate();
   const editorRef = useRef(null);
 
@@ -76,10 +78,10 @@ const DefineSQL = ({
     const response = await getModelPreviewById(query, connector_id?.toString());
     if ('data' in response && response.data.errors) {
       response.data.errors.forEach((error: { title: string; detail: string }) => {
-        toast({
+        showToast({
           title: 'An Error Occurred',
           description: error.detail || 'Please check your query and try again',
-          status: 'error',
+          status: CustomToastStatus.Error,
           duration: 9000,
           isClosable: true,
           position: 'bottom-right',
@@ -108,9 +110,9 @@ const DefineSQL = ({
 
     const modelUpdateResponse = await putModelById(prefillValues?.model_id || '', updatePayload);
     if (modelUpdateResponse.data) {
-      toast({
+      showToast({
         title: 'Model updated successfully',
-        status: 'success',
+        status: CustomToastStatus.Success,
         duration: 3000,
         isClosable: true,
         position: 'bottom-right',

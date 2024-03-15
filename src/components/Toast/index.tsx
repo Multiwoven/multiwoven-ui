@@ -13,7 +13,7 @@ interface CustomToastIconProps {
   status: CustomToastStatus;
 }
 interface ToastProps {
-  text: string;
+  title: string;
   status: CustomToastStatus;
   toastContainerStyle?: Record<string, string>;
   onClose: () => void;
@@ -34,7 +34,7 @@ const CustomToastIcon: React.FC<CustomToastIconProps> = ({
 };
 
 const Toast: React.FC<ToastProps> = ({
-  text = '',
+  title = '',
   status = CustomToastStatus.Default,
   toastContainerStyle = {},
   onClose = () => {},
@@ -62,7 +62,7 @@ const Toast: React.FC<ToastProps> = ({
     >
       <Box display='flex' justifyContent='flex-start' alignItems='center'>
         <CustomToastIcon status={status as CustomToastStatus} />
-        <Text>{text}</Text>
+        <Text>{title}</Text>
       </Box>
 
       <Button variant='unstyled' width='auto' onClick={onClose} marginX='16px'>

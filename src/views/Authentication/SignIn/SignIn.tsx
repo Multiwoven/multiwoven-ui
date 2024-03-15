@@ -11,7 +11,6 @@ import {
   Text,
   Container,
   Stack,
-  // useToast,
   Flex,
   HStack,
   Image,
@@ -24,7 +23,7 @@ import titleCase from '@/utils/TitleCase';
 import AuthFooter from '../AuthFooter';
 import HiddenInput from '@/components/HiddenInput';
 import { CustomToastStatus } from '@/components/Toast/index';
-import useCustomToast from '../../../hooks/useCustomToast';
+import useCustomToast from '@/hooks/useCustomToast';
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Please enter a valid email address').required('Email is required'),
@@ -122,7 +121,7 @@ const SignIn = (): JSX.Element => {
         duration: 3000,
         isClosable: true,
         position: 'bottom-right',
-        text: 'Signed In',
+        title: 'Signed In',
         status: CustomToastStatus.Success,
       });
       navigate('/setup/sources', { replace: true });
@@ -135,7 +134,7 @@ const SignIn = (): JSX.Element => {
           position: 'bottom-right',
           colorScheme: 'red',
           status: CustomToastStatus.Warning,
-          text: titleCase(error.detail),
+          title: titleCase(error.detail),
         });
       });
     }
