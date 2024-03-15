@@ -1,4 +1,4 @@
-import { Box, Input, Text, Textarea, useToast } from '@chakra-ui/react';
+import { Box, Input, Text, Textarea } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useContext, useState } from 'react';
 import { SteppedFormContext } from '@/components/SteppedForm/SteppedForm';
@@ -10,6 +10,8 @@ import { DESTINATIONS_LIST_QUERY_KEY } from '@/views/Connectors/constant';
 import { useUiConfig } from '@/utils/hooks';
 import SourceFormFooter from '@/views/Connectors/Sources/SourcesForm/SourceFormFooter';
 import ContentContainer from '@/components/ContentContainer';
+import { CustomToastStatus } from '@/components/Toast/index';
+import useCustomToast from '@/hooks/useCustomToast';
 
 const finalDestinationConfigFormKey = 'testDestination';
 
@@ -18,7 +20,7 @@ const DestinationFinalizeForm = (): JSX.Element | null => {
   const { maxContentWidth } = useUiConfig();
   const { state } = useContext(SteppedFormContext);
   const { forms } = state;
-  const toast = useToast();
+  const showToast = useCustomToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const finalDestinationConfigForm = forms.find(
@@ -51,8 +53,8 @@ const DestinationFinalizeForm = (): JSX.Element | null => {
             queryKey: DESTINATIONS_LIST_QUERY_KEY,
           });
 
-          toast({
-            status: 'success',
+          showToast({
+            status: CustomToastStatus.Success,
             title: 'Success!!',
             description: 'Destination created successfully!',
             position: 'bottom-right',
@@ -62,8 +64,8 @@ const DestinationFinalizeForm = (): JSX.Element | null => {
           throw new Error();
         }
       } catch {
-        toast({
-          status: 'error',
+        showToast({
+          status: CustomToastStatus.Error,
           title: 'An error occurred.',
           description: 'Something went wrong while creating the Destination.',
           position: 'bottom-right',
