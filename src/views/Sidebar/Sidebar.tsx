@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Text, Divider } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Divider, useMediaQuery } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
 import IconImage from '../../assets/images/multiwoven-logo.png';
 import {
@@ -88,8 +88,14 @@ const renderMenuSection = (section: MenuSection, index: number) => (
   </Stack>
 );
 
-const SideBarFooter = () => (
-  <Stack position='absolute' bottom='0' left='0px' right='0px' margin='24px 16px'>
+const SideBarFooter = ({ isSticky }: { isSticky: boolean }) => (
+  <Stack
+    position={isSticky ? 'relative' : 'absolute'}
+    bottom='0'
+    left='0px'
+    right='0px'
+    margin={isSticky ? '24px 0px' : '24px 16px'}
+  >
     <Box />
     <Stack spacing='0'>
       <NavButton label='Settings' icon={FiSettings} disabled={true} />
@@ -102,8 +108,11 @@ const SideBarFooter = () => (
 );
 
 const Sidebar = (): JSX.Element => {
+  const [isScreenLessThan748] = useMediaQuery('(max-height: 748px)');
+
   return (
     <Flex
+      overflowY='auto'
       position='relative'
       as='section'
       minH='100vh'
@@ -122,7 +131,7 @@ const Sidebar = (): JSX.Element => {
               <Divider orientation='horizontal' />
             </Box>
             {menus.map(renderMenuSection)}
-            <SideBarFooter />
+            <SideBarFooter isSticky={isScreenLessThan748} />
           </Stack>
         </Stack>
       </Flex>
