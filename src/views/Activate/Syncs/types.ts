@@ -114,7 +114,7 @@ export type SyncRunsResponse = {
     total_rows: number;
     successful_rows: number;
     failed_rows: number;
-    error: ErrorResponse;
+    error: ErrorResponse | null;
   };
   id: string;
   type: 'sync_runs';
