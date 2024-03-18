@@ -1,7 +1,5 @@
 import ContentContainer from '@/components/ContentContainer';
-import TopBar from '@/components/TopBar';
-import { Box, Divider, Text } from '@chakra-ui/react';
-import { EDIT_SYNC_FORM_STEPS, SYNCS_LIST_QUERY_KEY } from '@/views/Activate/Syncs/constants';
+import { SYNCS_LIST_QUERY_KEY } from '@/views/Activate/Syncs/constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { editSync, getSyncById } from '@/services/syncs';

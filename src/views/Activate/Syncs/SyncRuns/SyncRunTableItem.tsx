@@ -13,12 +13,10 @@ type TableItem = {
 export const TableItem = ({ field, data }: TableItem): JSX.Element => {
   switch (field) {
     case 'start_time':
-      const formatted_date = moment(data.attributes.started_at).format('DD/MM/YYYY');
-      const formatted_time = moment(data.attributes.started_at).format('HH:mm a');
-
       return (
         <Text fontSize='sm'>
-          {formatted_date} at {formatted_time}
+          {moment(data.attributes.started_at).format('DD/MM/YYYY')} at{' '}
+          {moment(data.attributes.started_at).format('HH:mm a')}
         </Text>
       );
 

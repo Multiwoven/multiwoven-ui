@@ -129,7 +129,7 @@ const ViewSync = (): JSX.Element => {
         </TabList>
         <TabIndicator />
       </Tabs>
-      {syncTab === 'runs' ? <SyncRuns /> : <EditSync />}
+      {syncTab === SyncTabs.Tab1 ? <SyncRuns /> : <EditSync />}
     </ContentContainer>
   );
 };
