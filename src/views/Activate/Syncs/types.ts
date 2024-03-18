@@ -98,3 +98,36 @@ export type FinalizeSyncFormFields = {
   sync_interval_unit: 'minutes';
   schedule_type: 'automated';
 };
+
+export type SyncRunsResponse = {
+  attributes: {
+    sync_id: string;
+    status: string;
+    source_id: string;
+    destination_id: string;
+    started_at: string;
+    finished_at: string;
+    created_at: string;
+    updated_at: string;
+    duration: number;
+    total_query_rows: number;
+    total_rows: number;
+    successful_rows: number;
+    failed_rows: number;
+    error: ErrorResponse | null;
+  };
+  id: string;
+  type: 'sync_runs';
+};
+
+export type SyncRunsColumnFields =
+  | 'status'
+  | 'start_time'
+  | 'duration'
+  | 'rows_queried'
+  | 'results';
+
+export type SyncRunsColumnEntity = {
+  key: SyncRunsColumnFields;
+  name: string;
+};
