@@ -2,7 +2,7 @@ import { Tab, Text } from '@chakra-ui/react';
 
 type TabItemProps = {
   text: string;
-  action?: (args: any) => void;
+  action: () => void;
 };
 
 const TabItem = ({ text, action }: TabItemProps): JSX.Element => {
@@ -19,7 +19,7 @@ const TabItem = ({ text, action }: TabItemProps): JSX.Element => {
       py='6px'
       onClick={action}
     >
-      <Text size='xs' fontWeight='semibold'>
+      <Text fontSize='xs' fontWeight='semibold'>
         {text}
       </Text>
     </Tab>
