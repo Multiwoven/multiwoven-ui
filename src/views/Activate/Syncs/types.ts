@@ -34,6 +34,9 @@ export type SyncsConfigurationForTemplateMapping = {
     configurations: {
       catalog_mapping_types: {
         static: Record<string, string>;
+        template: {
+          filter: Record<string, { description: string }>;
+        };
       };
     };
   };

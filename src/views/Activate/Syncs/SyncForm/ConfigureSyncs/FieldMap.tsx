@@ -1,6 +1,6 @@
 import EntityItem from '@/components/EntityItem';
 import { Box, Select } from '@chakra-ui/react';
-import TemplateOptions from './TemplateOptions/TemplateOptions';
+import TemplateMapping from './TemplateMapping/TemplateMapping';
 
 type FieldMapProps = {
   id: number;
@@ -52,7 +52,7 @@ const FieldMap = ({
             ))}
           </Select>
         ) : (
-          <TemplateOptions
+          <TemplateMapping
             entityName={entityName}
             isDisabled={isDisabled}
             columnOptions={options}

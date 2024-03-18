@@ -16,8 +16,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { getSyncsConfiguration } from '@/services/syncs';
 import StaticOptions from './StaticOptions';
+import TemplateOptions from './TemplateOptions';
 
-type TemplateOptionsProps = {
+type TemplateMappingProps = {
   entityName: string;
   isDisabled: boolean;
   columnOptions: string[];
@@ -46,11 +47,11 @@ const TabName = ({ title, handleActiveTab }: { title: string; handleActiveTab: (
   </Tab>
 );
 
-const TemplateOptions = ({
+const TemplateMapping = ({
   entityName,
   isDisabled,
   columnOptions,
-}: TemplateOptionsProps): JSX.Element => {
+}: TemplateMappingProps): JSX.Element => {
   const [activeTab, setActiveTab] = useState(OPTION_TYPE.COLUMNS);
 
   const { data } = useQuery({
@@ -62,6 +63,10 @@ const TemplateOptions = ({
 
   const staticValueOptions = Object.keys(
     data?.data?.configurations?.catalog_mapping_types?.static || {},
+  );
+
+  const templateFilterOptions = Object.keys(
+    data?.data?.configurations?.catalog_mapping_types?.template?.filter || {},
   );
 
   return (
@@ -81,7 +86,7 @@ const TemplateOptions = ({
       <PopoverContent>
         <Box
           height='314px'
-          width='200%'
+          width='80vw'
           borderWidth={1}
           borderStyle='solid'
           borderColor='gray.400'
@@ -92,7 +97,7 @@ const TemplateOptions = ({
           padding='3'
           marginBottom={4}
         >
-          <Stack gap='20px'>
+          <Stack gap='20px' height='100%'>
             <Stack spacing='16'>
               <Tabs
                 size='md'
@@ -122,10 +127,19 @@ const TemplateOptions = ({
                 <TabIndicator />
               </Tabs>
             </Stack>
-            <Box backgroundColor='gray.100'>
-              {activeTab === OPTION_TYPE.COLUMNS && <Columns columnOptions={columnOptions} />}
+            <Box backgroundColor='gray.100' height='100%'>
+              {activeTab === OPTION_TYPE.COLUMNS && (
+                <Columns columnOptions={columnOptions} showFilter />
+              )}
               {activeTab === OPTION_TYPE.STATIC && (
                 <StaticOptions staticValues={staticValueOptions} />
+              )}
+              {activeTab === OPTION_TYPE.TEMPLATE && (
+                <TemplateOptions
+                  columnOptions={columnOptions}
+                  filterOptions={templateFilterOptions}
+                  catalogMapping={data}
+                />
               )}
             </Box>
           </Stack>
@@ -135,4 +149,4 @@ const TemplateOptions = ({
   );
 };
 
-export default TemplateOptions;
+export default TemplateMapping;
