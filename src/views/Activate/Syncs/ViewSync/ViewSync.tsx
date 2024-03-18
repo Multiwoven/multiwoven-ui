@@ -14,10 +14,13 @@ import Loader from '@/components/Loader';
 import SyncRuns from '../SyncRuns';
 import { Step } from '@/components/Breadcrumbs/types';
 
-type SyncTabs = 'runs' | 'config';
+enum SyncTabs {
+  Tab1 = 'runs',
+  Tab2 = 'config',
+}
 
 const ViewSync = (): JSX.Element => {
-  const [syncTab, setSyncTab] = useState<SyncTabs>('runs');
+  const [syncTab, setSyncTab] = useState<SyncTabs>(SyncTabs.Tab1);
   const { syncId } = useParams();
   const toast = useToast();
 
@@ -35,6 +38,17 @@ const ViewSync = (): JSX.Element => {
 
   const syncData = syncFetchResponse?.data.attributes;
 
+  const EDIT_SYNC_FORM_STEPS: Step[] = [
+    {
+      name: 'Syncs',
+      url: '/activate/syncs',
+    },
+    {
+      name: 'Sync ' + syncId,
+      url: '',
+    },
+  ];
+
   useEffect(() => {
     if (isError) {
       toast({
@@ -46,17 +60,6 @@ const ViewSync = (): JSX.Element => {
       });
     }
   }, [isError]);
-
-  const EDIT_SYNC_FORM_STEPS: Step[] = [
-    {
-      name: 'Syncs',
-      url: '/activate/syncs',
-    },
-    {
-      name: 'Sync ' + syncId,
-      url: '',
-    },
-  ];
 
   return (
     <ContentContainer>
@@ -121,8 +124,8 @@ const ViewSync = (): JSX.Element => {
         height='fit'
       >
         <TabList gap='8px'>
-          <TabItem text='Sync Runs' action={() => setSyncTab('runs')} />
-          <TabItem text='Configuration' action={() => setSyncTab('config')} />
+          <TabItem text='Sync Runs' action={() => setSyncTab(SyncTabs.Tab1)} />
+          <TabItem text='Configuration' action={() => setSyncTab(SyncTabs.Tab2)} />
         </TabList>
         <TabIndicator />
       </Tabs>

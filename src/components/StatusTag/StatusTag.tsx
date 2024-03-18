@@ -1,6 +1,9 @@
 import { Tag, Text } from '@chakra-ui/react';
 
-type StatusTagVariants = 'success' | 'error';
+export enum StatusTagVariants {
+  success = 'success',
+  error = 'error',
+}
 
 type StatusTagProps = {
   variant?: StatusTagVariants;
@@ -16,19 +19,20 @@ type VariantTheme = Record<
   }
 >;
 
-const StatusTag = ({ status, variant = 'success' }: StatusTagProps) => {
-  const theme: VariantTheme = {
-    success: {
-      bgColor: 'success.100',
-      borderColor: 'success.300',
-      textColor: 'success.600',
-    },
-    error: {
-      bgColor: 'error.100',
-      borderColor: 'error.300',
-      textColor: 'error.600',
-    },
-  };
+const theme: VariantTheme = {
+  success: {
+    bgColor: 'success.100',
+    borderColor: 'success.300',
+    textColor: 'success.600',
+  },
+  error: {
+    bgColor: 'error.100',
+    borderColor: 'error.300',
+    textColor: 'error.600',
+  },
+};
+
+const StatusTag = ({ status, variant = StatusTagVariants.success }: StatusTagProps) => {
   return (
     <Tag
       colorScheme='teal'
