@@ -1,4 +1,4 @@
-import { Box, Input, Text, Textarea, useToast } from '@chakra-ui/react';
+import { Box, Input, Text, Textarea } from '@chakra-ui/react';
 import SourceFormFooter from '../SourceFormFooter';
 import { useFormik } from 'formik';
 import { useContext, useState } from 'react';
@@ -9,6 +9,8 @@ import { createNewConnector } from '@/services/connectors';
 import { useQueryClient } from '@tanstack/react-query';
 import { SOURCES_LIST_QUERY_KEY } from '@/views/Connectors/constant';
 import ContentContainer from '@/components/ContentContainer';
+import { CustomToastStatus } from '@/components/Toast/index';
+import useCustomToast from '@/hooks/useCustomToast';
 
 const finalDataSourceFormKey = 'testSource';
 
@@ -16,7 +18,7 @@ const SourceFinalizeForm = (): JSX.Element | null => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { state } = useContext(SteppedFormContext);
   const { forms } = state;
-  const toast = useToast();
+  const showToast = useCustomToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const finalDataSourceForm = forms.find(({ stepKey }) => stepKey === finalDataSourceFormKey)
@@ -48,8 +50,8 @@ const SourceFinalizeForm = (): JSX.Element | null => {
             queryKey: SOURCES_LIST_QUERY_KEY,
           });
 
-          toast({
-            status: 'success',
+          showToast({
+            status: CustomToastStatus.Success,
             title: 'Success!!',
             description: 'Source created successfully!',
             position: 'bottom-right',
@@ -59,8 +61,8 @@ const SourceFinalizeForm = (): JSX.Element | null => {
           throw new Error();
         }
       } catch {
-        toast({
-          status: 'error',
+        showToast({
+          status: CustomToastStatus.Error,
           title: 'An error occurred.',
           description: 'Something went wrong while creating your Source.',
           position: 'bottom-right',

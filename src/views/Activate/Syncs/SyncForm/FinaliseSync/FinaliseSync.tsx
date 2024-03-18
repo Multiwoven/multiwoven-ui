@@ -12,17 +12,18 @@ import {
   Stack,
   Text,
   Textarea,
-  useToast,
 } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import { useContext, useState } from 'react';
 import { ConfigSync } from '../../types';
 import { useNavigate } from 'react-router-dom';
+import { CustomToastStatus } from '@/components/Toast/index';
+import useCustomToast from '@/hooks/useCustomToast';
 
 const FinaliseSync = (): JSX.Element => {
   const { state } = useContext(SteppedFormContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const toast = useToast();
+  const showToast = useCustomToast();
   const navigate = useNavigate();
 
   const { forms } = state;
@@ -49,8 +50,8 @@ const FinaliseSync = (): JSX.Element => {
 
         const response = await createSync(payload);
         if (response?.data?.attributes) {
-          toast({
-            status: 'success',
+          showToast({
+            status: CustomToastStatus.Success,
             title: 'Success!',
             description: 'Sync created successfully!',
             position: 'bottom-right',
@@ -61,8 +62,8 @@ const FinaliseSync = (): JSX.Element => {
         }
         throw new Error();
       } catch {
-        toast({
-          status: 'error',
+        showToast({
+          status: CustomToastStatus.Error,
           title: 'An error occurred.',
           description: 'Something went wrong while creating Sync.',
           position: 'bottom-right',

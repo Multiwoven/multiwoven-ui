@@ -10,8 +10,9 @@ import {
   PopoverTrigger,
   Text,
   VStack,
-  useToast,
 } from '@chakra-ui/react';
+import { CustomToastStatus } from '@/components/Toast/index';
+import useCustomToast from '@/hooks/useCustomToast';
 import { useQuery } from '@tanstack/react-query';
 import { FiLogOut, FiMoreVertical } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
@@ -24,17 +25,17 @@ const Profile = () => {
     refetchOnWindowFocus: false,
   });
 
-  const toast = useToast();
+  const showToast = useCustomToast();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     const logoutResponse = await logout();
     if (logoutResponse.data) {
-      toast({
+      showToast({
         title: 'Signed out successfully',
         isClosable: true,
         duration: 5000,
-        status: 'success',
+        status: CustomToastStatus.Success,
         position: 'bottom-right',
       });
       navigate('/sign-in');

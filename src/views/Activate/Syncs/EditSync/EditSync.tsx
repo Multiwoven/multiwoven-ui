@@ -1,6 +1,7 @@
 import ContentContainer from '@/components/ContentContainer';
-import { useToast } from '@chakra-ui/react';
-import { SYNCS_LIST_QUERY_KEY } from '@/views/Activate/Syncs/constants';
+import TopBar from '@/components/TopBar';
+import { Box, Divider, Text } from '@chakra-ui/react';
+import { EDIT_SYNC_FORM_STEPS, SYNCS_LIST_QUERY_KEY } from '@/views/Activate/Syncs/constants';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { editSync, getSyncById } from '@/services/syncs';
@@ -9,6 +10,9 @@ import React, { useEffect, useState } from 'react';
 import SelectStreams from '@/views/Activate/Syncs/SyncForm/ConfigureSyncs/SelectStreams';
 import MapFields from '../SyncForm/ConfigureSyncs/MapFields';
 import { getConnectorInfo } from '@/services/connectors';
+import { CustomToastStatus } from '@/components/Toast/index';
+import useCustomToast from '@/hooks/useCustomToast';
+
 import {
   CreateSyncPayload,
   DiscoverResponse,
@@ -25,7 +29,7 @@ const EditSync = (): JSX.Element | null => {
   const [configuration, setConfiguration] = useState<Record<string, string> | null>(null);
 
   const { syncId } = useParams();
-  const toast = useToast();
+  const showToast = useCustomToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -83,9 +87,9 @@ const EditSync = (): JSX.Element | null => {
 
           const editSyncResponse = await editSync(payload, syncId as string);
           if (editSyncResponse.data.attributes) {
-            toast({
+            showToast({
               title: 'Sync updated successfully',
-              status: 'success',
+              status: CustomToastStatus.Success,
               duration: 3000,
               isClosable: true,
               position: 'bottom-right',
@@ -100,8 +104,8 @@ const EditSync = (): JSX.Element | null => {
           }
         }
       } catch {
-        toast({
-          status: 'error',
+        showToast({
+          status: CustomToastStatus.Error,
           title: 'Error!!',
           description: 'Something went wrong while editing the sync',
           position: 'bottom-right',
@@ -115,8 +119,8 @@ const EditSync = (): JSX.Element | null => {
 
   useEffect(() => {
     if (isError) {
-      toast({
-        status: 'error',
+      showToast({
+        status: CustomToastStatus.Error,
         title: 'Error!!',
         description: 'Something went wrong',
         position: 'bottom-right',
