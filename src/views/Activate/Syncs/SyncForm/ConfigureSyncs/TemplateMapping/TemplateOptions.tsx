@@ -1,6 +1,6 @@
 import { Box, Stack, TabList, Tab, Text, TabIndicator, Tabs, Textarea } from '@chakra-ui/react';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Columns from './Columns';
 import { SyncsConfigurationForTemplateMapping } from '@/views/Activate/Syncs/types';
 
@@ -39,11 +39,43 @@ const TemplateOptions = ({
   catalogMapping,
 }: TemplateOptionsProps): JSX.Element => {
   const [activeTab, setActiveTab] = useState(OPTION_TYPE.COLUMNS);
+  const [selectedTemplate, setSelectedTemplate] = useState('');
+
+  // State to hold selected columns and filters
+  const [selectedItems, setSelectedItems] = useState<Map<string, string>>(new Map());
+  const [activeSelectedColumn, setActiveSelectedColumn] = useState('');
+
+  const handleSelection = (value: string, optionType: OPTION_TYPE) => {
+    setSelectedItems((prev) => {
+      const updatedItems = new Map(prev);
+      if (!updatedItems.has(value) && optionType !== OPTION_TYPE.FILTER) {
+        updatedItems.set(value, `{{ row['${value}'] }}`);
+        setActiveSelectedColumn(value);
+      } else {
+        if (optionType === OPTION_TYPE.FILTER) {
+          const currentItem = updatedItems.get(activeSelectedColumn)?.split('}}');
+          updatedItems.set(activeSelectedColumn, `${currentItem?.[0]} | ${value} }}`);
+        }
+      }
+      return updatedItems;
+    });
+  };
+
+  // Update the selectedTemplate whenever selectedItems change
+  useEffect(() => {
+    let template = '';
+    selectedItems.forEach((value) => {
+      template += `${value} `;
+    });
+    setSelectedTemplate(template.trim());
+  }, [selectedItems]);
 
   return (
     <Stack gap='20px' height='100%' direction='row'>
       <Box flex={1}>
         <Textarea
+          value={selectedTemplate}
+          onChange={(e) => setSelectedTemplate(e.target.value)}
           height='100%'
           borderStyle='solid'
           borderWidth='1px'
@@ -83,12 +115,18 @@ const TemplateOptions = ({
           <TabIndicator />
         </Tabs>
         <Box backgroundColor='gray.100' height='100%'>
-          {activeTab === OPTION_TYPE.COLUMNS && <Columns columnOptions={columnOptions} />}
+          {activeTab === OPTION_TYPE.COLUMNS && (
+            <Columns
+              columnOptions={columnOptions}
+              onSelect={(value: string) => handleSelection(value, OPTION_TYPE.COLUMNS)}
+            />
+          )}
           {activeTab === OPTION_TYPE.FILTER && (
             <Columns
               columnOptions={filterOptions}
               showDescription
               catalogMapping={catalogMapping}
+              onSelect={(value: string) => handleSelection(value, OPTION_TYPE.FILTER)}
             />
           )}
         </Box>

@@ -7,11 +7,13 @@ type ColumnsProps = {
   catalogMapping?: SyncsConfigurationForTemplateMapping;
   showFilter?: boolean;
   showDescription?: boolean;
+  onSelect?: (args: string) => void;
 };
 
 const Columns = ({
   columnOptions,
   catalogMapping,
+  onSelect,
   showFilter = false,
   showDescription = false,
 }: ColumnsProps): JSX.Element => {
@@ -43,6 +45,7 @@ const Columns = ({
             }}
             cursor='pointer'
             flexDirection='column'
+            onClick={() => onSelect?.(column)}
           >
             <Text size='sm'>{column}</Text>
             {showDescription && (
