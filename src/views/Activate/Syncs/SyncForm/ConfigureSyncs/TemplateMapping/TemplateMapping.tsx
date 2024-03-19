@@ -19,17 +19,25 @@ import { getSyncsConfiguration } from '@/services/syncs';
 import StaticOptions from './StaticOptions';
 import TemplateOptions from './TemplateOptions';
 
-type TemplateMappingProps = {
-  entityName: string;
-  isDisabled: boolean;
-  columnOptions: string[];
-};
-
-enum OPTION_TYPE {
+export enum OPTION_TYPE {
   COLUMNS = 'columns',
   STATIC = 'static',
   TEMPLATE = 'template',
 }
+
+type TemplateMappingProps = {
+  entityName: string;
+  isDisabled: boolean;
+  columnOptions: string[];
+  handleUpdateConfig: (
+    id: number,
+    type: 'model' | 'destination',
+    value: string,
+    mappingType?: OPTION_TYPE,
+  ) => void;
+  mappingId: number;
+  selectedConfig?: string;
+};
 
 const TabName = ({ title, handleActiveTab }: { title: string; handleActiveTab: () => void }) => (
   <Tab
@@ -52,8 +60,12 @@ const TemplateMapping = ({
   entityName,
   isDisabled,
   columnOptions,
+  handleUpdateConfig,
+  mappingId,
+  selectedConfig,
 }: TemplateMappingProps): JSX.Element => {
   const [activeTab, setActiveTab] = useState(OPTION_TYPE.COLUMNS);
+  const [selectedTemplate, setSelectedTemplate] = useState('');
 
   const { data } = useQuery({
     queryKey: ['syncsConfiguration'],
@@ -70,6 +82,12 @@ const TemplateMapping = ({
     data?.data?.configurations?.catalog_mapping_types?.template?.filter || {},
   );
 
+  const applyConfigs = () => {
+    if (activeTab === OPTION_TYPE.TEMPLATE) {
+      handleUpdateConfig(mappingId, 'model', selectedTemplate, activeTab);
+    }
+  };
+
   return (
     <Popover placement='bottom-start'>
       <PopoverTrigger>
@@ -82,6 +100,7 @@ const TemplateMapping = ({
           borderStyle='solid'
           borderColor={isDisabled ? 'gray.500' : 'gray.400'}
           _placeholder={{ color: isDisabled ? 'black.500' : 'gray.600' }}
+          value={selectedConfig}
         />
       </PopoverTrigger>
       <PopoverContent>
@@ -144,13 +163,15 @@ const TemplateMapping = ({
                   columnOptions={columnOptions}
                   filterOptions={templateFilterOptions}
                   catalogMapping={data}
+                  selectedTemplate={selectedTemplate}
+                  setSelectedTemplate={setSelectedTemplate}
                 />
               )}
             </Box>
           </Stack>
           {(activeTab === OPTION_TYPE.STATIC || activeTab === OPTION_TYPE.TEMPLATE) && (
             <Box display='flex' width='100%' justifyContent='flex-end'>
-              <Button onClick={() => {}} minWidth={0} width='auto'>
+              <Button onClick={applyConfigs} minWidth={0} width='auto'>
                 Apply
               </Button>
             </Box>

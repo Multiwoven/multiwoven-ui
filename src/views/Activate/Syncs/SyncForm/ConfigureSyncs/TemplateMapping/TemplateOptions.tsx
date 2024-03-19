@@ -1,12 +1,14 @@
 import { Box, Stack, TabList, Tab, Text, TabIndicator, Tabs, Textarea } from '@chakra-ui/react';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import Columns from './Columns';
 import { SyncsConfigurationForTemplateMapping } from '@/views/Activate/Syncs/types';
 
 type TemplateOptionsProps = {
   columnOptions: string[];
   filterOptions: string[];
+  selectedTemplate: string;
+  setSelectedTemplate: Dispatch<SetStateAction<string>>;
   catalogMapping?: SyncsConfigurationForTemplateMapping;
 };
 
@@ -37,9 +39,10 @@ const TemplateOptions = ({
   columnOptions,
   filterOptions,
   catalogMapping,
+  selectedTemplate,
+  setSelectedTemplate,
 }: TemplateOptionsProps): JSX.Element => {
   const [activeTab, setActiveTab] = useState(OPTION_TYPE.COLUMNS);
-  const [selectedTemplate, setSelectedTemplate] = useState('');
 
   // State to hold selected columns and filters
   const [selectedItems, setSelectedItems] = useState<Map<string, string>>(new Map());
