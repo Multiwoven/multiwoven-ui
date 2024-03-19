@@ -153,7 +153,11 @@ const TemplateMapping = ({
             </Stack>
             <Box backgroundColor='gray.100' height='100%'>
               {activeTab === OPTION_TYPE.COLUMNS && (
-                <Columns columnOptions={columnOptions} showFilter />
+                <Columns
+                  columnOptions={columnOptions}
+                  showFilter
+                  onSelect={(value) => handleUpdateConfig(mappingId, 'model', value, activeTab)}
+                />
               )}
               {activeTab === OPTION_TYPE.STATIC && (
                 <StaticOptions staticValues={staticValueOptions} />
