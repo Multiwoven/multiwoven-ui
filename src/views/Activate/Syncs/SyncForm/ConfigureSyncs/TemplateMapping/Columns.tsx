@@ -8,6 +8,7 @@ type ColumnsProps = {
   showFilter?: boolean;
   showDescription?: boolean;
   onSelect?: (args: string) => void;
+  height?: string;
 };
 
 const Columns = ({
@@ -16,6 +17,7 @@ const Columns = ({
   onSelect,
   showFilter = false,
   showDescription = false,
+  height = '170px',
 }: ColumnsProps): JSX.Element => {
   return (
     <Stack gap='12px' height='100%'>
@@ -32,7 +34,7 @@ const Columns = ({
           />
         </InputGroup>
       )}
-      <Box height='170px' overflowY='auto'>
+      <Box height={height} overflowY='auto'>
         {columnOptions.map((column, index) => (
           <Box
             key={index}

@@ -79,19 +79,20 @@ const TemplateOptions = ({
           height='100%'
           borderStyle='solid'
           borderWidth='1px'
-          borderColor='black.100'
+          borderColor='gray.400'
           padding={4}
           _focusVisible={{
             borderStyle: '1px',
             borderWidth: 'solid',
-            borderColor: 'black.100',
+            borderColor: 'gray.400',
           }}
-          _hover={{ borderStyle: '1px', borderWidth: 'solid', borderColor: 'black.100' }}
+          _hover={{ borderStyle: '1px', borderWidth: 'solid', borderColor: 'gray.400' }}
           spellCheck={false}
           placeholder='Click on any variable/filter on the right to inject into liquid template'
           _placeholder={{ color: 'gray.600' }}
           size='sm'
           fontWeight={400}
+          borderRadius='6px'
         />
       </Box>
 
@@ -119,6 +120,7 @@ const TemplateOptions = ({
             <Columns
               columnOptions={columnOptions}
               onSelect={(value: string) => handleSelection(value, OPTION_TYPE.COLUMNS)}
+              height='125px'
             />
           )}
           {activeTab === OPTION_TYPE.FILTER && (
@@ -127,6 +129,7 @@ const TemplateOptions = ({
               showDescription
               catalogMapping={catalogMapping}
               onSelect={(value: string) => handleSelection(value, OPTION_TYPE.FILTER)}
+              height='125px'
             />
           )}
         </Box>

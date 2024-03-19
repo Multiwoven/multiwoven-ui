@@ -73,7 +73,7 @@ const StaticOptions = ({ staticValues }: StaticOptionsProps): JSX.Element => {
         {(selectedStaticValue as STATIC_OPTION_TYPE) === STATIC_OPTION_TYPE.NUMBER && (
           <Box padding='8px 12px'>
             <Input
-              name='sync_interval'
+              name='static_number'
               pr='4.5rem'
               type='number'
               placeholder='Enter number'
@@ -92,6 +92,33 @@ const StaticOptions = ({ staticValues }: StaticOptionsProps): JSX.Element => {
               borderWidth='solid'
               borderColor='black.100'
             />
+          </Box>
+        )}
+        {(selectedStaticValue as STATIC_OPTION_TYPE) === STATIC_OPTION_TYPE.STRING && (
+          <Box padding='8px 12px'>
+            <Input
+              name='static_string'
+              pr='4.5rem'
+              type='text'
+              placeholder='Enter string'
+              _focusVisible={{
+                borderStyle: '1px',
+                borderWidth: 'solid',
+                borderColor: 'black.100',
+              }}
+              _hover={{ borderStyle: '1px', borderWidth: 'solid', borderColor: 'black.100' }}
+              value=''
+              onChange={() => {}}
+              isRequired
+              color='gray.600'
+              height='35px'
+              borderStyle='1px'
+              borderWidth='solid'
+              borderColor='black.100'
+            />
+            <Text color='black.200' size='xs' fontWeight={500} paddingTop={1}>
+              Strings can include any combination of numbers, letters, and special characters.
+            </Text>
           </Box>
         )}
         {(selectedStaticValue as STATIC_OPTION_TYPE) === STATIC_OPTION_TYPE.NULL && (

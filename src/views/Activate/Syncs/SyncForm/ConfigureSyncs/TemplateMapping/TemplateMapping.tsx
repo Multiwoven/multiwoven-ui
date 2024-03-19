@@ -10,6 +10,7 @@ import {
   PopoverTrigger,
   PopoverContent,
   Input,
+  Button,
 } from '@chakra-ui/react';
 import Columns from './Columns';
 import { useQuery } from '@tanstack/react-query';
@@ -86,7 +87,8 @@ const TemplateMapping = ({
       <PopoverContent>
         <Box
           height='314px'
-          width='80vw'
+          width='100vw'
+          maxWidth='768px'
           borderWidth={1}
           borderStyle='solid'
           borderColor='gray.400'
@@ -96,8 +98,11 @@ const TemplateMapping = ({
           borderRadius='6px'
           padding='3'
           marginBottom={4}
+          display='flex'
+          flexDirection='column'
+          flex='1 1 0%'
         >
-          <Stack gap='20px' height='100%'>
+          <Stack gap='12px' height='100%'>
             <Stack spacing='16'>
               <Tabs
                 size='md'
@@ -143,6 +148,13 @@ const TemplateMapping = ({
               )}
             </Box>
           </Stack>
+          {(activeTab === OPTION_TYPE.STATIC || activeTab === OPTION_TYPE.TEMPLATE) && (
+            <Box display='flex' width='100%' justifyContent='flex-end'>
+              <Button onClick={() => {}} minWidth={0} width='auto'>
+                Apply
+              </Button>
+            </Box>
+          )}
         </Box>
       </PopoverContent>
     </Popover>
