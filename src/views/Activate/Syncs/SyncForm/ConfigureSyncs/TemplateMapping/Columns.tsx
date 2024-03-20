@@ -1,6 +1,17 @@
-import { Box, Stack, Text, Input, InputGroup, InputLeftElement, Icon } from '@chakra-ui/react';
+import {
+  Box,
+  Stack,
+  Text,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Icon,
+  VStack,
+} from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 import { SyncsConfigurationForTemplateMapping } from '@/views/Activate/Syncs/types';
+import { useState } from 'react';
+import NoConnectorsFound from '@/assets/images/empty-state-illustration.svg';
 
 type ColumnsProps = {
   columnOptions: string[];
@@ -19,6 +30,13 @@ const Columns = ({
   showDescription = false,
   height = '170px',
 }: ColumnsProps): JSX.Element => {
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  // Filtered column options based on search term
+  const filteredColumns = columnOptions.filter((column) =>
+    column.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
   return (
     <Stack gap='12px' height='100%'>
       {showFilter && (
@@ -31,11 +49,12 @@ const Columns = ({
             _placeholder={{ color: 'gray.600' }}
             borderColor='black.500'
             _hover={{ borderColor: 'black.500' }}
+            onChange={({ target: { value } }) => setSearchTerm(value)}
           />
         </InputGroup>
       )}
       <Box height={height} overflowY='auto'>
-        {columnOptions.map((column, index) => (
+        {filteredColumns.map((column, index) => (
           <Box
             key={index}
             paddingY='10px'
@@ -61,6 +80,14 @@ const Columns = ({
             )}
           </Box>
         ))}
+        {filteredColumns.length === 0 && (
+          <VStack justify='center' height='100%'>
+            <img src={NoConnectorsFound} alt='no-connectors-found' />
+            <Text color='gray.600' size='xs' fontWeight='semibold'>
+              No results found
+            </Text>
+          </VStack>
+        )}
       </Box>
     </Stack>
   );
