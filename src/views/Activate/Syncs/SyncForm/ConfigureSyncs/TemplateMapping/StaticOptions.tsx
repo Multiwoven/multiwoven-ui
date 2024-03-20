@@ -1,8 +1,10 @@
 import { Stack, RadioGroup, Radio, Box, Divider, Text, Input } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, SetStateAction, Dispatch } from 'react';
 
 type StaticOptionsProps = {
   staticValues: string[];
+  selectedStaticOptionValue: string | boolean;
+  setSelectedStaticOptionValue: Dispatch<SetStateAction<string | boolean>>;
 };
 
 enum STATIC_OPTION_TYPE {
@@ -12,14 +14,24 @@ enum STATIC_OPTION_TYPE {
   NUMBER = 'number',
 }
 
-const StaticOptions = ({ staticValues }: StaticOptionsProps): JSX.Element => {
+const StaticOptions = ({
+  staticValues,
+  selectedStaticOptionValue,
+  setSelectedStaticOptionValue,
+}: StaticOptionsProps): JSX.Element => {
   const [selectedStaticValue, setSelectedStaticValue] = useState<STATIC_OPTION_TYPE | string>(
     STATIC_OPTION_TYPE.STRING,
   );
 
   return (
     <Stack gap='20px' height='100%' direction='row'>
-      <RadioGroup onChange={setSelectedStaticValue} value={selectedStaticValue}>
+      <RadioGroup
+        onChange={(value) => {
+          setSelectedStaticValue(value);
+          setSelectedStaticOptionValue('');
+        }}
+        value={selectedStaticValue}
+      >
         <Stack direction='column'>
           {staticValues.map((staticValue, index) => (
             <Radio
@@ -43,7 +55,11 @@ const StaticOptions = ({ staticValues }: StaticOptionsProps): JSX.Element => {
       </Box>
       <Box width='100%'>
         {(selectedStaticValue as STATIC_OPTION_TYPE) === STATIC_OPTION_TYPE.BOOLEAN && (
-          <RadioGroup onChange={() => {}} value={'true'} colorScheme='red'>
+          <RadioGroup
+            onChange={(value) => setSelectedStaticOptionValue(value === 'true')}
+            value={selectedStaticOptionValue.toString()}
+            colorScheme='red'
+          >
             <Stack direction='row'>
               <Radio
                 size='lg'
@@ -83,8 +99,8 @@ const StaticOptions = ({ staticValues }: StaticOptionsProps): JSX.Element => {
                 borderColor: 'black.100',
               }}
               _hover={{ borderStyle: '1px', borderWidth: 'solid', borderColor: 'black.100' }}
-              value=''
-              onChange={() => {}}
+              value={selectedStaticOptionValue.toString()}
+              onChange={({ target: { value } }) => setSelectedStaticOptionValue(value)}
               isRequired
               color='gray.600'
               height='35px'
@@ -107,8 +123,8 @@ const StaticOptions = ({ staticValues }: StaticOptionsProps): JSX.Element => {
                 borderColor: 'black.100',
               }}
               _hover={{ borderStyle: '1px', borderWidth: 'solid', borderColor: 'black.100' }}
-              value=''
-              onChange={() => {}}
+              value={selectedStaticOptionValue.toString()}
+              onChange={({ target: { value } }) => setSelectedStaticOptionValue(value)}
               isRequired
               color='gray.600'
               height='35px'

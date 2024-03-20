@@ -67,6 +67,7 @@ const TemplateMapping = ({
   const [activeTab, setActiveTab] = useState(OPTION_TYPE.COLUMNS);
   const [selectedTemplate, setSelectedTemplate] = useState('');
   const [isPopOverOpen, setIsPopOverOpen] = useState(false);
+  const [selectedStaticOptionValue, setSelectedStaticOptionValue] = useState<string | boolean>('');
 
   const { data } = useQuery({
     queryKey: ['syncsConfiguration'],
@@ -85,9 +86,22 @@ const TemplateMapping = ({
 
   const applyConfigs = () => {
     if (activeTab === OPTION_TYPE.TEMPLATE) {
-      handleUpdateConfig(mappingId, 'model', selectedTemplate, activeTab);
+      handleUpdateConfig(
+        mappingId,
+        'model',
+        selectedTemplate > '' ? selectedTemplate : 'current_timestamp',
+        activeTab,
+      );
       setIsPopOverOpen(false);
+    } else {
+      handleUpdateConfig(
+        mappingId,
+        'model',
+        selectedStaticOptionValue > '' ? selectedStaticOptionValue.toString() : 'null',
+        activeTab,
+      );
     }
+    setIsPopOverOpen(false);
   };
 
   return (
@@ -170,7 +184,11 @@ const TemplateMapping = ({
                 />
               )}
               {activeTab === OPTION_TYPE.STATIC && (
-                <StaticOptions staticValues={staticValueOptions} />
+                <StaticOptions
+                  staticValues={staticValueOptions}
+                  selectedStaticOptionValue={selectedStaticOptionValue}
+                  setSelectedStaticOptionValue={setSelectedStaticOptionValue}
+                />
               )}
               {activeTab === OPTION_TYPE.TEMPLATE && (
                 <TemplateOptions

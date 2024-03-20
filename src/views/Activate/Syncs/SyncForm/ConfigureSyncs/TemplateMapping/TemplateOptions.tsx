@@ -113,7 +113,13 @@ const TemplateOptions = ({
         >
           <TabList gap='8px'>
             <TabName title='Column' handleActiveTab={() => setActiveTab(OPTION_TYPE.COLUMNS)} />
-            <TabName title='Variable' handleActiveTab={() => setActiveTab(OPTION_TYPE.VARIABLE)} />
+            <TabName
+              title='Variable'
+              handleActiveTab={() => {
+                setActiveTab(OPTION_TYPE.VARIABLE);
+                setSelectedTemplate('');
+              }}
+            />
             <TabName title='Filter' handleActiveTab={() => setActiveTab(OPTION_TYPE.FILTER)} />
           </TabList>
           <TabIndicator />
@@ -125,6 +131,13 @@ const TemplateOptions = ({
               onSelect={(value: string) => handleSelection(value, OPTION_TYPE.COLUMNS)}
               height='125px'
             />
+          )}
+          {activeTab === OPTION_TYPE.VARIABLE && (
+            <Box padding='8px 12px'>
+              <Text color='black.200' size='xs' fontWeight={500}>
+                Current Timestamp
+              </Text>
+            </Box>
           )}
           {activeTab === OPTION_TYPE.FILTER && (
             <Columns
