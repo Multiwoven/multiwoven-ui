@@ -1,6 +1,7 @@
 import EntityItem from '@/components/EntityItem';
 import { Box, Select } from '@chakra-ui/react';
 import TemplateMapping from './TemplateMapping/TemplateMapping';
+import { FieldMap as FieldMapType } from '@/views/Activate/Syncs/types';
 
 type FieldMapProps = {
   id: number;
@@ -11,7 +12,7 @@ type FieldMapProps = {
   disabledOptions?: string[];
   isDisabled: boolean;
   onChange: (id: number, type: 'model' | 'destination', value: string) => void;
-  selectedConfigOptions?: string[];
+  selectedConfigOptions?: FieldMapType[] | null;
 };
 
 const FieldMap = ({
@@ -33,7 +34,7 @@ const FieldMap = ({
       <Box position='relative'>
         {fieldType === 'destination' ? (
           <Select
-            value={selectedConfigOptions?.[id]}
+            value={selectedConfigOptions?.[id]?.to}
             placeholder={`Select a field from ${entityName}`}
             backgroundColor={isDisabled ? 'gray.300' : 'gray.100'}
             isDisabled={isDisabled}
@@ -56,6 +57,9 @@ const FieldMap = ({
             entityName={entityName}
             isDisabled={isDisabled}
             columnOptions={options}
+            handleUpdateConfig={onChange}
+            mappingId={id}
+            selectedConfig={selectedConfigOptions?.[id]?.from}
           />
         )}
       </Box>

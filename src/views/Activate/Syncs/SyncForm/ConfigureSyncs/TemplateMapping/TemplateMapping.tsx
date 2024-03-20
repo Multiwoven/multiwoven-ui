@@ -20,7 +20,7 @@ import StaticOptions from './StaticOptions';
 import TemplateOptions from './TemplateOptions';
 
 export enum OPTION_TYPE {
-  COLUMNS = 'columns',
+  STANDARD = 'standard',
   STATIC = 'static',
   TEMPLATE = 'template',
 }
@@ -64,7 +64,7 @@ const TemplateMapping = ({
   mappingId,
   selectedConfig,
 }: TemplateMappingProps): JSX.Element => {
-  const [activeTab, setActiveTab] = useState(OPTION_TYPE.COLUMNS);
+  const [activeTab, setActiveTab] = useState(OPTION_TYPE.STANDARD);
   const [selectedTemplate, setSelectedTemplate] = useState('');
   const [isPopOverOpen, setIsPopOverOpen] = useState(false);
   const [selectedStaticOptionValue, setSelectedStaticOptionValue] = useState<string | boolean>('');
@@ -158,7 +158,7 @@ const TemplateMapping = ({
                 <TabList gap='8px'>
                   <TabName
                     title='Column'
-                    handleActiveTab={() => setActiveTab(OPTION_TYPE.COLUMNS)}
+                    handleActiveTab={() => setActiveTab(OPTION_TYPE.STANDARD)}
                   />
                   <TabName
                     title='Static Value'
@@ -173,7 +173,7 @@ const TemplateMapping = ({
               </Tabs>
             </Stack>
             <Box backgroundColor='gray.100' height='100%'>
-              {activeTab === OPTION_TYPE.COLUMNS && (
+              {activeTab === OPTION_TYPE.STANDARD && (
                 <Columns
                   columnOptions={columnOptions}
                   showFilter

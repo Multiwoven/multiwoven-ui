@@ -22,11 +22,12 @@ import ScheduleForm from './ScheduleForm';
 import { FormikProps, useFormik } from 'formik';
 import SyncActions from './SyncActions';
 import SourceFormFooter from '@/views/Connectors/Sources/SourcesForm/SourceFormFooter';
+import { FieldMap as FieldMapType } from '@/views/Activate/Syncs/types';
 
 const EditSync = (): JSX.Element | null => {
   const [selectedStream, setSelectedStream] = useState<Stream | null>(null);
   const [isEditLoading, setIsEditLoading] = useState<boolean>(false);
-  const [configuration, setConfiguration] = useState<Record<string, string> | null>(null);
+  const [configuration, setConfiguration] = useState<FieldMapType[] | null>(null);
   const { syncId } = useParams();
   const toast = useToast();
   const navigate = useNavigate();
@@ -136,7 +137,20 @@ const EditSync = (): JSX.Element | null => {
         schedule_type: syncData?.schedule_type ?? 'automated',
       });
 
-      setConfiguration(syncFetchResponse.data.attributes.configuration);
+      if (Array.isArray(syncFetchResponse.data.attributes.configuration)) {
+        setConfiguration(syncFetchResponse.data.attributes.configuration);
+      } else {
+        const transformedConfigs = Object.entries(
+          syncFetchResponse.data.attributes.configuration,
+        ).map(([model, destination]) => {
+          return {
+            from: model,
+            to: destination,
+            mapping_type: 'standard',
+          };
+        });
+        setConfiguration(transformedConfigs);
+      }
     }
   }, [syncFetchResponse]);
 
@@ -147,7 +161,7 @@ const EditSync = (): JSX.Element | null => {
       setSelectedStream(selectedStream);
     }
   };
-  const handleOnConfigChange = (config: Record<string, string>) => {
+  const handleOnConfigChange = (config: FieldMapType[]) => {
     setConfiguration(config);
   };
 

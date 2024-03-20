@@ -5,22 +5,19 @@ import { getModelPreviewById } from '@/services/models';
 import { useQuery } from '@tanstack/react-query';
 import { FieldMap as FieldMapType, Stream } from '@/views/Activate/Syncs/types';
 import FieldMap from './FieldMap';
-import {
-  convertFieldMapToConfig,
-  getPathFromObject,
-  getRequiredProperties,
-} from '@/views/Activate/Syncs/utils';
+import { getPathFromObject, getRequiredProperties } from '@/views/Activate/Syncs/utils';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import { OPTION_TYPE } from './TemplateMapping/TemplateMapping';
 
 type MapFieldsProps = {
   model: ModelEntity;
   destination: ConnectorItem;
   stream: Stream | null;
-  data?: Record<string, string> | null;
+  data?: FieldMapType[] | null;
   isEdit?: boolean;
-  handleOnConfigChange: (args: Record<string, string>) => void;
-  configuration?: Record<string, string> | null;
+  handleOnConfigChange: (args: FieldMapType[]) => void;
+  configuration?: FieldMapType[] | null;
 };
 
 const MapFields = ({
@@ -32,7 +29,7 @@ const MapFields = ({
   handleOnConfigChange,
   configuration,
 }: MapFieldsProps): JSX.Element | null => {
-  const [fields, setFields] = useState<FieldMapType[]>([{ model: '', destination: '' }]);
+  const [fields, setFields] = useState<FieldMapType[]>([{ from: '', to: '', mapping_type: '' }]);
   const { data: previewModelData } = useQuery({
     queryKey: ['syncs', 'preview-model', model?.connector?.id],
     queryFn: () => getModelPreviewById(model?.query, String(model?.connector?.id)),
@@ -49,11 +46,16 @@ const MapFields = ({
 
   useEffect(() => {
     if (data) {
-      const fields = Object.keys(data).map((modelKey) => ({
-        model: modelKey,
-        destination: data[modelKey],
-      }));
-      setFields(fields);
+      if (Array.isArray(data)) {
+        setFields(data);
+      } else {
+        const fields = Object.keys(data).map((modelKey) => ({
+          from: modelKey,
+          to: data[modelKey],
+          mapping_type: 'standard',
+        }));
+        setFields(fields);
+      }
     }
   }, [data]);
 
@@ -62,44 +64,61 @@ const MapFields = ({
   const modelColumns = Object.keys(firstRow ?? {});
 
   const handleOnAppendField = () => {
-    setFields([...fields, { model: '', destination: '' }]);
+    setFields([...fields, { from: '', to: '', mapping_type: '' }]);
   };
 
-  const handleOnChange = (id: number, type: 'model' | 'destination', value: string) => {
+  const handleOnChange = (
+    id: number,
+    type: 'model' | 'destination',
+    value: string,
+    mappingType = OPTION_TYPE.STANDARD,
+  ) => {
     const fieldsClone = [...fields];
-    fieldsClone[id] = {
-      ...fieldsClone[id],
-      [type]: value,
-    };
+
+    if (type === 'destination') {
+      fieldsClone[id] = {
+        ...fieldsClone[id],
+        to: value,
+      };
+    } else {
+      fieldsClone[id] = {
+        ...fieldsClone[id],
+        from: value,
+        mapping_type: mappingType,
+      };
+    }
+
     setFields(fieldsClone);
-    handleOnConfigChange(convertFieldMapToConfig(fieldsClone));
+    handleOnConfigChange(fieldsClone);
   };
 
   const handleRemoveMap = (id: number) => {
     const newFields = fields.filter((_, index) => index !== id);
     setFields(newFields);
-    handleOnConfigChange(convertFieldMapToConfig(newFields));
+    handleOnConfigChange(newFields);
   };
 
-  const mappedColumns = fields.map((item) => item.model);
-
-  const souceConfigList = configuration ? Object.keys(configuration) : [];
-  const destinationConfigList = configuration ? Object.values(configuration) : [];
+  const mappedColumns = fields.map((item) => item.from);
 
   useEffect(() => {
-    if (!isEdit) {
+    if (!isEdit && (configuration || [])?.length === 0) {
       const updatedFields = destinationColumns
         .filter((property) => requiredDestinationColumns.includes(property))
-        .map((field, index) => ({ model: `model_${index}`, destination: field, isRequired: true }));
+        .map((field) => ({ from: '', to: field, mapping_type: '', isRequired: true }));
 
       // if only one destination field, we by default select it
       if (destinationColumns.length === 1) {
-        updatedFields.push({ model: '', destination: destinationColumns[0], isRequired: true });
+        updatedFields.push({
+          from: '',
+          to: destinationColumns[0],
+          isRequired: true,
+          mapping_type: '',
+        });
       }
 
       if (updatedFields.length > 0) {
         setFields(updatedFields);
-        handleOnConfigChange(convertFieldMapToConfig(updatedFields));
+        handleOnConfigChange(updatedFields);
       }
     }
   }, [requiredDestinationColumns]);
@@ -107,13 +126,10 @@ const MapFields = ({
   useEffect(() => {
     let FieldStruct: FieldMapType[] = [];
     if (configuration) {
-      if (Object.keys(configuration).length === 0) {
-        FieldStruct = [{ model: '', destination: '' }];
+      if (configuration.length === 0) {
+        FieldStruct = [{ from: '', to: '', mapping_type: '' }];
       } else {
-        FieldStruct = Object.entries(configuration).map(([model, destination]) => ({
-          model,
-          destination,
-        }));
+        FieldStruct = configuration;
       }
       setFields(FieldStruct);
     }
@@ -143,7 +159,7 @@ const MapFields = ({
             disabledOptions={mappedColumns}
             onChange={handleOnChange}
             isDisabled={!stream}
-            selectedConfigOptions={souceConfigList}
+            selectedConfigOptions={configuration}
           />
           <Box width='80px' padding='20px' position='relative' top='8px' color='gray.600'>
             <ArrowRightIcon />
@@ -156,7 +172,7 @@ const MapFields = ({
             options={destinationColumns}
             onChange={handleOnChange}
             isDisabled={!stream || isRequired}
-            selectedConfigOptions={destinationConfigList}
+            selectedConfigOptions={configuration}
           />
           {!isRequired && (
             <Box py='20px' position='relative' top='12px' color='gray.600'>
