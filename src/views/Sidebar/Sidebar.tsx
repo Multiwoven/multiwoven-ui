@@ -113,6 +113,7 @@ const Sidebar = (): JSX.Element => {
   return (
     <Flex
       overflowY='auto'
+      overflowX='hidden'
       position='relative'
       as='section'
       minH='100vh'
@@ -120,16 +121,40 @@ const Sidebar = (): JSX.Element => {
       borderRightWidth='1px'
       borderRightStyle='solid'
       borderRightColor='gray.400'
+      sx={{
+        '&::-webkit-scrollbar': {
+          width: '2px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: 'gray.400',
+        },
+      }}
     >
       <Flex flex='1' bg='bg.surface' maxW={{ base: 'full', sm: 'xs' }} paddingX={4} paddingY={6}>
-        <Stack justify='space-between' spacing='1' width='full'>
+        <Stack
+          justify='space-between'
+          spacing='1'
+          width={190}
+          paddingTop={isScreenLessThan748 ? 12 : 0}
+        >
           <Stack spacing='6' shouldWrapChildren>
-            <Flex justifyContent='center'>
-              <img width={160} src={IconImage} alt='IconImage' />
-            </Flex>
-            <Box bgColor='gray.300'>
-              <Divider orientation='horizontal' />
-            </Box>
+            <Stack
+              spacing='6'
+              shouldWrapChildren
+              bg='white'
+              paddingX={4}
+              paddingTop={isScreenLessThan748 ? 6 : 0}
+              position={isScreenLessThan748 ? 'fixed' : 'relative'}
+              top='0'
+              zIndex={999}
+            >
+              <Flex justifyContent='center'>
+                <img width={160} src={IconImage} alt='IconImage' />
+              </Flex>
+              <Box bgColor='gray.300'>
+                <Divider orientation='horizontal' />
+              </Box>
+            </Stack>
             {menus.map(renderMenuSection)}
             <SideBarFooter isSticky={isScreenLessThan748} />
           </Stack>
