@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import validator from '@rjsf/validator-ajv8';
 import { Form } from '@rjsf/chakra-ui';
-import { Box, Button, useToast, Divider, Text } from '@chakra-ui/react';
+import { Box, Button, Divider, Text } from '@chakra-ui/react';
 import TopBar from '@/components/TopBar';
 import ContentContainer from '@/components/ContentContainer';
 import { useEffect, useState } from 'react';
@@ -28,13 +28,15 @@ import { Step } from '@/components/Breadcrumbs/types';
 import EntityItem from '@/components/EntityItem';
 import moment from 'moment';
 import SourceActions from '../../Sources/EditSource/SourceActions';
+import { CustomToastStatus } from '@/components/Toast/index';
+import useCustomToast from '@/hooks/useCustomToast';
 
 const EditDestination = (): JSX.Element => {
   const { destinationId } = useParams();
   const CONNECTOR_INFO_KEY = ['connectorInfo', 'destination', destinationId];
   const queryClient = useQueryClient();
 
-  const toast = useToast();
+  const showToast = useCustomToast();
   const navigate = useNavigate();
   const [formData, setFormData] = useState<unknown>(null);
 
@@ -83,8 +85,8 @@ const EditDestination = (): JSX.Element => {
   const { isPending: isEditLoading, mutate } = useMutation({
     mutationFn: handleOnSaveChanges,
     onSettled: () => {
-      toast({
-        status: 'success',
+      showToast({
+        status: CustomToastStatus.Success,
         title: 'Success!!',
         description: 'Connector Updated',
         position: 'bottom-right',
@@ -98,8 +100,8 @@ const EditDestination = (): JSX.Element => {
       navigate('/setup/destinations');
     },
     onError: () => {
-      toast({
-        status: 'error',
+      showToast({
+        status: CustomToastStatus.Error,
         title: 'Error!!',
         description: 'Something went wrong',
         position: 'bottom-right',
@@ -125,8 +127,8 @@ const EditDestination = (): JSX.Element => {
         testingConnectionResponse?.connection_status?.status === 'succeeded';
 
       if (isConnectionSucceeded) {
-        toast({
-          status: 'success',
+        showToast({
+          status: CustomToastStatus.Success,
           title: 'Connection successful',
           position: 'bottom-right',
           isClosable: true,
@@ -134,16 +136,16 @@ const EditDestination = (): JSX.Element => {
         return;
       }
 
-      toast({
-        status: 'error',
+      showToast({
+        status: CustomToastStatus.Error,
         title: 'Connection failed',
         description: testingConnectionResponse?.connection_status?.message,
         position: 'bottom-right',
         isClosable: true,
       });
     } catch (e) {
-      toast({
-        status: 'error',
+      showToast({
+        status: CustomToastStatus.Error,
         title: 'Connection failed',
         description: 'Something went wrong!',
         position: 'bottom-right',

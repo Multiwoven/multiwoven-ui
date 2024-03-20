@@ -4,6 +4,7 @@ import {
   DiscoverResponse,
   ErrorResponse,
   SyncsConfigurationForTemplateMapping,
+  SyncRunsResponse,
 } from '@/views/Activate/Syncs/types';
 import { multiwovenFetch } from './common';
 import { ApiResponse } from '@/views/Connectors/types';
@@ -31,6 +32,12 @@ export const getSyncById = (id: string): Promise<ApiResponse<CreateSyncResponse>
   multiwovenFetch<null, ApiResponse<CreateSyncResponse>>({
     method: 'get',
     url: `/syncs/${id}`,
+  });
+
+export const getSyncRunsById = (id: string): Promise<ApiResponse<Array<SyncRunsResponse>>> =>
+  multiwovenFetch<null, ApiResponse<Array<SyncRunsResponse>>>({
+    method: 'get',
+    url: `/syncs/${id}/sync_runs`,
   });
 
 export const editSync = (

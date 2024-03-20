@@ -5,9 +5,18 @@ export type DatasourceType = {
   name: string;
 };
 
+type LinksType = {
+  first: string;
+  last: string;
+  next: string;
+  prev: string;
+  self: string;
+};
+
 export type ApiResponse<T> = {
   success: boolean;
   data: T;
+  links?: LinksType;
 };
 
 export type TestConnectionPayload = {

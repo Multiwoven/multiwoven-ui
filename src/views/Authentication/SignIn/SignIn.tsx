@@ -11,7 +11,6 @@ import {
   Text,
   Container,
   Stack,
-  useToast,
   Flex,
   HStack,
   Image,
@@ -23,6 +22,8 @@ import Cookies from 'js-cookie';
 import titleCase from '@/utils/TitleCase';
 import AuthFooter from '../AuthFooter';
 import HiddenInput from '@/components/HiddenInput';
+import { CustomToastStatus } from '@/components/Toast/index';
+import useCustomToast from '@/hooks/useCustomToast';
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Please enter a valid email address').required('Email is required'),
@@ -102,7 +103,7 @@ const PasswordField = ({
 const SignIn = (): JSX.Element => {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
-  const toast = useToast();
+  const showToast = useCustomToast();
 
   const handleSubmit = async (values: SignInPayload) => {
     setSubmitting(true);
@@ -116,24 +117,24 @@ const SignIn = (): JSX.Element => {
       });
       result.data.attributes.token;
       setSubmitting(false);
-      toast({
-        title: 'Signed In',
-        status: 'success',
+      showToast({
         duration: 3000,
         isClosable: true,
         position: 'bottom-right',
+        title: 'Signed In',
+        status: CustomToastStatus.Success,
       });
       navigate('/', { replace: true });
     } else {
       setSubmitting(false);
       result.data?.errors?.map((error: SignInErrorResponse) => {
-        toast({
-          title: titleCase(error.detail),
-          status: 'warning',
+        showToast({
           duration: 5000,
           isClosable: true,
           position: 'bottom-right',
           colorScheme: 'red',
+          status: CustomToastStatus.Warning,
+          title: titleCase(error.detail),
         });
       });
     }

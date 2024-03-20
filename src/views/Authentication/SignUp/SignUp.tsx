@@ -11,7 +11,6 @@ import {
   Text,
   Container,
   Stack,
-  useToast,
   Flex,
   HStack,
   Image,
@@ -22,6 +21,8 @@ import Cookies from 'js-cookie';
 import titleCase from '@/utils/TitleCase';
 import AuthFooter from '../AuthFooter';
 import HiddenInput from '@/components/HiddenInput';
+import { CustomToastStatus } from '@/components/Toast/index';
+import useCustomToast from '@/hooks/useCustomToast';
 
 const SignUpSchema = Yup.object().shape({
   company_name: Yup.string().required('Company name is required'),
@@ -112,7 +113,7 @@ type SignUpErrors = {
 const SignUp = (): JSX.Element => {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
-  const toast = useToast();
+  const showToast = useCustomToast();
 
   const handleSubmit = async (values: any) => {
     setSubmitting(true);
@@ -126,9 +127,9 @@ const SignUp = (): JSX.Element => {
       });
       result.data.attributes.token;
       setSubmitting(false);
-      toast({
+      showToast({
         title: 'Account created.',
-        status: 'success',
+        status: CustomToastStatus.Success,
         duration: 3000,
         isClosable: true,
         position: 'bottom-right',
@@ -138,9 +139,9 @@ const SignUp = (): JSX.Element => {
       setSubmitting(false);
       result.data?.errors?.map((error: SignUpErrors) => {
         Object.keys(error.source).map((error_key) => {
-          toast({
+          showToast({
             title: titleCase(error_key) + ' ' + error.source[error_key],
-            status: 'warning',
+            status: CustomToastStatus.Warning,
             duration: 5000,
             isClosable: true,
             position: 'bottom-right',
