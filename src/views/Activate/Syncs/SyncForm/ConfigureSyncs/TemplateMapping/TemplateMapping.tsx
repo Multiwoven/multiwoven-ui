@@ -66,6 +66,7 @@ const TemplateMapping = ({
 }: TemplateMappingProps): JSX.Element => {
   const [activeTab, setActiveTab] = useState(OPTION_TYPE.COLUMNS);
   const [selectedTemplate, setSelectedTemplate] = useState('');
+  const [isPopOverOpen, setIsPopOverOpen] = useState(false);
 
   const { data } = useQuery({
     queryKey: ['syncsConfiguration'],
@@ -85,11 +86,16 @@ const TemplateMapping = ({
   const applyConfigs = () => {
     if (activeTab === OPTION_TYPE.TEMPLATE) {
       handleUpdateConfig(mappingId, 'model', selectedTemplate, activeTab);
+      setIsPopOverOpen(false);
     }
   };
 
   return (
-    <Popover placement='bottom-start'>
+    <Popover
+      placement='bottom-start'
+      isOpen={isPopOverOpen}
+      onClose={() => setIsPopOverOpen(false)}
+    >
       <PopoverTrigger>
         <Input
           placeholder={`Select a field from ${entityName}`}
@@ -101,6 +107,7 @@ const TemplateMapping = ({
           borderColor={isDisabled ? 'gray.500' : 'gray.400'}
           _placeholder={{ color: isDisabled ? 'black.500' : 'gray.600' }}
           value={selectedConfig}
+          onClick={() => setIsPopOverOpen((prevState) => !prevState)}
         />
       </PopoverTrigger>
       <PopoverContent>
@@ -156,7 +163,10 @@ const TemplateMapping = ({
                 <Columns
                   columnOptions={columnOptions}
                   showFilter
-                  onSelect={(value) => handleUpdateConfig(mappingId, 'model', value, activeTab)}
+                  onSelect={(value) => {
+                    handleUpdateConfig(mappingId, 'model', value, activeTab);
+                    setIsPopOverOpen(false);
+                  }}
                 />
               )}
               {activeTab === OPTION_TYPE.STATIC && (
