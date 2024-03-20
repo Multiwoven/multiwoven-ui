@@ -108,7 +108,7 @@ const SideBarFooter = ({ isSticky }: { isSticky: boolean }) => (
 );
 
 const Sidebar = (): JSX.Element => {
-  const [isScreenLessThan748] = useMediaQuery('(max-height: 748px)');
+  const [isSmallerScreenResolution] = useMediaQuery('(max-height: 748px)');
 
   return (
     <Flex
