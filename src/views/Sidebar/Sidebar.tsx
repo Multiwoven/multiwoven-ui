@@ -135,7 +135,7 @@ const Sidebar = (): JSX.Element => {
           justify='space-between'
           spacing='1'
           width={190}
-          paddingTop={isScreenLessThan748 ? 12 : 0}
+          paddingTop={isSmallerScreenResolution ? 12 : 0}
         >
           <Stack spacing='6' shouldWrapChildren>
             <Stack
@@ -143,8 +143,8 @@ const Sidebar = (): JSX.Element => {
               shouldWrapChildren
               bg='white'
               paddingX={4}
-              paddingTop={isScreenLessThan748 ? 6 : 0}
-              position={isScreenLessThan748 ? 'fixed' : 'relative'}
+              paddingTop={isSmallerScreenResolution ? 6 : 0}
+              position={isSmallerScreenResolution ? 'fixed' : 'relative'}
               top='0'
               zIndex={999}
             >
@@ -156,7 +156,7 @@ const Sidebar = (): JSX.Element => {
               </Box>
             </Stack>
             {menus.map(renderMenuSection)}
-            <SideBarFooter isSticky={isScreenLessThan748} />
+            <SideBarFooter isSticky={isSmallerScreenResolution} />
           </Stack>
         </Stack>
       </Flex>
