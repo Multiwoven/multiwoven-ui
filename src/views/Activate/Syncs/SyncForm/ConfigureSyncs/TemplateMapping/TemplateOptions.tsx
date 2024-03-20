@@ -52,7 +52,7 @@ const TemplateOptions = ({
     setSelectedItems((prev) => {
       const updatedItems = new Map(prev);
       if (!updatedItems.has(value) && optionType !== OPTION_TYPE.FILTER) {
-        updatedItems.set(value, `{{ row['${value}'] }}`);
+        updatedItems.set(value, `{{ ['${value}'] }}`);
         setActiveSelectedColumn(value);
       } else {
         if (optionType === OPTION_TYPE.FILTER) {
