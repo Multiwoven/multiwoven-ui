@@ -76,11 +76,14 @@ const TemplateOptions = ({
       setActiveSelectedColumn(value);
     } else {
       const currentItem = updatedItems.get(activeSelectedColumn);
-      updatedItems.set(activeSelectedColumn, `${currentItem?.split('}}')?.[0]} | ${value} }}`);
+      updatedItems.set(
+        activeSelectedColumn,
+        `${currentItem?.split('}}')?.[0] || '{{'} | ${value} }}`,
+      );
       const updatedTemplateText = replaceLastOccurrence(
         selectedTemplate,
         currentItem || '',
-        `${currentItem?.split('}}')?.[0]} | ${value} }}`,
+        `${currentItem?.split('}}')?.[0] || '{{'} | ${value} }}`,
       );
       setSelectedItems(updatedItems);
       setSelectedTemplate(updatedTemplateText);
