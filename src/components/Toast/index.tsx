@@ -43,8 +43,8 @@ const Toast: React.FC<ToastProps> = ({
   let borderColor: string = `${status}.200`;
 
   if (status === CustomToastStatus.Default) {
-    backgroundColor = 'info.100';
-    borderColor = 'info.200';
+    backgroundColor = 'gray.200';
+    borderColor = 'gray.500';
   }
 
   return (
@@ -54,7 +54,7 @@ const Toast: React.FC<ToastProps> = ({
       borderColor={borderColor}
       width='400px'
       paddingX='16px'
-      paddingY='25px'
+      paddingY='20px'
       borderRadius='8px'
       display='flex'
       justifyContent='space-between'
@@ -62,11 +62,20 @@ const Toast: React.FC<ToastProps> = ({
     >
       <Box display='flex' justifyContent='flex-start' alignItems='center'>
         <CustomToastIcon status={status as CustomToastStatus} />
-        <Text>{title}</Text>
+        <Text color='black.200' size='sm'>
+          {title}
+        </Text>
       </Box>
 
-      <Button variant='unstyled' width='auto' onClick={onClose} marginX='16px'>
-        <Icon as={CloseIcon} color='black.100' boxSize='20px' />
+      <Button
+        variant='unstyled'
+        width='20px'
+        onClick={onClose}
+        marginX='16px'
+        height='20px'
+        minWidth='0'
+      >
+        <Icon as={CloseIcon} color='black.100' />
       </Button>
     </Box>
   );
