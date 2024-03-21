@@ -4,16 +4,16 @@ import { ModelEntity } from '@/views/Models/types';
 import { Box } from '@chakra-ui/react';
 import { FormEvent, useContext, Dispatch, SetStateAction } from 'react';
 import SelectStreams from './SelectStreams';
-import { Stream } from '@/views/Activate/Syncs/types';
+import { Stream, FieldMap as FieldMapType } from '@/views/Activate/Syncs/types';
 import MapFields from './MapFields';
 import { ConnectorItem } from '@/views/Connectors/types';
 import SourceFormFooter from '@/views/Connectors/Sources/SourcesForm/SourceFormFooter';
 
 type ConfigureSyncsProps = {
   selectedStream: Stream | null;
-  configuration: Record<string, string> | null;
+  configuration: FieldMapType[] | null;
   setSelectedStream: Dispatch<SetStateAction<Stream | null>>;
-  setConfiguration: Dispatch<SetStateAction<Record<string, string> | null>>;
+  setConfiguration: Dispatch<SetStateAction<FieldMapType[] | null>>;
 };
 
 const ConfigureSyncs = ({
@@ -35,7 +35,7 @@ const ConfigureSyncs = ({
     setSelectedStream(stream);
   };
 
-  const handleOnConfigChange = (config: Record<string, string>) => {
+  const handleOnConfigChange = (config: FieldMapType[]) => {
     setConfiguration(config);
   };
 

@@ -1,5 +1,6 @@
 import { ModelEntity } from '@/views/Models/types';
 import { RJSFSchema } from '@rjsf/utils';
+import { FieldMap as FieldMapType } from '@/views/Activate/Syncs/types';
 
 export type Stream = {
   action: string;
@@ -24,9 +25,24 @@ export type DiscoverResponse = {
 };
 
 export type FieldMap = {
-  model: string;
-  destination: string;
+  from: string;
+  to: string;
+  mapping_type: string;
   isRequired?: boolean;
+};
+
+export type SyncsConfigurationForTemplateMapping = {
+  data: {
+    configurations: {
+      catalog_mapping_types: {
+        static: Record<string, string>;
+        template: {
+          filter: Record<string, { description: string }>;
+          variable: Record<string, string>;
+        };
+      };
+    };
+  };
 };
 
 export type ConfigSync = {
@@ -34,7 +50,7 @@ export type ConfigSync = {
   destination_id: string;
   model_id: string;
   schedule_type: 'automated';
-  configuration: Record<string, string>;
+  configuration: FieldMapType[];
   stream_name: string;
 };
 
