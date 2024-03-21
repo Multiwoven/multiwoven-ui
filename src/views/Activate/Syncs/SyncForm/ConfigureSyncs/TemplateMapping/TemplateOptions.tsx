@@ -1,6 +1,6 @@
 import { Box, Stack, TabList, Tab, Text, TabIndicator, Tabs, Textarea } from '@chakra-ui/react';
 
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import Columns from './Columns';
 import { SyncsConfigurationForTemplateMapping } from '@/views/Activate/Syncs/types';
 
@@ -35,6 +35,24 @@ const TabName = ({ title, handleActiveTab }: { title: string; handleActiveTab: (
   </Tab>
 );
 
+const replaceLastOccurrence = (inputText: string, searchText: string, replacementText: string) => {
+  // Find the last index of the search text in the input string
+  const lastIndex = inputText.lastIndexOf(searchText);
+
+  // If the search text is found
+  if (lastIndex !== -1) {
+    // Construct the result string by replacing the last occurrence of the search text with the replacement text
+    return (
+      inputText.slice(0, lastIndex) +
+      replacementText +
+      inputText.slice(lastIndex + searchText.length)
+    );
+  } else {
+    // If the search text is not found, return the original input text
+    return inputText;
+  }
+};
+
 const TemplateOptions = ({
   columnOptions,
   filterOptions,
@@ -49,29 +67,25 @@ const TemplateOptions = ({
   const [activeSelectedColumn, setActiveSelectedColumn] = useState('');
 
   const handleSelection = (value: string, optionType: OPTION_TYPE) => {
-    setSelectedItems((prev) => {
-      const updatedItems = new Map(prev);
-      if (!updatedItems.has(value) && optionType !== OPTION_TYPE.FILTER) {
-        updatedItems.set(value, `{{ ['${value}'] }}`);
-        setActiveSelectedColumn(value);
-      } else {
-        if (optionType === OPTION_TYPE.FILTER) {
-          const currentItem = updatedItems.get(activeSelectedColumn)?.split('}}');
-          updatedItems.set(activeSelectedColumn, `${currentItem?.[0]} | ${value} }}`);
-        }
-      }
-      return updatedItems;
-    });
-  };
+    const updatedItems = new Map(selectedItems);
 
-  // Update the selectedTemplate whenever selectedItems change
-  useEffect(() => {
-    let template = '';
-    selectedItems.forEach((value) => {
-      template += `${value} `;
-    });
-    setSelectedTemplate(template.trim());
-  }, [selectedItems]);
+    if (optionType !== OPTION_TYPE.FILTER) {
+      updatedItems.set(value, `{{ ['${value}'] }}`);
+      setSelectedTemplate((prevState) => `${prevState} {{ ['${value}'] }}`);
+      setSelectedItems(updatedItems);
+      setActiveSelectedColumn(value);
+    } else {
+      const currentItem = updatedItems.get(activeSelectedColumn);
+      updatedItems.set(activeSelectedColumn, `${currentItem?.split('}}')?.[0]} | ${value} }}`);
+      const updatedTemplateText = replaceLastOccurrence(
+        selectedTemplate,
+        currentItem || '',
+        `${currentItem?.split('}}')?.[0]} | ${value} }}`,
+      );
+      setSelectedItems(updatedItems);
+      setSelectedTemplate(updatedTemplateText);
+    }
+  };
 
   return (
     <Stack gap='20px' height='100%' direction='row'>
