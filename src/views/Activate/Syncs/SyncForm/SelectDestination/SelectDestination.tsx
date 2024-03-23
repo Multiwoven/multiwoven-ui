@@ -8,7 +8,7 @@ import { DESTINATIONS_LIST_QUERY_KEY } from '@/views/Connectors/constant';
 import { Box } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useContext, Dispatch, SetStateAction } from 'react';
-import { Stream } from '@/views/Activate/Syncs/types';
+import { Stream, FieldMap as FieldMapType } from '@/views/Activate/Syncs/types';
 import SourceFormFooter from '@/views/Connectors/Sources/SourcesForm/SourceFormFooter';
 
 const SelectDestination = ({
@@ -16,7 +16,7 @@ const SelectDestination = ({
   setConfiguration,
 }: {
   setSelectedStream: Dispatch<SetStateAction<Stream | null>>;
-  setConfiguration: Dispatch<SetStateAction<Record<string, string> | null>>;
+  setConfiguration: Dispatch<SetStateAction<FieldMapType[] | null>>;
 }): JSX.Element => {
   const { stepInfo, handleMoveForward } = useContext(SteppedFormContext);
 

@@ -4,6 +4,7 @@ import {
   DiscoverResponse,
   ErrorResponse,
   SyncRecordResponse,
+  SyncsConfigurationForTemplateMapping,
   SyncRunsResponse,
 } from '@/views/Activate/Syncs/types';
 import { multiwovenFetch } from './common';
@@ -77,4 +78,10 @@ export const deleteSync = (id: string): Promise<ApiResponse<CreateSyncResponse>>
   multiwovenFetch<null, ApiResponse<CreateSyncResponse>>({
     method: 'delete',
     url: `/syncs/${id}`,
+  });
+
+export const getSyncsConfiguration = (): Promise<SyncsConfigurationForTemplateMapping> =>
+  multiwovenFetch<null, SyncsConfigurationForTemplateMapping>({
+    method: 'get',
+    url: `/syncs/configurations`,
   });
