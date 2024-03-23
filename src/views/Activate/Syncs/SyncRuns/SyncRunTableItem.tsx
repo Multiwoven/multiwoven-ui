@@ -29,7 +29,6 @@ export const TableItem = ({ field, data }: TableItem): JSX.Element => {
     case 'status': {
       const variant = data.attributes.status as StatusTagVariants;
       const tagText = StatusTagText[variant];
-      console.log(data.attributes.status, variant, tagText);
 
       return <StatusTag variant={variant} status={tagText} />;
     }
