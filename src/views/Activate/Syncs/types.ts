@@ -109,7 +109,7 @@ export type SyncRunsResponse = {
     finished_at: string;
     created_at: string;
     updated_at: string;
-    duration: number;
+    duration: number | null;
     total_query_rows: number;
     total_rows: number;
     successful_rows: number;
@@ -130,4 +130,19 @@ export type SyncRunsColumnFields =
 export type SyncRunsColumnEntity = {
   key: SyncRunsColumnFields;
   name: string;
+};
+
+export type SyncRecordResponse = {
+  id: string;
+  type: 'sync_records';
+  attributes: {
+    sync_id: string;
+    sync_run_id: string;
+    record: Record<string, string | null>;
+    status: string;
+    action: 'destination_insert' | 'destination_update' | 'destination_delete';
+    error: null;
+    created_at: string;
+    updated_at: string;
+  };
 };
