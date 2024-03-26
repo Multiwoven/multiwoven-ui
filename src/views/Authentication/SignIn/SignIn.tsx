@@ -24,7 +24,7 @@ import AuthFooter from '../AuthFooter';
 import HiddenInput from '@/components/HiddenInput';
 import { CustomToastStatus } from '@/components/Toast/index';
 import useCustomToast from '@/hooks/useCustomToast';
-import mwTheme from '../../../chakra.config';
+import mwTheme from '@/chakra.config';
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Please enter a valid email address').required('Email is required'),
@@ -160,7 +160,7 @@ const SignIn = (): JSX.Element => {
                 <Stack>
                   <Box position='relative' top='12'>
                     <Box
-                      bgColor={logoUrl ? 'white' : 'brand.400'}
+                      bgColor={logoUrl ? 'gray.100' : 'brand.400'}
                       h='80px'
                       w={logoUrl ? '150px' : '80px'}
                       display='flex'

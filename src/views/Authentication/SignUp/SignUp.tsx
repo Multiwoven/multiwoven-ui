@@ -175,7 +175,7 @@ const SignUp = (): JSX.Element => {
                 <Stack>
                   <Box position='relative' top='12'>
                     <Box
-                      bgColor={logoUrl ? 'white' : 'brand.400'}
+                      bgColor={logoUrl ? 'gray.100' : 'brand.400'}
                       h='80px'
                       w={logoUrl ? '150px' : '80px'}
                       display='flex'
