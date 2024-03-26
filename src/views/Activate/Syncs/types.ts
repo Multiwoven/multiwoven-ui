@@ -7,6 +7,7 @@ export type Stream = {
   name: string;
   json_schema: RJSFSchema;
   url: string;
+  supported_sync_modes: string[];
 };
 
 export type DiscoverResponse = {
