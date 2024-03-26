@@ -14,6 +14,7 @@ export type DiscoverResponse = {
     attributes: {
       catalog: {
         streams: Stream[];
+        schema_mode: 'schema' | 'schemaless';
         catalog_hash: string;
         connector_id: number;
         workspace_id: number;
@@ -147,3 +148,8 @@ export type SyncRunsColumnEntity = {
   key: SyncRunsColumnFields;
   name: string;
 };
+
+export enum SchemaMode {
+  schema = 'schema',
+  schemaless = 'schemaless',
+}
