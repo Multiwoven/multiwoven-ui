@@ -10,11 +10,17 @@ export type Stream = {
   supported_sync_modes: string[];
 };
 
+export enum SchemaMode {
+  schema = 'schema',
+  schemaless = 'schemaless',
+}
+
 export type DiscoverResponse = {
   data: {
     attributes: {
       catalog: {
         streams: Stream[];
+        schema_mode: SchemaMode;
         catalog_hash: string;
         connector_id: number;
         workspace_id: number;
