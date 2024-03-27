@@ -184,26 +184,26 @@ const EditSync = (): JSX.Element | null => {
         {syncData && destinationFetchResponse?.data ? (
           <React.Fragment>
             {/* will be changed to get schema mode in the sync data in the future */}
-            {catalogData?.data.attributes.catalog.schema_mode === SchemaMode.schemaless ? (
-              <MapCustomFields
+            <>
+              <SelectStreams
                 model={syncData?.model}
                 destination={destinationFetchResponse?.data}
-                handleOnConfigChange={handleOnConfigChange}
-                data={configuration}
+                onStreamsLoad={handleOnStreamsLoad}
                 isEdit
-                configuration={configuration}
+                setSelectedSyncMode={setSelectedSyncMode}
+                selectedSyncMode={selectedSyncMode}
+                selectedStreamName={syncData?.stream_name}
               />
-            ) : (
-              <>
-                <SelectStreams
+              {catalogData?.data.attributes.catalog.schema_mode === SchemaMode.schemaless ? (
+                <MapCustomFields
                   model={syncData?.model}
                   destination={destinationFetchResponse?.data}
-                  onStreamsLoad={handleOnStreamsLoad}
+                  handleOnConfigChange={handleOnConfigChange}
+                  data={configuration}
                   isEdit
-                  setSelectedSyncMode={setSelectedSyncMode}
-                  selectedSyncMode={selectedSyncMode}
-                  selectedStreamName={syncData?.stream_name}
+                  configuration={configuration}
                 />
+              ) : (
                 <MapFields
                   model={syncData?.model}
                   destination={destinationFetchResponse?.data}
@@ -213,8 +213,8 @@ const EditSync = (): JSX.Element | null => {
                   isEdit
                   configuration={configuration}
                 />
-              </>
-            )}
+              )}
+            </>
 
             <ScheduleForm formik={formik} isEdit />
           </React.Fragment>
