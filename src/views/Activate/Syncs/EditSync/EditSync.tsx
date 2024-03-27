@@ -175,7 +175,7 @@ const EditSync = (): JSX.Element | null => {
   };
 
   return (
-    <form onSubmit={formik.handleSubmit} style={{ backgroundColor: '#F9FAFB' }}>
+    <form onSubmit={formik.handleSubmit} style={{ backgroundColor: 'gray.200' }}>
       <ContentContainer>
         {isLoading || isConnectorInfoLoading || !syncData ? <Loader /> : null}
         {syncData && destinationFetchResponse?.data ? (
