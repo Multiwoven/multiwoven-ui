@@ -76,33 +76,8 @@ const ConfigureSyncs = ({
 
   if (catalogData?.data?.attributes?.catalog?.schema_mode === SchemaMode.schemaless) {
     setSchemaMode(SchemaMode.schemaless);
-    if (catalogData?.data.attributes.catalog.streams[0].name) {
-      setSelectedStream(catalogData?.data.attributes.catalog.streams[0]);
-    }
-
-    return (
-      <Box width='100%' display='flex' justifyContent='center'>
-        <ContentContainer>
-          <form onSubmit={handleOnSubmit}>
-            <MapCustomFields
-              model={selectedModel}
-              destination={selectedDestination}
-              handleOnConfigChange={handleOnConfigChange}
-              configuration={configuration}
-            />
-            <SourceFormFooter
-              ctaName='Continue'
-              ctaType='submit'
-              isCtaDisabled={!SchemaMode.schemaless}
-              isBackRequired
-              isContinueCtaRequired
-              isDocumentsSectionRequired
-            />
-          </form>
-        </ContentContainer>
-      </Box>
-    );
   }
+
   return (
     <Box width='100%' display='flex' justifyContent='center'>
       <ContentContainer>
@@ -115,17 +90,27 @@ const ConfigureSyncs = ({
             setSelectedSyncMode={setSelectedSyncMode}
             selectedSyncMode={selectedSyncMode}
           />
-          <MapFields
-            model={selectedModel}
-            destination={selectedDestination}
-            stream={selectedStream}
-            handleOnConfigChange={handleOnConfigChange}
-            configuration={configuration}
-          />
+          {catalogData?.data?.attributes?.catalog?.schema_mode === SchemaMode.schemaless ? (
+            <MapCustomFields
+              model={selectedModel}
+              destination={selectedDestination}
+              handleOnConfigChange={handleOnConfigChange}
+              configuration={configuration}
+            />
+          ) : (
+            <MapFields
+              model={selectedModel}
+              destination={selectedDestination}
+              stream={selectedStream}
+              handleOnConfigChange={handleOnConfigChange}
+              configuration={configuration}
+            />
+          )}
+
           <SourceFormFooter
             ctaName='Continue'
             ctaType='submit'
-            isCtaDisabled={!selectedStream}
+            isCtaDisabled={!selectedStream || !SchemaMode.schemaless}
             isBackRequired
             isContinueCtaRequired
             isDocumentsSectionRequired
