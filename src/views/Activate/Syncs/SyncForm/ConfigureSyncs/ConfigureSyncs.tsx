@@ -2,7 +2,7 @@ import ContentContainer from '@/components/ContentContainer';
 import { SteppedFormContext } from '@/components/SteppedForm/SteppedForm';
 import { ModelEntity } from '@/views/Models/types';
 import { Box } from '@chakra-ui/react';
-import { FormEvent, useContext, Dispatch, SetStateAction } from 'react';
+import { FormEvent, useContext, Dispatch, SetStateAction, useState } from 'react';
 import SelectStreams from './SelectStreams';
 import { Stream, FieldMap as FieldMapType } from '@/views/Activate/Syncs/types';
 import MapFields from './MapFields';
@@ -31,6 +31,7 @@ const ConfigureSyncs = ({
   setSchemaMode,
 }: ConfigureSyncsProps): JSX.Element | null => {
   const { state, stepInfo, handleMoveForward } = useContext(SteppedFormContext);
+  const [selectedSyncMode, setSelectedSyncMode] = useState('');
   const { forms } = state;
 
   const modelInfo = forms.find((form) => form.stepKey === 'selectModel');
@@ -55,6 +56,7 @@ const ConfigureSyncs = ({
       model_id: selectedModel.id,
       stream_name: selectedStream?.name,
       configuration,
+      sync_mode: selectedSyncMode,
     };
 
     handleMoveForward(stepInfo?.formKey as string, payload);
@@ -110,6 +112,8 @@ const ConfigureSyncs = ({
             onChange={handleOnStreamChange}
             destination={selectedDestination}
             selectedStream={selectedStream}
+            setSelectedSyncMode={setSelectedSyncMode}
+            selectedSyncMode={selectedSyncMode}
           />
           <MapFields
             model={selectedModel}

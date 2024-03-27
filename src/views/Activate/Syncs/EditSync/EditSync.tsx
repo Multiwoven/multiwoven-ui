@@ -28,6 +28,8 @@ const EditSync = (): JSX.Element | null => {
   const [selectedStream, setSelectedStream] = useState<Stream | null>(null);
   const [isEditLoading, setIsEditLoading] = useState<boolean>(false);
   const [configuration, setConfiguration] = useState<FieldMapType[] | null>(null);
+  const [selectedSyncMode, setSelectedSyncMode] = useState('');
+
   const { syncId } = useParams();
   const showToast = useCustomToast();
   const navigate = useNavigate();
@@ -89,7 +91,7 @@ const EditSync = (): JSX.Element | null => {
               stream_name: syncData?.stream_name,
               sync_interval: data.sync_interval,
               sync_interval_unit: data.sync_interval_unit,
-              sync_mode: data.sync_mode,
+              sync_mode: selectedSyncMode,
             },
           };
 
@@ -160,6 +162,7 @@ const EditSync = (): JSX.Element | null => {
         });
         setConfiguration(transformedConfigs);
       }
+      setSelectedSyncMode(syncData?.sync_mode ?? 'full_refresh');
     }
   }, [syncFetchResponse]);
 
@@ -197,6 +200,9 @@ const EditSync = (): JSX.Element | null => {
                   destination={destinationFetchResponse?.data}
                   onStreamsLoad={handleOnStreamsLoad}
                   isEdit
+                  setSelectedSyncMode={setSelectedSyncMode}
+                  selectedSyncMode={selectedSyncMode}
+                  selectedStreamName={syncData?.stream_name}
                 />
                 <MapFields
                   model={syncData?.model}
