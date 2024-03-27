@@ -23,7 +23,6 @@ import AuthFooter from '../AuthFooter';
 import HiddenInput from '@/components/HiddenInput';
 import { CustomToastStatus } from '@/components/Toast/index';
 import useCustomToast from '@/hooks/useCustomToast';
-import mwTheme from '@/chakra.config';
 
 const SignUpSchema = Yup.object().shape({
   company_name: Yup.string().required('Company name is required'),
@@ -153,8 +152,6 @@ const SignUp = (): JSX.Element => {
     }
   };
 
-  const { logoUrl, brandName } = mwTheme;
-
   return (
     <>
       <Flex justify='center' w='100%' minHeight='90vh' alignItems='center' overflowY='auto'>
@@ -175,20 +172,16 @@ const SignUp = (): JSX.Element => {
                 <Stack>
                   <Box position='relative' top='12'>
                     <Box
-                      bgColor={logoUrl ? 'gray.100' : 'brand.400'}
+                      bgColor='brand.400'
                       h='80px'
-                      w={logoUrl ? '150px' : '80px'}
+                      w='80px'
                       display='flex'
                       justifyContent='center'
                       alignItems='center'
                       borderRadius='11px'
                       mx='auto'
                     >
-                      <Image
-                        src={logoUrl ? logoUrl : MultiwovenIcon}
-                        width={logoUrl ? '100%' : '45px'}
-                        alt={`${brandName} Logo in White`}
-                      />
+                      <Image src={MultiwovenIcon} width='45px' alt='Multiwoven Logo in White' />
                     </Box>
                   </Box>
                   <Box
@@ -200,7 +193,7 @@ const SignUp = (): JSX.Element => {
                   >
                     <Stack spacing='8px' textAlign='center' mb='32px'>
                       <Heading size='xs' fontWeight='semibold'>
-                        {`Get started with ${brandName}`}
+                        Get started with Multiwoven
                       </Heading>
                       <Text size='sm' color='black.200'>
                         Sign up and create your account

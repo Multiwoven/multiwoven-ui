@@ -1,4 +1,5 @@
-import { SyncColumnEntity, SyncRunsColumnEntity } from './types';
+import { Step } from '@/components/Breadcrumbs/types';
+import { SyncColumnEntity } from './types';
 
 export const SYNC_TABLE_COLUMS: SyncColumnEntity[] = [
   {
@@ -19,26 +20,14 @@ export const SYNC_TABLE_COLUMS: SyncColumnEntity[] = [
   },
 ];
 
-export const SYNC_RUNS_COLUMNS: SyncRunsColumnEntity[] = [
+export const EDIT_SYNC_FORM_STEPS: Step[] = [
   {
-    key: 'status',
-    name: 'status',
+    name: 'Syncs',
+    url: '/activate/syncs',
   },
   {
-    key: 'start_time',
-    name: 'start_time',
-  },
-  {
-    key: 'duration',
-    name: 'Duration',
-  },
-  {
-    key: 'rows_queried',
-    name: 'Rows Queried',
-  },
-  {
-    key: 'results',
-    name: 'Results',
+    name: 'Sync',
+    url: '',
   },
 ];
 

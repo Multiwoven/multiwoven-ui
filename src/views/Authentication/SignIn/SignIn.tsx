@@ -24,7 +24,6 @@ import AuthFooter from '../AuthFooter';
 import HiddenInput from '@/components/HiddenInput';
 import { CustomToastStatus } from '@/components/Toast/index';
 import useCustomToast from '@/hooks/useCustomToast';
-import mwTheme from '@/chakra.config';
 
 const SignInSchema = Yup.object().shape({
   email: Yup.string().email('Please enter a valid email address').required('Email is required'),
@@ -141,8 +140,6 @@ const SignIn = (): JSX.Element => {
     }
   };
 
-  const { logoUrl, brandName } = mwTheme;
-
   return (
     <>
       <Flex justify='center' w='100%' minHeight='90vh' alignItems='center' overflowY='auto'>
@@ -160,20 +157,16 @@ const SignIn = (): JSX.Element => {
                 <Stack>
                   <Box position='relative' top='12'>
                     <Box
-                      bgColor={logoUrl ? 'gray.100' : 'brand.400'}
+                      bgColor='brand.400'
                       h='80px'
-                      w={logoUrl ? '150px' : '80px'}
+                      w='80px'
                       display='flex'
                       justifyContent='center'
                       alignItems='center'
                       borderRadius='11px'
                       mx='auto'
                     >
-                      <Image
-                        src={logoUrl ? logoUrl : MultiwovenIcon}
-                        width={logoUrl ? '100%' : '45px'}
-                        alt={`${brandName} Logo in White`}
-                      />
+                      <Image src={MultiwovenIcon} width='45px' alt='Multiwoven Logo in White' />
                     </Box>
                   </Box>
                   <Box
@@ -188,7 +181,7 @@ const SignIn = (): JSX.Element => {
                         {"Let's activate your data"}
                       </Heading>
                       <Text size='sm' color='black.200'>
-                        {`Sign In to your ${brandName} account`}
+                        Sign In to your Multiwoven account
                       </Text>
                     </Stack>
                     <Stack spacing='6'>
@@ -211,21 +204,7 @@ const SignIn = (): JSX.Element => {
                         />
                         ={' '}
                         <HStack justify='space-between'>
-                          <Checkbox
-                            defaultChecked
-                            _checked={{
-                              '& .chakra-checkbox__control': {
-                                background: 'brand.400',
-                                borderColor: 'brand.400',
-                              },
-                              '& .chakra-checkbox__control:hover': {
-                                background: 'brand.400',
-                                borderColor: 'brand.400',
-                              },
-                            }}
-                            iconSize='12px'
-                            size='sm'
-                          >
+                          <Checkbox defaultChecked colorScheme='red' iconSize='12px' size='sm'>
                             <Text size='xs' fontWeight='medium'>
                               Stay signed in
                             </Text>

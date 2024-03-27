@@ -5,19 +5,22 @@ import { getModelPreviewById } from '@/services/models';
 import { useQuery } from '@tanstack/react-query';
 import { FieldMap as FieldMapType, Stream } from '@/views/Activate/Syncs/types';
 import FieldMap from './FieldMap';
-import { getPathFromObject, getRequiredProperties } from '@/views/Activate/Syncs/utils';
+import {
+  convertFieldMapToConfig,
+  getPathFromObject,
+  getRequiredProperties,
+} from '@/views/Activate/Syncs/utils';
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import { OPTION_TYPE } from './TemplateMapping/TemplateMapping';
 
 type MapFieldsProps = {
   model: ModelEntity;
   destination: ConnectorItem;
   stream: Stream | null;
-  data?: FieldMapType[] | null;
+  data?: Record<string, string> | null;
   isEdit?: boolean;
-  handleOnConfigChange: (args: FieldMapType[]) => void;
-  configuration?: FieldMapType[] | null;
+  handleOnConfigChange: (args: Record<string, string>) => void;
+  configuration?: Record<string, string> | null;
 };
 
 const MapFields = ({
@@ -29,7 +32,7 @@ const MapFields = ({
   handleOnConfigChange,
   configuration,
 }: MapFieldsProps): JSX.Element | null => {
-  const [fields, setFields] = useState<FieldMapType[]>([{ from: '', to: '', mapping_type: '' }]);
+  const [fields, setFields] = useState<FieldMapType[]>([{ model: '', destination: '' }]);
   const { data: previewModelData } = useQuery({
     queryKey: ['syncs', 'preview-model', model?.connector?.id],
     queryFn: () => getModelPreviewById(model?.query, String(model?.connector?.id)),
@@ -46,16 +49,11 @@ const MapFields = ({
 
   useEffect(() => {
     if (data) {
-      if (Array.isArray(data)) {
-        setFields(data);
-      } else {
-        const fields = Object.keys(data).map((modelKey) => ({
-          from: modelKey,
-          to: data[modelKey],
-          mapping_type: 'standard',
-        }));
-        setFields(fields);
-      }
+      const fields = Object.keys(data).map((modelKey) => ({
+        model: modelKey,
+        destination: data[modelKey],
+      }));
+      setFields(fields);
     }
   }, [data]);
 
@@ -64,61 +62,44 @@ const MapFields = ({
   const modelColumns = Object.keys(firstRow ?? {});
 
   const handleOnAppendField = () => {
-    setFields([...fields, { from: '', to: '', mapping_type: '' }]);
+    setFields([...fields, { model: '', destination: '' }]);
   };
 
-  const handleOnChange = (
-    id: number,
-    type: 'model' | 'destination' | 'custom',
-    value: string,
-    mappingType = OPTION_TYPE.STANDARD,
-  ) => {
+  const handleOnChange = (id: number, type: 'model' | 'destination', value: string) => {
     const fieldsClone = [...fields];
-
-    if (type === 'destination' || type === 'custom') {
-      fieldsClone[id] = {
-        ...fieldsClone[id],
-        to: value,
-      };
-    } else {
-      fieldsClone[id] = {
-        ...fieldsClone[id],
-        from: value,
-        mapping_type: mappingType,
-      };
-    }
-
+    fieldsClone[id] = {
+      ...fieldsClone[id],
+      [type]: value,
+    };
     setFields(fieldsClone);
-    handleOnConfigChange(fieldsClone);
+    handleOnConfigChange(convertFieldMapToConfig(fieldsClone));
   };
 
   const handleRemoveMap = (id: number) => {
     const newFields = fields.filter((_, index) => index !== id);
     setFields(newFields);
-    handleOnConfigChange(newFields);
+    handleOnConfigChange(convertFieldMapToConfig(newFields));
   };
 
-  const mappedColumns = fields.map((item) => item.from);
+  const mappedColumns = fields.map((item) => item.model);
+
+  const souceConfigList = configuration ? Object.keys(configuration) : [];
+  const destinationConfigList = configuration ? Object.values(configuration) : [];
 
   useEffect(() => {
-    if (!isEdit && (configuration || [])?.length === 0) {
+    if (!isEdit) {
       const updatedFields = destinationColumns
         .filter((property) => requiredDestinationColumns.includes(property))
-        .map((field) => ({ from: '', to: field, mapping_type: '', isRequired: true }));
+        .map((field, index) => ({ model: `model_${index}`, destination: field, isRequired: true }));
 
       // if only one destination field, we by default select it
       if (destinationColumns.length === 1) {
-        updatedFields.push({
-          from: '',
-          to: destinationColumns[0],
-          isRequired: true,
-          mapping_type: '',
-        });
+        updatedFields.push({ model: '', destination: destinationColumns[0], isRequired: true });
       }
 
       if (updatedFields.length > 0) {
         setFields(updatedFields);
-        handleOnConfigChange(updatedFields);
+        handleOnConfigChange(convertFieldMapToConfig(updatedFields));
       }
     }
   }, [requiredDestinationColumns]);
@@ -126,10 +107,13 @@ const MapFields = ({
   useEffect(() => {
     let FieldStruct: FieldMapType[] = [];
     if (configuration) {
-      if (configuration.length === 0) {
-        FieldStruct = [{ from: '', to: '', mapping_type: '' }];
+      if (Object.keys(configuration).length === 0) {
+        FieldStruct = [{ model: '', destination: '' }];
       } else {
-        FieldStruct = configuration;
+        FieldStruct = Object.entries(configuration).map(([model, destination]) => ({
+          model,
+          destination,
+        }));
       }
       setFields(FieldStruct);
     }
@@ -137,7 +121,7 @@ const MapFields = ({
 
   return (
     <Box
-      backgroundColor={isEdit ? 'gray.100' : 'gray.200'}
+      backgroundColor={isEdit ? 'gray.100' : 'gray.300'}
       padding='24px'
       borderRadius='8px'
       marginBottom={isEdit ? '20px' : '100px'}
@@ -159,7 +143,7 @@ const MapFields = ({
             disabledOptions={mappedColumns}
             onChange={handleOnChange}
             isDisabled={!stream}
-            selectedConfigOptions={configuration}
+            selectedConfigOptions={souceConfigList}
           />
           <Box width='80px' padding='20px' position='relative' top='8px' color='gray.600'>
             <ArrowRightIcon />
@@ -172,7 +156,7 @@ const MapFields = ({
             options={destinationColumns}
             onChange={handleOnChange}
             isDisabled={!stream || isRequired}
-            selectedConfigOptions={configuration}
+            selectedConfigOptions={destinationConfigList}
           />
           {!isRequired && (
             <Box py='20px' position='relative' top='12px' color='gray.600'>
