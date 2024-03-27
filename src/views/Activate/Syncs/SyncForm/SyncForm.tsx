@@ -8,10 +8,13 @@ import SelectModel from './SelectModel';
 import SelectDestination from './SelectDestination';
 import ConfigureSyncs from './ConfigureSyncs';
 import FinaliseSync from './FinaliseSync';
+import { FieldMap as FieldMapType } from '@/views/Activate/Syncs/types';
+import { SchemaMode } from '@/views/Activate/Syncs/types';
 
 const SyncForm = (): JSX.Element => {
   const [selectedStream, setSelectedStream] = useState<Stream | null>(null);
-  const [configuration, setConfiguration] = useState<Record<string, string> | null>(null);
+  const [configuration, setConfiguration] = useState<FieldMapType[] | null>(null);
+  const [schemaMode, setSchemaMode] = useState<SchemaMode | null>(null);
   const navigate = useNavigate();
   const steps = [
     {
@@ -38,8 +41,10 @@ const SyncForm = (): JSX.Element => {
         <ConfigureSyncs
           selectedStream={selectedStream}
           configuration={configuration}
+          schemaMode={schemaMode}
           setSelectedStream={setSelectedStream}
           setConfiguration={setConfiguration}
+          setSchemaMode={setSchemaMode}
         />
       ),
       isRequireContinueCta: false,
