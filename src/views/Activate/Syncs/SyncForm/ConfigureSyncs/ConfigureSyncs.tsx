@@ -68,7 +68,11 @@ const ConfigureSyncs = ({
     refetchOnWindowFocus: false,
   });
 
-  if (catalogData?.data?.attributes?.catalog?.schema_mode === 'schemaless') {
+  if (!catalogData?.data?.attributes?.catalog?.schema_mode) {
+    return <Loader />;
+  }
+
+  if (catalogData?.data?.attributes?.catalog?.schema_mode === SchemaMode.schemaless) {
     setSchemaMode(SchemaMode.schemaless);
     if (catalogData?.data.attributes.catalog.streams[0].name) {
       setSelectedStream(catalogData?.data.attributes.catalog.streams[0]);
@@ -97,39 +101,35 @@ const ConfigureSyncs = ({
       </Box>
     );
   }
-  if (catalogData?.data?.attributes?.catalog?.schema_mode === 'schema') {
-    return (
-      <Box width='100%' display='flex' justifyContent='center'>
-        <ContentContainer>
-          <form onSubmit={handleOnSubmit}>
-            <SelectStreams
-              model={selectedModel}
-              onChange={handleOnStreamChange}
-              destination={selectedDestination}
-              selectedStream={selectedStream}
-            />
-            <MapFields
-              model={selectedModel}
-              destination={selectedDestination}
-              stream={selectedStream}
-              handleOnConfigChange={handleOnConfigChange}
-              configuration={configuration}
-            />
-            <SourceFormFooter
-              ctaName='Continue'
-              ctaType='submit'
-              isCtaDisabled={!selectedStream}
-              isBackRequired
-              isContinueCtaRequired
-              isDocumentsSectionRequired
-            />
-          </form>
-        </ContentContainer>
-      </Box>
-    );
-  } else {
-    return <Loader />;
-  }
+  return (
+    <Box width='100%' display='flex' justifyContent='center'>
+      <ContentContainer>
+        <form onSubmit={handleOnSubmit}>
+          <SelectStreams
+            model={selectedModel}
+            onChange={handleOnStreamChange}
+            destination={selectedDestination}
+            selectedStream={selectedStream}
+          />
+          <MapFields
+            model={selectedModel}
+            destination={selectedDestination}
+            stream={selectedStream}
+            handleOnConfigChange={handleOnConfigChange}
+            configuration={configuration}
+          />
+          <SourceFormFooter
+            ctaName='Continue'
+            ctaType='submit'
+            isCtaDisabled={!selectedStream}
+            isBackRequired
+            isContinueCtaRequired
+            isDocumentsSectionRequired
+          />
+        </form>
+      </ContentContainer>
+    </Box>
+  );
 };
 
 export default ConfigureSyncs;
