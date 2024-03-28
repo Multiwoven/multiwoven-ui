@@ -14,6 +14,8 @@ import {
 import { NavButton } from './navButton';
 import Profile from './Profile';
 
+import mwTheme from '@/chakra.config';
+
 type MenuItem = {
   title: string;
   link: string;
@@ -108,8 +110,10 @@ const SideBarFooter = ({ isSticky }: { isSticky: boolean }) => (
 );
 
 const Sidebar = (): JSX.Element => {
-  const [isSmallerScreenResolution] = useMediaQuery('(max-height: 748px)');
 
+  const [isSmallerScreenResolution] = useMediaQuery('(max-height: 748px)');
+  const { logoUrl } = mwTheme;
+  
   return (
     <Flex
       overflowY='auto'
@@ -149,7 +153,7 @@ const Sidebar = (): JSX.Element => {
               zIndex={999}
             >
               <Flex justifyContent='center'>
-                <img width={160} src={IconImage} alt='IconImage' />
+                 <img width={160} src={logoUrl ? logoUrl : IconImage} alt='IconImage' />
               </Flex>
               <Box bgColor='gray.300'>
                 <Divider orientation='horizontal' />
