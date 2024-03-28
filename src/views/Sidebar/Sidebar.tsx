@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Text, Divider } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text, Divider, useMediaQuery } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
 import IconImage from '../../assets/images/multiwoven-logo.png';
 import {
@@ -90,8 +90,14 @@ const renderMenuSection = (section: MenuSection, index: number) => (
   </Stack>
 );
 
-const SideBarFooter = () => (
-  <Stack position='absolute' bottom='0' left='0px' right='0px' margin='24px 16px'>
+const SideBarFooter = ({ isSticky }: { isSticky: boolean }) => (
+  <Stack
+    position={isSticky ? 'relative' : 'absolute'}
+    bottom='0'
+    left='0px'
+    right='0px'
+    margin={isSticky ? '24px 0px' : '24px 16px'}
+  >
     <Box />
     <Stack spacing='0'>
       <NavButton label='Settings' icon={FiSettings} disabled={true} />
@@ -104,9 +110,14 @@ const SideBarFooter = () => (
 );
 
 const Sidebar = (): JSX.Element => {
+
+  const [isSmallerScreenResolution] = useMediaQuery('(max-height: 748px)');
   const { logoUrl } = mwTheme;
+  
   return (
     <Flex
+      overflowY='auto'
+      overflowX='hidden'
       position='relative'
       as='section'
       minH='100vh'
@@ -114,18 +125,42 @@ const Sidebar = (): JSX.Element => {
       borderRightWidth='1px'
       borderRightStyle='solid'
       borderRightColor='gray.400'
+      sx={{
+        '&::-webkit-scrollbar': {
+          width: '2px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: 'gray.400',
+        },
+      }}
     >
       <Flex flex='1' bg='bg.surface' maxW={{ base: 'full', sm: 'xs' }} paddingX={4} paddingY={6}>
-        <Stack justify='space-between' spacing='1' width='full'>
+        <Stack
+          justify='space-between'
+          spacing='1'
+          width={190}
+          paddingTop={isSmallerScreenResolution ? 12 : 0}
+        >
           <Stack spacing='6' shouldWrapChildren>
-            <Flex justifyContent='center'>
-              <img width={160} src={logoUrl ? logoUrl : IconImage} alt='IconImage' />
-            </Flex>
-            <Box bgColor='gray.300'>
-              <Divider orientation='horizontal' />
-            </Box>
+            <Stack
+              spacing='6'
+              shouldWrapChildren
+              bg='white'
+              paddingX={4}
+              paddingTop={isSmallerScreenResolution ? 6 : 0}
+              position={isSmallerScreenResolution ? 'fixed' : 'relative'}
+              top='0'
+              zIndex={999}
+            >
+              <Flex justifyContent='center'>
+                 <img width={160} src={logoUrl ? logoUrl : IconImage} alt='IconImage' />
+              </Flex>
+              <Box bgColor='gray.300'>
+                <Divider orientation='horizontal' />
+              </Box>
+            </Stack>
             {menus.map(renderMenuSection)}
-            <SideBarFooter />
+            <SideBarFooter isSticky={isSmallerScreenResolution} />
           </Stack>
         </Stack>
       </Flex>
